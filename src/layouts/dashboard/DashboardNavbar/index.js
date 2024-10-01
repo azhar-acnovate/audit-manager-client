@@ -177,7 +177,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
         </ArgonBox>
         {isMini ? null : (
           <ArgonBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <ArgonBox pr={1}>
+            {/* <ArgonBox pr={1}>
               <ArgonInput
                 placeholder="Type here..."
                 startAdornment={
@@ -186,7 +186,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
                   </Icon>
                 }
               />
-            </ArgonBox>
+            </ArgonBox> */}
             <ArgonBox color={light ? "white" : "inherit"}>
               <IconButton onClick={onLogout} sx={navbarIconButton} size="small">
                 <Icon

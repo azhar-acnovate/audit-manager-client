@@ -8,7 +8,7 @@ const ServerSidePagination = ({ data, setPageNo }) => {
         setPageNo(page);
     };
 
-    if (data == null || data.content.length === 0) {
+    if (data == null || data.content ==null || data.content.length === 0) {
         return null;
     }
 

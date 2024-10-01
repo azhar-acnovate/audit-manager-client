@@ -74,6 +74,9 @@ import CreateOrUpdateAudit from "./layouts/view-audit/CreateOrUpdateAudit";
 import CreateOrUpdateUser from "./layouts/view-user/CreateOrUpdateUser";
 import ViewUserHome from "./layouts/view-user/ViewUserHome";
 import SessionExpired from "./layouts/authentication/SessionExpired";
+import ReportsHome from "./layouts/reporting/ReportsHome";
+import ExportReportsHome from "./layouts/export-reports/ExportReportsHome";
+import CreateOrUpdateAuditReport from "./layouts/reporting/components/CreateOrUpdateAuditReport";
 
 const menuRoutes = [
   {
@@ -113,15 +116,15 @@ const menuRoutes = [
     type: "route",
     name: "Export Audit Report",
     key: "export-audit-report",
-    // route: "/export-audit-report",
+    route: "/export-audit-report",
     icon: <ImportExport color="primary" fontSize="14px"></ImportExport>    ,
-    component:  <DashboardLayout><></></DashboardLayout>,
+    component:  <ExportReportsHome></ExportReportsHome>,
   },
   {
     type: "route",
     name: "Scheduling Audit Report",
     key: "scheduling-audit-report",
-    // route: "/scheduling-audit-report",
+    route: "/scheduling-audit-report",
     icon: <Schedule color="primary" fontSize="14px"></Schedule>    ,
     component:  <DashboardLayout><></></DashboardLayout>,
   },
@@ -130,9 +133,9 @@ const menuRoutes = [
     type: "route",
     name: "Reporting",
     key: "reporting",
-    // route: "/reporting",
+    route: "/reporting",
     icon: <Checklist color="primary" fontSize="14px"></Checklist>    ,
-    component:  <DashboardLayout><></></DashboardLayout>,
+    component:  <ReportsHome></ReportsHome>,
   },
 ]
 const routes = [
@@ -175,7 +178,19 @@ const routes = [
     key: "master-data-management",
     route: "/master-data-management/update/:encodedId",
     component: <CreateOrUpdateUser />,
-  }
+  },
+  {
+    name: "Reporting",
+    key: "reporting",
+    route: "/reporting/create",
+    component: <CreateOrUpdateAuditReport />,
+  },
+  {
+    name: "Reporting",
+    key: "reporting",
+    route: "/reporting/update/:encodedId",
+    component: <CreateOrUpdateAuditReport />,
+  },
   
 ];
 
