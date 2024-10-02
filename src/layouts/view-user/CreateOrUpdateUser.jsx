@@ -9,7 +9,6 @@ import ArgonButton from "../../components/ArgonButton";
 import UserCreationInputField from "./components/UserCreationInputField";
 import useValidation from "../../hooks/GlobalValidationHook";
 import { initialTempAttributeData } from "./data/createOrUpdate";
-// import AuditObjectChangeTrackerServiceAPI from "../../rest-services/audit-object-change-tracker-service"; // Commented the import
 import UserService from "../../rest-services/UserService";
 import { useToast } from "../../components/toast/Toast";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
@@ -17,74 +16,66 @@ import { useDecodedId } from "../../hooks/useDecodedData";
 import BackButton from "../../components/BackButton";
 
 const CreateOrUpdateUser = () => {
-  let decodedId = useDecodedId();
+  let decodedId = useDecodedId(); // This will have the userId when updating
   const [loading, setLoading] = React.useState(false);
   const [userCreationData, setUserCreationData] = React.useState(initialTempAttributeData);
   const userCreationValidator = useValidation(userCreationData, setUserCreationData);
 
-  const navigate = useNavigate(); // useNavigate hook for navigation
+  const navigate = useNavigate();
 
-  // Get toast functions from the context
   const { showSuccessToast, showErrorToast } = useToast();
 
+  // Fetch existing user data if in edit mode
   React.useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        /*
-        var res = await AuditObjectChangeTrackerServiceAPI.findOne(decodedId);
-        if (res.status === 200) {
-          setUserCreationData((prevData) => ({
-            ...prevData,
-            id: res.data.id,
-            refObjectId: res.data.refObjectId,
-            eventType: res.data.eventType,
-            eventOccurence: res.data.eventOccurence,
-          }));
+        if (decodedId) {
+          const res = await UserService.findOne(decodedId); // Assuming this method exists
+          if (res) {
+            setUserCreationData({
+              ...userCreationData,
+              fullName: res.fullName,
+              email: res.email,
+              userName: res.userName,
+              role: res.role,
+              password: "", // Do not pre-fill the password for security reasons
+              confirmPassword: "",
+            });
+          }
         }
-        */
       } catch (error) {
-        showErrorToast("Failed to fetch data");
+        showErrorToast("Failed to fetch user data");
       } finally {
         setLoading(false);
       }
     };
 
-    if (decodedId != null) {
+    if (decodedId) {
       fetchData();
     }
   }, [decodedId, showErrorToast]);
 
-  const isEditMode = () => {
-    // Check if the URL contains "update" to determine if we're in edit mode
-    const currentUrl = window.location.href;
-    return currentUrl.includes("update");
-  };
+  const isEditMode = () => !!decodedId; // Check if the component is in edit mode
 
   const handleCancel = () => {
-    navigate(-1); // This will navigate the user to the previous page (same as back action)
+    navigate(-1); // Go back to the previous page
   };
 
   const handleSubmit = async () => {
-    
-    // If form is valid, proceed
     if (await userCreationValidator.validateForm()) {
       setLoading(true);
       try {
-        // Simulating a successful form submission
-        console.log("Form Data:", userCreationData); // This will log the form data in the browser console
-        showSuccessToast(isEditMode() ? "User Updated successfully!" : "User Created successfully!"); // Show success toast
-        
-        // If this were a real API call, it would be done here.
-        
-        // var response = isEditMode()
-        //   ? await AuditUserCreationServiceAPI.updateAuditUserCreation(userCreationData)
-        //   : await AuditObjectChangeTrackerServiceAPI.createAuditUserCreation(userCreationData);
-
-        const response = await UserService.createUser(userCreationData);
-        
-        // toastWithCommonResponse(response);
-       console.log(response);
+        if (isEditMode()) {
+          // Update user
+          const response = await UserService.updateUser(decodedId, userCreationData);
+          showSuccessToast("User updated successfully!");
+        } else {
+          // Create user
+          const response = await UserService.createUser(userCreationData);
+          showSuccessToast("User created successfully!");
+        }
+        navigate("/users"); // Redirect after success (assuming users listing page)
       } catch (error) {
         showErrorToast("Failed to save user");
       } finally {
@@ -170,20 +161,15 @@ const CreateOrUpdateUser = () => {
                 {/* Buttons */}
                 <Grid container justifyContent="flex-end" spacing={3} mt={3}>
                   <Grid item>
-                    <ArgonButton onClick={handleSubmit} color={"success"}  sx={{ minWidth: '130px' }} >
+                    <ArgonButton onClick={handleSubmit} color="success" sx={{ minWidth: '130px' }}>
                       {isEditMode() ? "Update" : "Submit"}
                     </ArgonButton>
                   </Grid>
                   <Grid item>
-                    <ArgonButton onClick={handleCancel} color="error"  sx={{ minWidth: '130px' }}> 
+                    <ArgonButton onClick={handleCancel} color="error" sx={{ minWidth: '130px' }}>
                       Cancel
                     </ArgonButton>
                   </Grid>
-                  {/* <Grid item>
-                    <ArgonButton onClick={handleReset} color="warning">
-                      Reset
-                    </ArgonButton>
-                  </Grid> */}
                 </Grid>
               </Grid>
             </ArgonBox>

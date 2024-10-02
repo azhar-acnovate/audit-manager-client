@@ -200,23 +200,6 @@ const GetByIdDataWithState = (path, id) => {
   return [data, setData, loading, setLoading];
 };
 
-const createUser= async (path, data) =>{
-  const encodedCredentials = localStorage.getItem('encodedCredentials');
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${encodedCredentials}`
-      }
-    };
-    try {
-      const response = await axiosInstance.post(path, data, config);
-      return response.data;
-    } catch (error) {
-      // setLoading(false)
-      console.error(`Error fetching ${path}s:`, error);
-      // setData(error.response.data);
-    }
-}
-
 
 const RestService = {
   CreateData,
@@ -228,8 +211,7 @@ const RestService = {
   GetAllData,
   CreateDataWithState,
   PartialUpdateData,
-  GetByIdDataWithState,
-  createUser
+  GetByIdDataWithState
 }
 
 export default RestService;

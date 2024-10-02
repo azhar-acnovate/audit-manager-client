@@ -6,7 +6,7 @@ import { Card } from "@mui/material";
 import ArgonTypography from "../../components/ArgonTypography";
 import { viewUserTableData } from "./data/viewUserData";
 import ViewUserTable from "./components/ViewUserTable";
-import AuditObjectChangeTrackerServiceAPI from "../../rest-services/audit-object-change-tracker-service";
+import UserService from "../../rest-services/UserService";
 import ViewUserTableSkeleton from "./components/ViewUserTableSkeleton";
 import ArgonButton from "../../components/ArgonButton";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ const ViewUserHome = (props) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await AuditObjectChangeTrackerServiceAPI.findPagable(pageNo)
+                const response = await UserService.findPagable(pageNo)
                 setResponse(response)
             } catch (e) {
 
