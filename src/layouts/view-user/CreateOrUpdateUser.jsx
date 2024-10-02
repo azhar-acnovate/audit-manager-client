@@ -10,6 +10,7 @@ import UserCreationInputField from "./components/UserCreationInputField";
 import useValidation from "../../hooks/GlobalValidationHook";
 import { initialTempAttributeData } from "./data/createOrUpdate";
 // import AuditObjectChangeTrackerServiceAPI from "../../rest-services/audit-object-change-tracker-service"; // Commented the import
+import UserService from "../../rest-services/UserService";
 import { useToast } from "../../components/toast/Toast";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
 import { useDecodedId } from "../../hooks/useDecodedData";
@@ -65,8 +66,7 @@ const CreateOrUpdateUser = () => {
   };
 
   const handleSubmit = async () => {
-    // const { fullName, email,userName } = userCreationData;
-
+    
     // If form is valid, proceed
     if (await userCreationValidator.validateForm()) {
       setLoading(true);
@@ -76,13 +76,15 @@ const CreateOrUpdateUser = () => {
         showSuccessToast(isEditMode() ? "User Updated successfully!" : "User Created successfully!"); // Show success toast
         
         // If this were a real API call, it would be done here.
-        /*
-        var response = isEditMode()
-          ? await AuditUserCreationServiceAPI.updateAuditUserCreation(userCreationData)
-          : await AuditObjectChangeTrackerServiceAPI.createAuditUserCreation(userCreationData);
         
-        toastWithCommonResponse(response);
-        */
+        // var response = isEditMode()
+        //   ? await AuditUserCreationServiceAPI.updateAuditUserCreation(userCreationData)
+        //   : await AuditObjectChangeTrackerServiceAPI.createAuditUserCreation(userCreationData);
+
+        const response = await UserService.createUser(userCreationData);
+        
+        // toastWithCommonResponse(response);
+       console.log(response);
       } catch (error) {
         showErrorToast("Failed to save user");
       } finally {
