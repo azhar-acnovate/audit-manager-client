@@ -34,11 +34,11 @@ const CreateOrUpdateUser = () => {
           const res = await UserService.findOne(decodedId); // Assuming this method exists
           if (res) {
             setUserCreationData({
-              ...userCreationData,
-              fullName: res.fullName,
-              email: res.email,
+              // ...userCreationData,
+              fullName: res.userName,
+              email: res.userEmail,
               userName: res.userName,
-              role: res.role,
+              role: res.userRole,
               password: "", // Do not pre-fill the password for security reasons
               confirmPassword: "",
             });
@@ -68,14 +68,14 @@ const CreateOrUpdateUser = () => {
       try {
         if (isEditMode()) {
           // Update user
-          const response = await UserService.updateUser(decodedId, userCreationData);
+          await UserService.updateUser(decodedId, userCreationData);
           showSuccessToast("User updated successfully!");
         } else {
           // Create user
-          const response = await UserService.createUser(userCreationData);
+          await UserService.createUser(userCreationData);
           showSuccessToast("User created successfully!");
         }
-        navigate("/users"); // Redirect after success (assuming users listing page)
+        navigate("/user-data"); // Redirect after success (assuming users listing page)
       } catch (error) {
         showErrorToast("Failed to save user");
       } finally {

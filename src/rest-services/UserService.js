@@ -1,9 +1,20 @@
 import RestService from "./RestService"; // Assuming RestService is set up to make HTTP requests
 import config from "../config";
+import axios from "axios";
 
 const baseUrl = "/user"; // Matches the @RequestMapping in the backend
 
 const UserService = {
+
+  login: async (encodedCredentials) => {
+    const config = {
+      headers: {
+        'Authorization': `Basic ${encodedCredentials}`
+    },
+  }
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/auth/token`, config);
+    return response.data; // Return the data from the response if successful
+},
   
   findAll: async () => {
     try {

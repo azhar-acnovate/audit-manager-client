@@ -57,12 +57,13 @@ export function viewUserTableData(data) {
         },
         columns: [
             { name: "userName", label: "User Name", align: "center" },
-            { name: "email", label: "Email", align: "center" }, 
-            { name: "role", label: "Role", align: "center" },
+            { name: "userEmail", label: "Email", align: "center" }, 
+            { name: "userRole", label: "Role", align: "center" },
             { name: "defaultPassword", label: "Default Password", align: "center" },
-            { name: "status", label: "Status", align: "center" },
-            { name: "created_at", label: "Created", align: "center" },
+            { name: "active", label: "Status", align: "center" },
+            { name: "createdAt", label: "Created Date", align: "center" },
             { name: "action", label: "Actions", align: "center" },
+
         ],
         rows: data == null ? [] : data.map((user) => ({
             userName: (
@@ -70,14 +71,14 @@ export function viewUserTableData(data) {
                     {user.userName}
                 </ArgonTypography>
             ),
-            email: (
+            userEmail: (
                 <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
-                    {user.email}
+                    {user.userEmail}
                 </ArgonTypography>
             ),
-            role: (
+            userRole: (
                 <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
-                    {user.role}
+                    {user.userRole}
                 </ArgonTypography>
             ),
             defaultPassword: ( 
@@ -85,14 +86,15 @@ export function viewUserTableData(data) {
                     {user.defaultPassword}
                 </ArgonTypography>
             ),
-            status: (
+            active: (
                 <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
-                    {user.status}
+                 {user.active ? "Active" : "Inactive"}
                 </ArgonTypography>
+
             ),
-            created_at: (
+            createdAt: (
                 <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
-                    {user.eventOccurence}
+                    {user.createdAt}
                 </ArgonTypography>
             ),
             item: user
