@@ -76,6 +76,7 @@ import ViewUserHome from "./layouts/view-user/ViewUserHome";
 import SessionExpired from "./layouts/authentication/SessionExpired";
 import ReportsHome from "./layouts/reporting/ReportsHome";
 import ExportReportsHome from "./layouts/export-reports/ExportReportsHome";
+import SchedulingReportsHome from "./layouts/scheduling-reports/SchedulingReportsHome";
 import CreateOrUpdateAuditReport from "./layouts/reporting/components/CreateOrUpdateAuditReport";
 
 const menuRoutes = [
@@ -126,7 +127,7 @@ const menuRoutes = [
     key: "scheduling-audit-report",
     route: "/scheduling-audit-report",
     icon: <Schedule color="primary" fontSize="14px"></Schedule>    ,
-    component:  <DashboardLayout><></></DashboardLayout>,
+    component:  <SchedulingReportsHome><></></SchedulingReportsHome>,
   },
 
   {
