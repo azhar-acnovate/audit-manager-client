@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Box, Card, TextField, FormControl, Select, MenuItem, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import ArgonButton from "../../../components/ArgonButton";  // Adjusted path
+import ArgonButton from "../../../components/ArgonButton";  
 import ArgonTypography from "../../../components/ArgonTypography";
 import { useNavigate } from "react-router-dom";
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { useToast } from "../../../components/toast/Toast";
-import { validateSchedulingForm } from "../data/SchedulingReportValidation"; // Import validation
+import { validateSchedulingForm } from "../data/SchedulingReportValidation"; 
 
 const StyledCard = styled(({ ...props }) => (
     <Card {...props}>
@@ -49,7 +47,6 @@ const SchedulingReportForm = () => {
 
     const handleRemoveRecipient = (index) => {
         if (recipients.length === 1) {
-            // If there's only one recipient left, show an error and prevent removal
             showErrorToast("At least one recipient is required.");
             return;
         }
@@ -67,16 +64,14 @@ const SchedulingReportForm = () => {
             amPm,
         };
 
-        const validationErrors = validateSchedulingForm(formValues);  // Call the validation function
+        const validationErrors = validateSchedulingForm(formValues);  
 
         if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);  // Set the validation errors
+            setErrors(validationErrors);  
             showErrorToast("All required fields must be completed with valid input before submitting.");
             return;
         }
-
-        // If no errors, proceed to save the schedule
-        console.log("Form Values:", formValues);
+        // console.log("Form Values:", formValues);
 
         showSuccessToast("Schedule saved successfully!");
     };

@@ -1,4 +1,4 @@
-// Define and export the validation function here
+
 export const validateSchedulingForm = (formValues) => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
