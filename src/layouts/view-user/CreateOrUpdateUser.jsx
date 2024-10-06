@@ -31,15 +31,18 @@ const CreateOrUpdateUser = () => {
       setLoading(true);
       try {
         if (decodedId) {
-          const res = await UserService.findOne(decodedId); // Assuming this method exists
-          if (res) {
+          const res = await UserService.findOne(decodedId);
+          console.log("User data received from API:", res);
+
+          // Adjust the field mappings based on the API response
+          if (res && res.data) {
             setUserCreationData({
-              // ...userCreationData,
-              fullName: res.userName,
-              email: res.userEmail,
-              userName: res.userName,
-              role: res.userRole,
-              password: "", // Do not pre-fill the password for security reasons
+              id: res.data.id,
+              fullName: res.data.userName,
+              email: res.data.userEmail || "",
+              userName: res.data.userName,
+              role: res.data.userRole || "",
+              password: "",
               confirmPassword: "",
             });
           }
@@ -51,15 +54,15 @@ const CreateOrUpdateUser = () => {
       }
     };
 
-    if (decodedId) {
+    if (decodedId && decodedId !== "") {
       fetchData();
     }
   }, [decodedId, showErrorToast]);
 
-  const isEditMode = () => !!decodedId; // Check if the component is in edit mode
+  const isEditMode = () => !!decodedId;
 
   const handleCancel = () => {
-    navigate(-1); // Go back to the previous page
+    navigate(-1);
   };
 
   const handleSubmit = async () => {
@@ -67,16 +70,42 @@ const CreateOrUpdateUser = () => {
       setLoading(true);
       try {
         if (isEditMode()) {
+          if (!userCreationData.id) {
+            throw new Error("User ID is missing for update.");
+          }
+
+          // Prepare data for the update
+          const updateUserPayload = {
+            id: userCreationData.id,
+            userName: userCreationData.fullName,
+            userEmail: userCreationData.email,
+            userRole: userCreationData.role,
+            password: userCreationData.password,
+          };
+
           // Update user
-          await UserService.updateUser(decodedId, userCreationData);
-          showSuccessToast("User updated successfully!");
+          const res = await UserService.updateUser(updateUserPayload); // Send the prepared payload
+          if (res.error === false) {
+            showSuccessToast("User updated successfully!");
+          }
+          else {
+            showSuccessToast("User not updated successfully!");
+          }
+
         } else {
           // Create user
-          await UserService.createUser(userCreationData);
+          const createUserPayload = {
+            userName: userCreationData.fullName,
+            userEmail: userCreationData.email,
+            userRole: userCreationData.role,
+            password: userCreationData.password,
+
+          };
+          await UserService.createUser(createUserPayload);
           showSuccessToast("User created successfully!");
         }
-        navigate("/user-data"); // Redirect after success (assuming users listing page)
       } catch (error) {
+        console.error("Update Error: ", error);
         showErrorToast("Failed to save user");
       } finally {
         setLoading(false);
@@ -89,6 +118,13 @@ const CreateOrUpdateUser = () => {
       ...userCreationData,
       role: event.target.value,
     });
+  };
+
+  const handleInputChange = (fieldName, value) => {
+    setUserCreationData((prevData) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
   };
 
   return (
@@ -116,6 +152,7 @@ const CreateOrUpdateUser = () => {
                   placeholder="Full Name"
                   fieldName="fullName"
                   value={userCreationData.fullName}
+                  onChange={(e) => handleInputChange("fullName", e.target.value)}
                   validator={userCreationValidator}
                 />
                 <UserCreationInputField
@@ -123,12 +160,14 @@ const CreateOrUpdateUser = () => {
                   fieldName="email"
                   type="email"
                   value={userCreationData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
                   validator={userCreationValidator}
                 />
                 <UserCreationInputField
                   placeholder="Username"
                   fieldName="userName"
                   value={userCreationData.userName}
+                  onChange={(e) => handleInputChange("userName", e.target.value)}
                   validator={userCreationValidator}
                 />
                 <UserCreationInputField
@@ -138,8 +177,8 @@ const CreateOrUpdateUser = () => {
                   value={userCreationData.role}
                   onChange={handleRoleChange}
                   options={[
-                    { value: "Admin", label: "Admin" },
-                    { value: "User", label: "User" }
+                    { value: "admin", label: "Admin" },
+                    { value: "user", label: "User" },
                   ]}
                   validator={userCreationValidator}
                 />
@@ -148,6 +187,7 @@ const CreateOrUpdateUser = () => {
                   fieldName="password"
                   type="password"
                   value={userCreationData.password}
+                  onChange={(e) => handleInputChange("password", e.target.value)}
                   validator={userCreationValidator}
                 />
                 <UserCreationInputField
@@ -155,18 +195,19 @@ const CreateOrUpdateUser = () => {
                   fieldName="confirmPassword"
                   type="password"
                   value={userCreationData.confirmPassword}
+                  onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
                   validator={userCreationValidator}
                 />
 
                 {/* Buttons */}
                 <Grid container justifyContent="flex-end" spacing={3} mt={3}>
                   <Grid item>
-                    <ArgonButton onClick={handleSubmit} color="success" sx={{ minWidth: '130px' }}>
+                    <ArgonButton onClick={handleSubmit} color="success" sx={{ minWidth: "130px" }}>
                       {isEditMode() ? "Update" : "Submit"}
                     </ArgonButton>
                   </Grid>
                   <Grid item>
-                    <ArgonButton onClick={handleCancel} color="error" sx={{ minWidth: '130px' }}>
+                    <ArgonButton onClick={handleCancel} color="error" sx={{ minWidth: "130px" }}>
                       Cancel
                     </ArgonButton>
                   </Grid>

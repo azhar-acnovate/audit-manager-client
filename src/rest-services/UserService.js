@@ -54,7 +54,7 @@ const UserService = {
 
   updateUser: async (data) => {
     try {
-      return await RestService.UpdateData(baseUrl, data.id, data);
+      return await RestService.UpdateUserData(baseUrl, data);
     } catch (error) {
       console.error(`Error updating user with ID ${data.id}:`, error);
       throw error;

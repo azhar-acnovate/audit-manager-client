@@ -59,6 +59,22 @@ const UpdateData = async (path, data) => {
     return error.response.data
   }
 };
+const UpdateUserData = async (path, data) => {
+  const encodedCredentials = localStorage.getItem('encodedCredentials');
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${encodedCredentials}`
+    }
+  };
+  try {
+    const response = await axiosInstance.post(path, data, config);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating ${path}:`, error);
+    return error.response ? error.response.data : { error: 'Unknown error occurred' };
+  }
+};
+
 
 const PartialUpdateData = async (path, data) => {
   const encodedCredentials = localStorage.getItem('encodedCredentials');
@@ -204,6 +220,7 @@ const GetByIdDataWithState = (path, id) => {
 const RestService = {
   CreateData,
   UpdateData,
+  UpdateUserData,
   DeleteData,
   DeleteDataWithState,
   GetAllDataWithState,
