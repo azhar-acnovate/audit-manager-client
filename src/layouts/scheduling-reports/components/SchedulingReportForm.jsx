@@ -30,12 +30,26 @@ const SchedulingReportForm = () => {
     const [hour, setHour] = useState("");
     const [minute, setMinute] = useState("");
     const [amPm, setAmPm] = useState("");
-    const [errors, setErrors] = useState({});  // Track validation errors
+    const [errors, setErrors] = useState({});  
 
     const navigate = useNavigate();
     const { showSuccessToast, showErrorToast } = useToast();
 
     const handleAddRecipient = () => {
+        if (recipients.some((recipient) => recipient.trim() === "")) {
+            showErrorToast("Fill the empty recipient before adding new.");
+            return;
+        }
+        const validationErrors = validateSchedulingForm({ reportName, frequency, hour, minute, amPm, recipients });
+        
+        if (Object.keys(validationErrors).length > 0) {
+            const errorMessage = validationErrors.recipients
+                ? "Please enter a valid email before adding the next recipient."
+                : "Fill the existing recipient.";
+            showErrorToast(errorMessage);
+            return;
+        }
+
         setRecipients([...recipients, ""]);
     };
 
@@ -71,7 +85,6 @@ const SchedulingReportForm = () => {
             showErrorToast("All required fields must be completed with valid input before submitting.");
             return;
         }
-        // console.log("Form Values:", formValues);
 
         showSuccessToast("Schedule saved successfully!");
     };
@@ -172,19 +185,20 @@ const SchedulingReportForm = () => {
                 {recipients.map((recipient, index) => (
                     <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <TextField
-                            placeholder="Recipient Email"
+                            placeholder="user@domain.com"
                             value={recipient}
                             onChange={(e) => handleRecipientChange(index, e.target.value)}
                             sx={{
+
                                 width: '300px',
-                                '& input': {
-                                    color: recipient === "user@domain.com" ? 'lightgray' : 'black',
+                                // '& input': {
+                                //     color: recipient === "user@domain.com" ? 'lightgray' : 'black',
                                     
-                                },
+                                // },
                             }}
                             required
                             error={!!errors.recipients}
-                            helperText={index === recipients.length - 1 ? errors.recipients : ""}  // Display error only for the last one
+                            helperText={index === recipients.length - 1 ? errors.recipients : ""}  
                             InputLabelProps={{
                                 shrink: false,
                             }}
@@ -192,7 +206,13 @@ const SchedulingReportForm = () => {
                         <Button variant="outlined" sx={{ color: '#333' }} color="error" onClick={() => handleRemoveRecipient(index)}>Remove</Button>
                     </Box>
                 ))}
-                <ArgonButton onClick={handleAddRecipient} variant="contained" color="primary" sx={{ marginTop: "10px", width: '200px' }}>
+                <ArgonButton 
+                    onClick={handleAddRecipient} 
+                    variant="contained" 
+                    color="primary" 
+                    sx={{ marginTop: "10px", width: '200px' }} 
+                    disabled={!!errors.recipients} 
+                >
                     ADD RECIPIENT
                 </ArgonButton>
             </StyledCard>
@@ -205,11 +225,8 @@ const SchedulingReportForm = () => {
                     CANCEL
                 </ArgonButton>
             </Box>
-
-            
         </>
     );
 };
 
 export default SchedulingReportForm;
-
