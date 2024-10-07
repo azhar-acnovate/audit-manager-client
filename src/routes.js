@@ -68,7 +68,7 @@ import Dashboard from "./layouts/dashboard";
 import ArgonBox from "./components/ArgonBox";
 import Login from "./layouts/authentication/Login";
 import DashboardLayout from "./examples/LayoutContainers/DashboardLayout";
-import { Checklist, ContactPage, ImportExport, Schedule, Storage, VerifiedUser } from "@mui/icons-material";
+import { Checklist, ContactPage, ImportExport, Schedule, Source, Storage, VerifiedUser } from "@mui/icons-material";
 import ViewAuditHome from "./layouts/view-audit/ViewAuditHome";
 import CreateOrUpdateAudit from "./layouts/view-audit/CreateOrUpdateAudit";
 import CreateOrUpdateUser from "./layouts/view-user/CreateOrUpdateUser";
@@ -78,6 +78,8 @@ import ReportsHome from "./layouts/reporting/ReportsHome";
 import ExportReportsHome from "./layouts/export-reports/ExportReportsHome";
 import SchedulingReportsHome from "./layouts/scheduling-reports/SchedulingReportsHome";
 import CreateOrUpdateAuditReport from "./layouts/reporting/components/CreateOrUpdateAuditReport";
+import SourceReferenceHome from "./layouts/source-reference/SourceReferenceHome";
+import CreateOrUpdateSourceReference from "./layouts/source-reference/CreateOrUpdateSourceReference";
 
 const menuRoutes = [
   {
@@ -109,6 +111,14 @@ const menuRoutes = [
         route: "/master-data-management/user-data",
         icon: <ContactPage color="primary" fontSize="14px" />,
         component: <ViewUserHome><></></ViewUserHome>,
+      },
+      {
+        type: "route",
+        name: "Source Reference",
+        key: "user-data",
+        route: "/master-data-management/source-reference",
+        icon: <Source color="primary" fontSize="14px" />,
+        component: <SourceReferenceHome></SourceReferenceHome>,
       },
       // Add more submenu items here if needed
     ],
@@ -191,6 +201,18 @@ const routes = [
     key: "reporting",
     route: "/reporting/update/:encodedId",
     component: <CreateOrUpdateAuditReport />,
+  },
+  {
+    name: "Master Data Management Module",
+    key: "master-data-management",
+    route: "/master-data-management/source-reference/create",
+    component: <CreateOrUpdateSourceReference />,
+  },
+  {
+    name: "Master Data Management Module",
+    key: "master-data-management",
+    route: "/master-data-management/source-reference/update/:encodedId",
+    component: <CreateOrUpdateSourceReference />,
   },
   
 ];
