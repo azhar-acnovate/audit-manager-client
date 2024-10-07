@@ -15,14 +15,14 @@ export const additionalInfoColumns = [
 ];
 export const initialTempSourceReferenceData = {
     id:null,
-    objectName:null,
-    refernceKey:null,
+    sourceReferenceName:null,
+    sourceReferenceKey:null,
     additionalInfo:[],
     validationRules: {
-        objectName: [
+        sourceReferenceName: [
             { name: ValidationRuleNames.isRequired, value: true },
         ],
-        refernceKey: [
+        sourceReferenceKey: [
             { name: ValidationRuleNames.isRequired, value: true },
         ],
     }

@@ -3,12 +3,13 @@ import React from "react"
 import ArgonBox from "../../../components/ArgonBox";
 import ArgonInput from "../../../components/ArgonInput";
 
-const SourceReferenceInputField = ({ placeholder, fieldName, validator }) => {
+const SourceReferenceInputField = ({ placeholder, fieldName, validator,...props }) => {
     let error = validator.errors[fieldName];
     return (
         <Grid item xs={2} sm={4} md={6} >
             <ArgonBox mb={2}>
                 <ArgonInput
+                    {...props}
                     key={`key-${fieldName}`}
                     type="text"
                     id={fieldName}
