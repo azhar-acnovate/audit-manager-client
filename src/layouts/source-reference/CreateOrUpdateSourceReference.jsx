@@ -5,15 +5,13 @@ import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../dashboard/DashboardNavbar";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
 import ArgonBox from "../../components/ArgonBox";
-import { Card, Grid, TableCell } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import ArgonTypography from "../../components/ArgonTypography";
 import useValidation from "../../hooks/GlobalValidationHook";
 import BackButton from "../../components/BackButton";
 import ArgonButton from "../../components/ArgonButton";
 import SourceReferenceInputField from "./components/SourceReferenceInputField";
 import DynamicTable from "../../components/DynamicTable";
-import { validateAdditionalItems } from "ajv/dist/vocabularies/applicator/additionalItems";
-import { Link } from "react-router-dom";
 import SourceReferenceObjectServiceAPI from "../../rest-services/source-reference-object-service";
 import { useToast } from "../../components/toast/Toast";
 
