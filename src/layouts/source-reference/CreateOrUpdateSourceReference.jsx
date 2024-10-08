@@ -1,22 +1,31 @@
-import React from "react"
+import React, { useRef } from "react"
 import { useDecodedId } from "../../hooks/useDecodedData";
 import { additionalInfoColumns, initialTempAdditionalInfo, initialTempSourceReferenceData } from "./data/createOrUpdateSourceReferenceData";
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../dashboard/DashboardNavbar";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
 import ArgonBox from "../../components/ArgonBox";
-import { Card, Grid, TableCell } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import ArgonTypography from "../../components/ArgonTypography";
 import useValidation from "../../hooks/GlobalValidationHook";
 import BackButton from "../../components/BackButton";
 import ArgonButton from "../../components/ArgonButton";
 import SourceReferenceInputField from "./components/SourceReferenceInputField";
 import DynamicTable from "../../components/DynamicTable";
-import { validateAdditionalItems } from "ajv/dist/vocabularies/applicator/additionalItems";
-import { Link } from "react-router-dom";
+import SourceReferenceObjectServiceAPI from "../../rest-services/source-reference-object-service";
+import { useToast } from "../../components/toast/Toast";
 
 const CreateOrUpdateSourceReference = (props) => {
+    const buttonRef = useRef(null); // Create a reference for the button
+
+    // Handle Enter key press
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            buttonRef.current.focus(); // Focus on the button when Enter is pressed
+        }
+    };
     let decodedId = useDecodedId()
+    const {toastWithCommonResponse}=useToast();
     const [loading, setloading] = React.useState(false)
     const [sourceReferenceData, setSourceReferenceData] = React.useState(initialTempSourceReferenceData);
     const sourceReferenceValidator = useValidation(sourceReferenceData, setSourceReferenceData);
@@ -27,26 +36,25 @@ const CreateOrUpdateSourceReference = (props) => {
     }
     React.useEffect(() => {
         const fetchData = async () => {
-            // setloading(true)
-            // var res = await AuditObjectChangeTrackerServiceAPI.findOne(decodedId)
-            // if (res.status === 200) {
-            //     setObjectTrackerData((prevData) => ({
-            //         ...prevData,
-            //         id: res.data.id,
-            //         refObjectId: res.data.refObjectId,
-            //         eventType: res.data.eventType,
-            //         eventOccurence: res.data.eventOccurence,
-            //     }))
-            //     setSubData(res.data.attributeChanges);
-            // }
-            // setloading(false)
+            setloading(true)
+            var res = await SourceReferenceObjectServiceAPI.findOne(decodedId)
+            if (res.status === 200) {
+                setSourceReferenceData((prevData) => ({
+                    ...prevData,
+                    id: res.data.id,
+                    sourceReferenceName: res.data.sourceReferenceName,
+                    sourceReferenceKey: res.data.sourceReferenceKey,
+                    additionalInfo: res.data.additionalInfo,
+                }))
+            }
+            setloading(false)
         }
         if (decodedId != null) {
             fetchData()
         }
 
     }, [decodedId])
-    console.log(sourceReferenceData)
+   
     const saveAdditionalInfo = () => {
         var updatedAdditionalInfo = sourceReferenceData.additionalInfo;
         // Ensure the index exists before updating
@@ -92,16 +100,17 @@ const CreateOrUpdateSourceReference = (props) => {
                                         </Grid>
                                         <Grid item>
                                             <ArgonButton onClick={async () => {
+                                                console.log(sourceReferenceData)
                                                 if (await sourceReferenceValidator.validateForm()) {
-                                                    // console.log("Adding attribute:", objectTrackerData);
-                                                    // setloading(true)
-                                                    // var response = await AuditObjectChangeTrackerServiceAPI.createAuditObjectChangeTracker(objectTrackerData);
-                                                    // setloading(false)
-                                                    // if (response.status === 200) {
-                                                    //     objectTrackerValidator.handleChange("id", response.data.id);
+                                                    console.log(sourceReferenceData)
+                                                    setloading(true)
+                                                    var response = await SourceReferenceObjectServiceAPI.create(sourceReferenceData);
+                                                    setloading(false)
+                                                    if (response.status === 200) {
+                                                        sourceReferenceValidator.handleChange("id", response.data.id);
 
-                                                    // }
-                                                    // toastWithCommonResponse(response)
+                                                    }
+                                                    toastWithCommonResponse(response)
                                                 }
                                             }}
                                                 sx={{ width: 30 }}
@@ -131,14 +140,14 @@ const CreateOrUpdateSourceReference = (props) => {
                                     }}>
                                     <SourceReferenceInputField
                                         placeholder={"Source Object Name"}
-                                        value={sourceReferenceData.objectName}
-                                        fieldName={"objectName"}
+                                        value={sourceReferenceData.sourceReferenceName}
+                                        fieldName={"sourceReferenceName"}
                                         validator={sourceReferenceValidator}
                                     />
                                     <SourceReferenceInputField
                                         placeholder={"Source Reference Key"}
-                                        value={sourceReferenceData.refernceKey}
-                                        fieldName={"refernceKey"}
+                                        value={sourceReferenceData.sourceReferenceKey}
+                                        fieldName={"sourceReferenceKey"}
                                         validator={sourceReferenceValidator}
                                     />
                                 </Grid>
@@ -149,7 +158,8 @@ const CreateOrUpdateSourceReference = (props) => {
                                 </Grid>
                                 <Grid item xs={4} container spacing={2} justifyContent="flex-end">
                                     <Grid item>
-                                        <ArgonButton onClick={async () => {
+                                        <ArgonButton  ref={buttonRef} // Assign the reference to the button
+                                         onClick={async () => {
                                             if (await additionalInfoValidator.validateForm()) {
                                                 saveAdditionalInfo()
                                             }
@@ -192,6 +202,7 @@ const CreateOrUpdateSourceReference = (props) => {
                                         value={additionalInfoData.fieldValue}
                                         fieldName={"fieldValue"}
                                         validator={additionalInfoValidator}
+                                        onKeyPress={handleKeyPress} // Add the event handler here
                                     />
                                 </Grid>
                             </ArgonBox>
@@ -202,29 +213,54 @@ const CreateOrUpdateSourceReference = (props) => {
                                 actions={(item, index) => (
                                     <>
                                         <Grid
-                                        p={1}
+                                            p={1}
                                             container
                                             direction="row"
+                                            spacing={2}
                                             sx={{
                                                 justifyContent: "center",
                                                 alignItems: "center",
                                             }}
                                         >
+                                            <Grid item>
+                                                <ArgonButton
+                                                    color="info"
+                                                    size="small"
+                                                    sx={{
+                                                        width: 30,
+                                                        fontSize: 10,
+                                                    }}
+                                                    onClick={() => {
+                                                        setAdditionalInfoData((prevData)=>({
+                                                            ...prevData,
+                                                            index:index,
+                                                            fieldName:item.fieldName,
+                                                            fieldValue:item.fieldValue
+                                                        }))
+                                                        removeByIndex(index)
 
-                                            <ArgonButton
-                                                color="error"
-                                                size="small"
-                                                sx={{
-                                                    width: 30,
-                                                    fontSize: 10,
-                                                }}
-                                                onClick={()=>{
+                                                    }}
+                                                >
+                                                    Edit
+                                                </ArgonButton>
+                                            </Grid>
+                                            <Grid item>
 
-                                                    removeByIndex(index)
-                                                }}
-                                            >
-                                                Remove
-                                            </ArgonButton>
+                                                <ArgonButton
+                                                    color="error"
+                                                    size="small"
+                                                    sx={{
+                                                        width: 30,
+                                                        fontSize: 10,
+                                                    }}
+                                                    onClick={() => {
+
+                                                        removeByIndex(index)
+                                                    }}
+                                                >
+                                                    Remove
+                                                </ArgonButton>
+                                            </Grid>
                                         </Grid>
                                     </>
                                 )}

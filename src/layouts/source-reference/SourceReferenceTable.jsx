@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import ArgonBox from "../../components/ArgonBox";
 import ArgonTypography from "../../components/ArgonTypography";
-import { Box, Table as MuiTable, TableBody, TableContainer, TableRow } from "@mui/material";
+import {  Table as MuiTable, TableBody, TableContainer, TableRow } from "@mui/material";
 import borders from "../../assets/theme/base/borders";
 import pxToRem from "../../assets/theme/functions/pxToRem";
 import typography from "../../assets/theme/base/typography";
@@ -11,10 +11,8 @@ import ServerSidePagination from "../../components/ServerSidePagination";
 import ActionButton from "./components/ActionButton";
 
 const SourceReferenceTable = ({ columns, rows, data, setPageNo }) => {
-    // const { size, fontWeightBold } = typography;
+ 
     const { borderWidth } = borders;
-
-    const [expandedRow, setExpandedRow] = useState(null);
     const renderColumns = columns.map(({ name, label, align, width }, key) => {
         let pl = key === 0 ? 3 : 1;
         let pr = key === columns.length - 1 ? 3 : 1;
@@ -42,7 +40,6 @@ const SourceReferenceTable = ({ columns, rows, data, setPageNo }) => {
 
     const renderRows = rows.map((row, key) => {
         const rowKey = `row-${key}`;
-        const isExpanded = expandedRow === rowKey;
 
         const tableRow = columns.map(({ name, align }) => {
 

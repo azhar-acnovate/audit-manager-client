@@ -10,13 +10,28 @@ import FadeInComponent from "../../components/FadeInComponent";
 import ViewAuditTableSkeleton from "../view-audit/components/ViewAuditTableSkeleton";
 import { viewSourceReferenceData } from "./data/viewSourceReferenceData";
 import SourceReferenceTable from "./SourceReferenceTable";
+import SourceReferenceObjectServiceAPI from "../../rest-services/source-reference-object-service";
 
 const SourceReferenceHome = (props) => {
   const [response, setResponse] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
-  // const { columns, rows } = viewSourceReferenceData(response != null ? response.data.content : []);
-  const { columns, rows } = viewSourceReferenceData();
+  const { columns, rows } = viewSourceReferenceData(response != null ? response.data.content : []);
+
   const [pageNo, setPageNo] = React.useState(1)
+  React.useEffect(() => {
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await SourceReferenceObjectServiceAPI.findPagable(pageNo)
+            setResponse(response)
+        } catch (e) {
+
+        } finally {
+            setLoading(false);
+        }
+    }
+    fetchData()
+}, [pageNo])
   return (
     <>
       <DashboardLayout>

@@ -1,6 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Checkbox } from "@mui/material";
 import React from "react";
-import { dummyData } from "../../reporting/data/viewReportsData";
 import ArgonButton from "../../../components/ArgonButton";
 import AuditReportServiceAPI from "../../../rest-services/audit-report-service";
 

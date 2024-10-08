@@ -15,7 +15,6 @@ import useValidation from "../../../hooks/GlobalValidationHook";
 import AuditReportInputField from "./AuditReportInputField";
 import { DateFormatter, eventOccurenceDateFormat } from "../../../utils/DateFormatter";
 import CustomDatepicker from "../../view-audit/components/CustomDatePicker";
-import pxToRem from "../../../assets/theme/functions/pxToRem";
 import CustomLabel from "./CustomLabel";
 
 const CreateOrUpdateAuditReport = (props) => {
