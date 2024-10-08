@@ -24,12 +24,12 @@ export function viewAuditTableData(data) {
             // ),
             sourceName: (
                 <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
-                    {audit.sourceReference.sourceReferenceName}
+                    {audit.sourceReference && audit.sourceReference.sourceReferenceName}
                 </ArgonTypography>
             ),
             sourceKey: (
                 <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
-                    {audit.sourceReference.sourceReferenceKey}
+                    {audit.sourceReference && audit.sourceReference.sourceReferenceKey}
                 </ArgonTypography>
             ),
             eventType: (
