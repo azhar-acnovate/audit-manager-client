@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../dashboard/DashboardNavbar";
@@ -16,17 +16,17 @@ import { useDecodedId } from "../../hooks/useDecodedData";
 import BackButton from "../../components/BackButton";
 
 const CreateOrUpdateUser = () => {
-  let decodedId = useDecodedId(); // This will have the userId when updating
-  const [loading, setLoading] = React.useState(false);
-  const [userCreationData, setUserCreationData] = React.useState(initialTempAttributeData);
+  let decodedId = useDecodedId(); 
+  const [loading, setLoading] = useState(false);
+  const [userCreationData, setUserCreationData] = useState(initialTempAttributeData);
+  const [isResetPassword, setIsResetPassword] = useState(false); 
   const userCreationValidator = useValidation(userCreationData, setUserCreationData);
 
   const navigate = useNavigate();
-
   const { showSuccessToast, showErrorToast } = useToast();
 
   // Fetch existing user data if in edit mode
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -67,6 +67,12 @@ const CreateOrUpdateUser = () => {
 
   const handleSubmit = async () => {
     if (await userCreationValidator.validateForm()) {
+      if (isEditMode() && isResetPassword) {
+        if (userCreationData.password !== userCreationData.confirmPassword) {
+          showErrorToast("Passwords do not match!");
+          return;
+        }
+      }
       setLoading(true);
       try {
         if (isEditMode()) {
@@ -80,16 +86,15 @@ const CreateOrUpdateUser = () => {
             userName: userCreationData.fullName,
             userEmail: userCreationData.email,
             userRole: userCreationData.role,
-            password: userCreationData.password,
+            password: isResetPassword ? userCreationData.password : undefined, // Only send if reset is checked
           };
 
           // Update user
-          const res = await UserService.updateUser(updateUserPayload); // Send the prepared payload
+          const res = await UserService.updateUser(updateUserPayload);
           if (res.error === false) {
             showSuccessToast("User updated successfully!");
-          }
-          else {
-            showSuccessToast("User not updated successfully!");
+          } else {
+            showErrorToast("User not updated successfully!");
           }
 
         } else {
@@ -99,7 +104,6 @@ const CreateOrUpdateUser = () => {
             userEmail: userCreationData.email,
             userRole: userCreationData.role,
             password: userCreationData.password,
-
           };
           await UserService.createUser(createUserPayload);
           showSuccessToast("User created successfully!");
@@ -127,6 +131,10 @@ const CreateOrUpdateUser = () => {
     }));
   };
 
+  const handleCheckboxChange = (event) => {
+    setIsResetPassword(event.target.checked);
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -137,7 +145,9 @@ const CreateOrUpdateUser = () => {
             <ArgonBox p={2}>
               <Grid container alignItems="center" justifyContent="space-between">
                 <Grid item>
-                  <ArgonTypography variant="h6">{isEditMode() ? "Edit User" : "Add User"}</ArgonTypography>
+                  <ArgonTypography variant="h6">
+                    {isEditMode() ? "Edit User" : "Add User"}
+                  </ArgonTypography>
                 </Grid>
                 <Grid item>
                   <BackButton label="Cancel" />
@@ -182,22 +192,45 @@ const CreateOrUpdateUser = () => {
                   ]}
                   validator={userCreationValidator}
                 />
-                <UserCreationInputField
-                  placeholder="Password"
-                  fieldName="password"
-                  type="password"
-                  value={userCreationData.password}
-                  onChange={(e) => handleInputChange("password", e.target.value)}
-                  validator={userCreationValidator}
-                />
-                <UserCreationInputField
-                  placeholder="Confirm Password"
-                  fieldName="confirmPassword"
-                  type="password"
-                  value={userCreationData.confirmPassword}
-                  onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                  validator={userCreationValidator}
-                />
+
+                {/* Show reset password checkbox only in edit mode */}
+                {isEditMode() && (
+                  <>
+                    <Grid item xs={12}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={isResetPassword}
+                          onChange={handleCheckboxChange}
+                        />
+                    <ArgonTypography variant="body1" color="textSecondary"> 
+                      Reset Password
+                   </ArgonTypography>
+                      </label>
+                    </Grid>
+
+                    {isResetPassword && (
+                      <>
+                        <UserCreationInputField
+                          placeholder="New Password"
+                          fieldName="password"
+                          type="password"
+                          value={userCreationData.password}
+                          onChange={(e) => handleInputChange("password", e.target.value)}
+                          validator={userCreationValidator}
+                        />
+                        <UserCreationInputField
+                          placeholder="Confirm Password"
+                          fieldName="confirmPassword"
+                          type="password"
+                          value={userCreationData.confirmPassword}
+                          onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
+                          validator={userCreationValidator}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
 
                 {/* Buttons */}
                 <Grid container justifyContent="flex-end" spacing={3} mt={3}>

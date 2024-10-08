@@ -59,7 +59,6 @@ export function viewUserTableData(data) {
             { name: "userName", label: "User Name", align: "center" },
             { name: "userEmail", label: "Email", align: "center" }, 
             { name: "userRole", label: "Role", align: "center" },
-            { name: "defaultPassword", label: "Default Password", align: "center" },
             { name: "active", label: "Status", align: "center" },
             { name: "createdAt", label: "Created Date", align: "center" },
             { name: "action", label: "Actions", align: "center" },
@@ -81,11 +80,7 @@ export function viewUserTableData(data) {
                     {user.userRole}
                 </ArgonTypography>
             ),
-            defaultPassword: ( 
-                <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
-                    {user.defaultPassword}
-                </ArgonTypography>
-            ),
+            
             active: (
                 <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
                  {user.active ? "Active" : "Inactive"}
