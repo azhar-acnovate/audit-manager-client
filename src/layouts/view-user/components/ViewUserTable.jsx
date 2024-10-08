@@ -1,7 +1,7 @@
 import ArgonAvatar from "../../../components/ArgonAvatar";
 import ArgonBox from "../../../components/ArgonBox";
 import ArgonTypography from "../../../components/ArgonTypography";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid"; // Keep if no stable IDs are available
 import { TableBody, TableContainer, TableRow } from "@mui/material";
 import typography from "../../../assets/theme/base/typography";
@@ -14,11 +14,11 @@ import ServerSidePagination from "../../../components/ServerSidePagination";
 
 function ViewUserTable({ columns, rows, data, setPageNo }) {
     const { borderWidth } = borders;
-    const [expandedRow, setExpandedRow] = useState(null);
+    // const [expandedRow, setExpandedRow] = useState(null);
 
-    const handleExpandClick = (rowKey) => {
-        setExpandedRow(expandedRow === rowKey ? null : rowKey);
-    };
+    // const handleExpandClick = (rowKey) => {
+    //     setExpandedRow(expandedRow === rowKey ? null : rowKey);
+    // };
 
     // Memoize column rendering
     const renderColumns = useMemo(
@@ -102,7 +102,7 @@ function ViewUserTable({ columns, rows, data, setPageNo }) {
                                 >
                                     {name === "action" ? (
                                         <ArgonBox component="td" p={1} textAlign="center">
-                                            <ActionButton isOpened={expandedRow === rowKey} onClick={() => handleExpandClick(rowKey)} item={row.item} />
+                                            <ActionButton item={row.item} />
                                         </ArgonBox>
                                     ) : (
                                         row[name]
@@ -131,7 +131,7 @@ function ViewUserTable({ columns, rows, data, setPageNo }) {
                     </React.Fragment>
                 );
             }),
-        [columns, rows, expandedRow, borderWidth]
+        [columns, rows, borderWidth]
     );
 
     return (

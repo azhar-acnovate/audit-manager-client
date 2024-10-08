@@ -19,6 +19,7 @@ import { Edit } from "@mui/icons-material";
 import AuditAttributeChangeTrackerServiceAPI from "../../rest-services/audit-attribute-change-tracker-service";
 import { useDecodedId } from "../../hooks/useDecodedData";
 import BackButton from "../../components/BackButton";
+import SourceReferenceAutocomplete from "../../components/SourceReferenceAutocomplete";
 
 const CreateOrUpdateAudit = (props) => {
     let decodedId = useDecodedId()
@@ -62,13 +63,13 @@ const CreateOrUpdateAudit = (props) => {
             prevData.filter((_, index) => index !== indexToRemove)
         );
     };
-    const setSubDataValue=()=>{
+    const setSubDataValue = () => {
         setSubData((previousValue) => {
 
             var updatedArray = [...previousValue];
 
             // Ensure the index exists before updating
-            if (attributeTrackerData.index!=null) {
+            if (attributeTrackerData.index != null) {
                 updatedArray = [
                     ...updatedArray.slice(0, attributeTrackerData.index),
                     attributeTrackerData,
@@ -176,11 +177,25 @@ const CreateOrUpdateAudit = (props) => {
                                     justifyContent: "space-between",
                                     alignItems: "start",
                                 }}>
-                                <ObjectTrackerInputField
+                                {/* <ObjectTrackerInputField
                                     placeholder={"Ref Object Id"}
                                     value={objectTrackerData.refObjectId}
                                     fieldName={"refObjectId"}
-                                    validator={objectTrackerValidator} />
+                                    validator={objectTrackerValidator} /> */}
+                                <Grid item xs={2} sm={4} md={4} >
+                                    <SourceReferenceAutocomplete
+                                        defaultValue={objectTrackerData.refObjectId}
+                                        helperText={objectTrackerValidator.errors['refObjectId']}
+                                        error={Boolean(objectTrackerValidator.errors['refObjectId'])}
+                                        onChange={(value) => {
+                                            if (value && value.id) {
+                                                objectTrackerValidator.handleChange('refObjectId', value.id)
+                                            }
+
+                                        }}
+                                    />
+                                </Grid>
+
                                 <ObjectTrackerInputField
                                     placeholder={"Event Type"}
                                     value={objectTrackerData.eventType}
@@ -215,8 +230,8 @@ const CreateOrUpdateAudit = (props) => {
                                                         toastWithCommonResponse(response)
                                                         if (response.status === 200) {
                                                             attributeTrackerData.id = response.data.id;
-                                                           
-                                                           setSubDataValue()
+
+                                                            setSubDataValue()
 
                                                         }
 
@@ -232,9 +247,9 @@ const CreateOrUpdateAudit = (props) => {
                                     </Tooltip>
                                 </Grid>
                                 <Grid item>
-                                   {isCreatedAttributeTracker() && <ArgonButton
+                                    {isCreatedAttributeTracker() && <ArgonButton
 
-                                        onClick={()=>{
+                                        onClick={() => {
                                             setSubDataValue()
                                         }}
 

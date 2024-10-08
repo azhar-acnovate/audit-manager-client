@@ -9,15 +9,27 @@ export function viewAuditTableData(data) {
             filter: {}
         },
         columns: [
-            { name: "refObjectId", label: "Object ID", align: "left" },
+            // { name: "refObjectId", label: "Object ID", align: "left" },
+            { name: "sourceName", label: "Source Name", align: "left" },
+            { name: "sourceKey", label: "Source Key", align: "left" },
             { name: "eventType", label: "Event Type", align: "left" },
             { name: "eventOccurence", label: "Event Occurrence", align: "center" },
             { name: "action", label: "Actions", align: "center" },
         ],
         rows:data==null?[]: data.map((audit) => ({
-            refObjectId: (
+            // refObjectId: (
+            //     <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
+            //         {audit.refObjectId}
+            //     </ArgonTypography>
+            // ),
+            sourceName: (
                 <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
-                    {audit.refObjectId}
+                    {audit.sourceReference.sourceReferenceName}
+                </ArgonTypography>
+            ),
+            sourceKey: (
+                <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
+                    {audit.sourceReference.sourceReferenceKey}
                 </ArgonTypography>
             ),
             eventType: (

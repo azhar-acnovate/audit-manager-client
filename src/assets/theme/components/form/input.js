@@ -26,14 +26,21 @@ const { borderWidth, borderRadius } = borders;
 const input = {
   styleOverrides: {
     root: {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: inputColors.borderColor.main,
+        borderWidth: `${borderWidth[1]} !important`,
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: inputColors.borderColor.hover,
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: inputColors.borderColor.focus,
+      },
+      border: 'none', // Ensure no additional border is set here
       display: "flex !important",
       padding: `${pxToRem(8)} ${pxToRem(12)}`,
-      border: `${borderWidth[1]} solid ${inputColors.borderColor.main}`,
+   //   border: `${borderWidth[1]} solid ${inputColors.borderColor.main}`,
       borderRadius: `${borderRadius.md} !important`,
-
-      "& fieldset": {
-        border: "none",
-      },
     },
 
     input: {

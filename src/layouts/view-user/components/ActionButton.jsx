@@ -4,7 +4,7 @@ import ArgonButton from "../../../components/ArgonButton";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 // import colors from "../../../assets/theme/base/colors";
-const ActionButton = ({ isOpened, onClick, item }) => {
+const ActionButton = ({ item }) => {
     // const { gradients } = colors;
 
 
