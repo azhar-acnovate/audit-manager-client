@@ -86,9 +86,10 @@ const CreateOrUpdateUser = () => {
             userName: userCreationData.fullName,
             userEmail: userCreationData.email,
             userRole: userCreationData.role,
-            password: isResetPassword ? userCreationData.password : undefined, // Only send if reset is checked
+            isResetPassword, 
+            password: isResetPassword ? userCreationData.password : undefined, 
           };
-
+          console.log("Update User Payload: ", updateUserPayload);
           // Update user
           const res = await UserService.updateUser(updateUserPayload);
           if (res.error === false) {
@@ -103,7 +104,7 @@ const CreateOrUpdateUser = () => {
             userName: userCreationData.fullName,
             userEmail: userCreationData.email,
             userRole: userCreationData.role,
-            password: userCreationData.password,
+            // password: userCreationData.password,
           };
           await UserService.createUser(createUserPayload);
           showSuccessToast("User created successfully!");
