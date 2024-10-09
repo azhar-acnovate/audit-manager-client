@@ -31,6 +31,7 @@ const CreateOrUpdateSourceReference = (props) => {
     const sourceReferenceValidator = useValidation(sourceReferenceData, setSourceReferenceData);
     const [additionalInfoData, setAdditionalInfoData] = React.useState(initialTempAdditionalInfo);
     const additionalInfoValidator = useValidation(additionalInfoData, setAdditionalInfoData);
+    console.log(sourceReferenceData)
     const isCreated = () => {
         return sourceReferenceData.id !== null;
     }
@@ -56,7 +57,7 @@ const CreateOrUpdateSourceReference = (props) => {
     }, [decodedId])
    
     const saveAdditionalInfo = () => {
-        var updatedAdditionalInfo = sourceReferenceData.additionalInfo;
+        var updatedAdditionalInfo = sourceReferenceData.additionalInfo??[];
         // Ensure the index exists before updating
         if (additionalInfoData.index != null) {
             updatedAdditionalInfo = [
@@ -207,7 +208,7 @@ const CreateOrUpdateSourceReference = (props) => {
                                 </Grid>
                             </ArgonBox>
                             <DynamicTable
-                                data={sourceReferenceData.additionalInfo}
+                                data={sourceReferenceData.additionalInfo!=null?sourceReferenceData.additionalInfo:[]}
                                 columns={additionalInfoColumns}
                                 title={null}
                                 actions={(item, index) => (

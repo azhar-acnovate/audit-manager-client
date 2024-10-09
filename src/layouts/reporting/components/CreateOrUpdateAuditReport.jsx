@@ -16,6 +16,7 @@ import AuditReportInputField from "./AuditReportInputField";
 import { DateFormatter, eventOccurenceDateFormat } from "../../../utils/DateFormatter";
 import CustomDatepicker from "../../view-audit/components/CustomDatePicker";
 import CustomLabel from "./CustomLabel";
+import SourceReferenceAutocomplete from "../../../components/SourceReferenceAutocomplete";
 
 const CreateOrUpdateAuditReport = (props) => {
   let decodedId = useDecodedId()
@@ -29,12 +30,12 @@ const CreateOrUpdateAuditReport = (props) => {
       if (res.status === 200) {
         setAuditReportData((prevData) => ({
           ...prevData,
-          id:res.data.id,
-          refObjectId:res.data.refObjectId,
-          reportName:res.data.reportName,
-          startDateRange:res.data.startDateRange,
-          endDateRange:res.data.endDateRange,
-          changedUserNames:res.data.changedUserNames.toString()
+          id: res.data.id,
+          refObjectIds: res.data.refObjectIds,
+          reportName: res.data.reportName,
+          startDateRange: res.data.startDateRange,
+          endDateRange: res.data.endDateRange,
+          changedUserNames: res.data.changedUserNames.toString()
 
         }))
 
@@ -69,17 +70,19 @@ const CreateOrUpdateAuditReport = (props) => {
                     </Grid>
                     <Grid item>
                       <ArgonButton onClick={async () => {
-                          if (await auditReportValidator.validateForm()) {
-                        
-                            setloading(true)
+                        if (await auditReportValidator.validateForm()) {
+
+                          setloading(true)
+                          if(auditReportData.changedUserNames){
                             auditReportData.changedUserNames = auditReportData.changedUserNames.split(',')
-                            var response = await AuditReportServiceAPI.create(auditReportData);
-                            setloading(false)
-                            if (response.status === 200) {
-                              auditReportValidator.handleChange("id", response.data.id);
-                  
-                            }
-                            toastWithCommonResponse(response)
+                          }
+                          var response = await AuditReportServiceAPI.create(auditReportData);
+                          setloading(false)
+                          if (response.status === 200) {
+                            auditReportValidator.handleChange("id", response.data.id);
+
+                          }
+                          toastWithCommonResponse(response)
                         }
                       }}
                         sx={{ width: 30 }}
@@ -107,7 +110,7 @@ const CreateOrUpdateAuditReport = (props) => {
                     justifyContent: "space-between",
                     alignItems: "start",
                   }}>
-                  <Grid item xs={2} sm={4} md={6} >
+                  <Grid item xs={2} sm={4} md={12} >
 
 
                     <AuditReportInputField
@@ -116,14 +119,30 @@ const CreateOrUpdateAuditReport = (props) => {
                       fieldName={"reportName"}
                       validator={auditReportValidator}
                     /> </Grid>
-                  <Grid item xs={2} sm={4} md={6} >
+                  <Grid item xs={2} sm={4} md={12} >
 
 
-                    <AuditReportInputField
+                    {/* <AuditReportInputField
                       placeholder={"Ref Object Id"}
-                      value={auditReportData.refObjectId}
-                      fieldName={"refObjectId"}
+                      value={auditReportData.refObjectIds}
+                      fieldName={"refObjectIds"}
                       validator={auditReportValidator}
+                    /> */}
+                    <CustomLabel>{'Source Reference'}</CustomLabel>
+                    <SourceReferenceAutocomplete
+                      multiple={true}
+                      defaultValue={auditReportData.refObjectIds}
+                      helperText={auditReportValidator.errors['refObjectIds']}
+                      error={Boolean(auditReportValidator.errors['refObjectIds'])}
+                      onChange={(value) => {
+                        console.log(value)
+                        if (value) {
+                          let ids = value.map(item => item.id);    
+                          auditReportValidator.handleChange('refObjectIds', ids)
+                          console.log(auditReportData.refObjectIds)
+                        }
+
+                      }}
                     />
                   </Grid>
                   <Grid item xs={2} sm={4} md={6} >

@@ -17,7 +17,7 @@ export const initialTempSourceReferenceData = {
     id:null,
     sourceReferenceName:null,
     sourceReferenceKey:null,
-    additionalInfo:[],
+    additionalInfo:null,
     validationRules: {
         sourceReferenceName: [
             { name: ValidationRuleNames.isRequired, value: true },

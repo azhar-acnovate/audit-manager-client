@@ -1,33 +1,5 @@
 import ArgonTypography from "../../../components/ArgonTypography";
 
-// export const dummyData = [
-//     {
-//         "id": 1,
-//         "reportName": "daily report",
-//         "objectTrackerType": "Product",
-//         "createAt": "24-09-2024"
-//     },
-//     {
-//         "id": 2,
-//         "reportName": "weekly report",
-//         "objectTrackerType": "Product",
-//         "createAt": "24-09-2024"
-//     },
-//     {
-//         "id": 3,
-//         "reportName": "Product Report",
-//         "objectTrackerType": "Product",
-//         "createAt": "24-09-2024"
-//     },
-//     {
-//         "id": 4,
-//         "reportName": "Colors report",
-//         "objectTrackerType": "colors",
-//         "createAt": "24-09-2024"
-//     },
-    
-// ]
-
 export function viewReportsTableData(data) {
     console.log("Tale Data", data)
     return {
@@ -37,7 +9,7 @@ export function viewReportsTableData(data) {
         },
         columns: [
             { name: "reportName", label: "Report Name", align: "left" },
-            { name: "refObjectId", label: "Object Tracker Type", align: "left" },
+            { name: "sourceReferences", label: "Object Tracker Type", align: "center" },
             { name: "createdAt", label: "Date Created", align: "center" },
             { name: "action", label: "Actions", align: "center" },
         ],
@@ -47,9 +19,20 @@ export function viewReportsTableData(data) {
                     {report.reportName}
                 </ArgonTypography>
             ),
-            refObjectId: (
+            sourceReferences: (
                 <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
-                    {report.refObjectId}
+                    <div>
+                        {report.sourceReferences && (
+                            <ul>
+                                {report.sourceReferences.map((item, index) => (
+                                    <li key={index}>
+                                        {item.sourceReferenceName} - {item.sourceReferenceKey}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+
                 </ArgonTypography>
             ),
             createdAt: (

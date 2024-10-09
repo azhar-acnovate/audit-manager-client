@@ -3,8 +3,8 @@ import React from "react"
 import ArgonBox from "./ArgonBox";
 import SourceReferenceObjectServiceAPI from "../rest-services/source-reference-object-service";
 
-const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error }) => {
-    const [value, setValue] = React.useState(null);
+const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error, multiple }) => {
+    const [value, setValue] = React.useState(multiple ? [] : null);
     const [options, setOptions] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -13,10 +13,6 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
             setIsLoading(true);
             try {
                 const response = await SourceReferenceObjectServiceAPI.findAll();
-                if(defaultValue!=null){
-                    setValue(response.data.find(obj => obj.id.toString() === defaultValue.toString()));
-                }
-              
                 setOptions(response.data);
             } catch (e) {
                 console.error(e);
@@ -25,9 +21,19 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
             }
         }
         fetchData();
-    }, [defaultValue, setValue]);
+    }, []);
 
-    const OPTIONS_LIMIT = 3;
+    React.useEffect(() => {
+        if (defaultValue != null) {
+            if (multiple) {
+                setValue(options.filter(obj => defaultValue.includes(obj.id)));
+            } else {
+                setValue(options.find(obj => obj.id.toString() === defaultValue.toString()));
+            }
+
+        }
+    }, [defaultValue, setValue, multiple, options]);
+    const OPTIONS_LIMIT = 5;
     const defaultFilterOptions = createFilterOptions();
 
     const filterOptions = (options, state) => {
@@ -36,11 +42,12 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
 
     return (
         <Autocomplete
-            sx={{
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: error ? "error.main" : "info.main"
-                },
-            }}
+            multiple={multiple}
+            // sx={{
+            //     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            //         borderColor: error ? "error.main" : "info.main"
+            //     },
+            // }}
             loading={isLoading}
             freeSolo
             filterOptions={filterOptions}
@@ -63,9 +70,9 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
                                 sx: {
                                     height: "45px",
                                     paddingRight: "8px",
-                                    '& .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: error ? "red" : "initial", // Customize border color here
-                                    }
+                                    // '& .MuiOutlinedInput-notchedOutline': {
+                                    //     borderColor: error ? "red" : "initial", // Customize border color here
+                                    // }
                                 },
                             }}
                             inputProps={{

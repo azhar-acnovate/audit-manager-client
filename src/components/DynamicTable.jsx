@@ -19,22 +19,25 @@ function DynamicTable({
     const [filteredData, setFilteredData] = useState(data); // Initial value set to `data`
     const [pageNo, setPageNo] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    useEffect(() => {
-        setFilteredData(data);
-    }, [data]);
+    // useEffect(() => {
+    //     setFilteredData(data);
+    // }, [data]);
+
     // Update filteredData based on filterText and data changes
     useEffect(() => {
         if(filterText!=null){
             const lowercasedFilterText = filterText.toLowerCase();
-            const newFilteredData = data.filter(row =>
-                columns.some(column =>
-                    row[column.field]?.toString().toLowerCase().includes(lowercasedFilterText)
+            const newFilteredData = data.filter(item =>
+                Object.keys(item).some(key =>
+                    item[key].toString().toLowerCase().includes(lowercasedFilterText)
                 )
             );
             setFilteredData(newFilteredData);
+        }else{
+            setFilteredData(data)
         }
        
-    }, [filterText, data, columns]); // Re-run when `data` changes
+    }, [filterText, data]); // Re-run when `data` changes
 
     const getHeaderColumn = (headerName, align) => {
         return (

@@ -31,7 +31,7 @@ const input = {
         borderWidth: `${borderWidth[1]} !important`,
       },
       "&:hover .MuiOutlinedInput-notchedOutline": {
-        borderColor: inputColors.borderColor.hover,
+        borderColor: inputColors.borderColor.main,
       },
       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
         borderColor: inputColors.borderColor.focus,

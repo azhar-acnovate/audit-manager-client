@@ -86,11 +86,12 @@ const useValidation = (state, setState) => {
           newState[fieldName][index] = value;
         } else {
         
-          if (Array.isArray(value)) {
-            newState[fieldName] = value.map(item => item.value);
-          } else {
-            newState[fieldName] = value;
-          }
+          // if (Array.isArray(value)) {
+          //   newState[fieldName] = value.map(item => item.value);
+          // } else {
+          //   newState[fieldName] = value;
+          // }
+          newState[fieldName] = value;
         }
 
         return newState;
