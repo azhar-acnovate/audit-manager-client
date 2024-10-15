@@ -22,15 +22,16 @@ export const initialTempAttributeData = {
             { name: ValidationRuleNames.maxLength, value: 30 },
             { name: ValidationRuleNames.isUsernamePattern, value: true },
         ],
-        password: [
-            { name: ValidationRuleNames.isRequired, value: true },
-            { name: ValidationRuleNames.minLength, value: 6 },
+        // password: [
+        //     { name: ValidationRuleNames.isRequired, value: true },
+        //     { name: ValidationRuleNames.minLength, value: 6 },
             
-        ],
-        confirmPassword: [
-            { name: ValidationRuleNames.isRequired, value: true },
-            { name: ValidationRuleNames.compare, value: { password: "Password and Confirm Password must be same" } },  // Compare with refObjectId
-        ],
+        // ],
+        // confirmPassword: [
+        //     { name: ValidationRuleNames.isRequired, value: true },
+        //     { name: ValidationRuleNames.compare, value: { password: "Password and Confirm Password must be same" } },  // Compare with refObjectId
+        
+        // ],
         role: [
             { name: ValidationRuleNames.isRequired, value: true },
         ],
