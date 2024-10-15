@@ -6,6 +6,8 @@ import ArgonTypography from "../../../components/ArgonTypography";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../../components/toast/Toast";
 import { validateSchedulingForm } from "../data/SchedulingReportValidation"; 
+import DashboardNavbar from "../../dashboard/DashboardNavbar";
+import DashboardLayout from "../../../examples/LayoutContainers/DashboardLayout";
 
 const StyledCard = styled(({ ...props }) => (
     <Card {...props}>
@@ -87,14 +89,23 @@ const SchedulingReportForm = () => {
         }
 
         showSuccessToast("Schedule saved successfully!");
+        setReportName("");            
+        setRecipients([""]);          
+        setFrequency("");             
+        setHour("");                  
+        setMinute("");                
+        setAmPm("");                  
+        setErrors({});  
     };
 
     const handleCancel = () => {
-        navigate("/dashboard");
+        navigate("/scheduling-audit-report");
     };
 
     return (
         <>
+        <DashboardLayout>
+            <DashboardNavbar/>
             <StyledCard>
                 <ArgonTypography variant="h6">Report Name:</ArgonTypography>
                 <TextField
@@ -225,6 +236,7 @@ const SchedulingReportForm = () => {
                     CANCEL
                 </ArgonButton>
             </Box>
+           </DashboardLayout>
         </>
     );
 };

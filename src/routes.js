@@ -80,6 +80,7 @@ import SchedulingReportsHome from "./layouts/scheduling-reports/SchedulingReport
 import CreateOrUpdateAuditReport from "./layouts/reporting/components/CreateOrUpdateAuditReport";
 import SourceReferenceHome from "./layouts/source-reference/SourceReferenceHome";
 import CreateOrUpdateSourceReference from "./layouts/source-reference/CreateOrUpdateSourceReference";
+import SchedulingReportForm from "./layouts/scheduling-reports/components/SchedulingReportForm";
 
 const menuRoutes = [
   {
@@ -214,7 +215,12 @@ const routes = [
     route: "/master-data-management/source-reference/update/:encodedId",
     component: <CreateOrUpdateSourceReference />,
   },
-  
+  {
+    name: "Schedule reporting Module",
+    key: "scheduling-audit-report",
+    route: "/scheduling-audit-report/create",
+    component: <SchedulingReportForm />,
+  }
 ];
 
 export default routes;
