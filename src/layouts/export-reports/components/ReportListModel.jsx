@@ -6,26 +6,27 @@ import AuditReportServiceAPI from "../../../rest-services/audit-report-service";
 const ReportListModel = (props) => {
     const [response, setResponse] = React.useState(null);
     const { value: valueProp, useOpen: useOpenProps, ...other } = props;
-    const [selectedReports, setSelectedReports] = valueProp
-    const [open, setOpen] = useOpenProps;
+    const [selectedReports, setSelectedReports] = valueProp;  // Destructure from props
+    const [open, setOpen] = useOpenProps;  // Destructure open state from props
+
     React.useEffect(() => {
         const fetchData = async () => {
-
             try {
-                const response = await AuditReportServiceAPI.findAll()
-                setResponse(response)
+                const response = await AuditReportServiceAPI.findAll();
+                setResponse(response);
             } catch (e) {
-
+                console.error("Failed to fetch reports", e);
             }
-        }
-        fetchData()
-    }, [])
+        };
+        fetchData();
+    }, []);
+
     const close = () => setOpen(false);
 
-    const handleChange = (event) => {
-        const value = event.target.value;
+    const handleChange = (event, optionId) => {
+        const isChecked = event.target.checked;
         setSelectedReports((prev) =>
-            prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+            isChecked ? [...prev, optionId] : prev.filter((item) => item !== optionId)
         );
     };
 
@@ -42,20 +43,19 @@ const ReportListModel = (props) => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={selectedReports.includes(option.reportName)}
-                                onChange={handleChange}
-                                value={option.reportName}
+                                checked={selectedReports.includes(option.id)}
+                                onChange={(event) => handleChange(event, option.id)}
                             />
                         }
                         label={option.reportName}
                         key={option.id}
                     />
-                )):null}
+                )) : null}
             </DialogContent>
             <DialogActions>
                 <ArgonButton sx={{ width: 100 }} autoFocus color={"error"} onClick={() => {
-                    setSelectedReports([])
-                    close()
+                    setSelectedReports([]);
+                    close();
                 }}>
                     Cancel
                 </ArgonButton>
