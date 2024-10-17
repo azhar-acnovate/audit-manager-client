@@ -1,6 +1,7 @@
 import Moment from 'moment';
 
 export const eventOccurenceDateFormat="DD-MM-yyyy 00:00:00";
+export const reportDateFormat="DD-MM-yyyy 00:00:00";
 export const DateFormatter = {
     dateToString(date, format) {
         return Moment(date).format(format);

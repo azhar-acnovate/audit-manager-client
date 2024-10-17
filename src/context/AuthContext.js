@@ -40,7 +40,6 @@ export const ContextProvider = props => {
     } catch (error) {
 
       console.log(error)
-      console.log(`herer............`,error)
       loginError=error;
       setLoginPending(false);
       setLoginError(error);

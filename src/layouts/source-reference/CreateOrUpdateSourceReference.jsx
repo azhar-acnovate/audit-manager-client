@@ -31,7 +31,7 @@ const CreateOrUpdateSourceReference = (props) => {
     const sourceReferenceValidator = useValidation(sourceReferenceData, setSourceReferenceData);
     const [additionalInfoData, setAdditionalInfoData] = React.useState(initialTempAdditionalInfo);
     const additionalInfoValidator = useValidation(additionalInfoData, setAdditionalInfoData);
-    console.log(sourceReferenceData)
+    
     const isCreated = () => {
         return sourceReferenceData.id !== null;
     }
@@ -101,9 +101,9 @@ const CreateOrUpdateSourceReference = (props) => {
                                         </Grid>
                                         <Grid item>
                                             <ArgonButton onClick={async () => {
-                                                console.log(sourceReferenceData)
+                                               
                                                 if (await sourceReferenceValidator.validateForm()) {
-                                                    console.log(sourceReferenceData)
+                                                   
                                                     setloading(true)
                                                     var response = await SourceReferenceObjectServiceAPI.create(sourceReferenceData);
                                                     setloading(false)

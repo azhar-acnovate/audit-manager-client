@@ -47,7 +47,7 @@ function ViewScheduleTable({ columns, rows, data, setPageNo }) {
     const renderRows = rows.map((row, key) => {
         const rowKey = `row-${key}`;
         // const isExpanded = expandedRow === rowKey; // This is not used
-        console.log("Rows", row);
+      
 
         const tableRow = columns.map(({ name, align }) => {
             let template;

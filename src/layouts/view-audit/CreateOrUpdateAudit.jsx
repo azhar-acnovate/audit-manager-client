@@ -137,7 +137,7 @@ const CreateOrUpdateAudit = (props) => {
                                     <Grid item>
                                         <ArgonButton onClick={async () => {
                                             if (await objectTrackerValidator.validateForm()) {
-                                                console.log("Adding attribute:", objectTrackerData);
+                                                
                                                 setloading(true)
                                                 var response = await AuditObjectChangeTrackerServiceAPI.createAuditObjectChangeTracker(objectTrackerData);
                                                 setloading(false)
@@ -223,7 +223,7 @@ const CreateOrUpdateAudit = (props) => {
                                             <ArgonButton
                                                 onClick={async () => {
                                                     if (await attributeTrackerValidator.validateForm()) {
-                                                        console.log("Adding attribute:", attributeTrackerData);
+                                                        
                                                         attributeTrackerData.auditObjectChangeTrackerId = objectTrackerData.id
                                                         var response = await AuditAttributeChangeTrackerServiceAPI.createAuditAttributeChangeTracker(attributeTrackerData);
 

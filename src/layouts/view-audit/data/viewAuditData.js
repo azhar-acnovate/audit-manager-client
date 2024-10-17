@@ -2,7 +2,7 @@ import ArgonTypography from "../../../components/ArgonTypography";
 
 
 export function viewAuditTableData(data) {
-    console.log("Tale Data",data)
+   
     return {
         filterIntialValue : {
             sort: {},
