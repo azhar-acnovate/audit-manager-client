@@ -29,9 +29,6 @@ const Login = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log(data.get('username'))
-        console.log(data.get('password'))
-        console.log((userNameError !== '' && passwordError !== ''))
         let isValid = false;
         if (data.get('username') === '') {
             setUserNameError("Please Enter User Name");
@@ -54,7 +51,7 @@ const Login = (props) => {
 
             let res = await login(data.get('username'), data.get('password'));
 
-            console.log(res)
+            
             let loginError;
             if (res != null) {
                 if (res.code === "ERR_NETWORK") {

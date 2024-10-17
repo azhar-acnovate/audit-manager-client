@@ -10,6 +10,8 @@ import pxToRem from "../../assets/theme/functions/pxToRem";
 import ReportListModel from "./components/ReportListModel";
 import ArgonButton from "../../components/ArgonButton";
 import typography from "../../assets/theme/base/typography";
+import AuditReportServiceAPI from "../../rest-services/audit-report-service";
+import SimpleBackdrop from "../../components/SimpleBackDrop";
 const StyledCard = styled(({ ...props }) => (
     <Card {...props}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -31,13 +33,26 @@ const StyledCard = styled(({ ...props }) => (
 const ExportReportsHome = (props) => {
     const [open, setOpen] = React.useState(false);
     const [selectedReports, setSelectedReports] = React.useState([]);
+    const [isLoading, setLoading] = React.useState(false)
     const handleClickListItem = () => {
         setOpen(true);
     };
     const isReportSelected = () => selectedReports.length > 0;
+    const downloadReport = async (fileType) => {
+        try {
+            setLoading(true)
+            await AuditReportServiceAPI.downloadReport(fileType, selectedReports)
+        } catch (e) {
+
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
+
         <DashboardLayout>
             <DashboardNavbar />
+            <SimpleBackdrop loading={isLoading}></SimpleBackdrop>
             <ArgonBox py={3}>
                 <ArgonBox mb={3}>
 
@@ -53,7 +68,7 @@ const ExportReportsHome = (props) => {
                             1. Select single or multiple lists, from which you wish to export audits.
                         </ArgonTypography>
                         <ArgonTypography fontSize={typography.size.lg}>
-                            2. Export the audits as an .XLS file or as a .CSV file.
+                            2. Export the audits as an .XLSX file or as a .CSV file.
                         </ArgonTypography>
 
                         {/* Step cards container */}
@@ -81,13 +96,15 @@ const ExportReportsHome = (props) => {
                             {/* Export as XLS */}
                             <Grid item xs={12} md={4}>
                                 <StyledCard key={"export-audit-1"}>
-                                    <ArgonTypography variant="h6">2. Export as .XLS file</ArgonTypography>
+                                    <ArgonTypography variant="h6">2. Export as .XLSX file</ArgonTypography>
                                     <ArgonTypography fontSize={pxToRem(15)} color="text.secondary">
                                         To filter, analyze, and create reports
                                     </ArgonTypography>
                                     <Tooltip title={!isReportSelected() ? "Please choose report" : ""}>
                                         <div>
-                                            <ArgonButton fullWidth disabled={!isReportSelected()} variant="contained" color="info" sx={{ marginTop: "10px" }}>
+                                            <ArgonButton onClick={()=>{
+                                                downloadReport("xlsx")
+                                            }} fullWidth disabled={!isReportSelected()} variant="contained" color="info" sx={{ marginTop: "10px" }}>
                                                 Export Audits
                                             </ArgonButton>
                                         </div>
@@ -104,7 +121,9 @@ const ExportReportsHome = (props) => {
                                     </ArgonTypography>
                                     <Tooltip title={!isReportSelected() ? "Please choose report" : ""}>
                                         <div>
-                                            <ArgonButton fullWidth disabled={!isReportSelected()} variant="contained" color="info" sx={{ marginTop: "10px" }}>
+                                            <ArgonButton onClick={()=>{
+                                                downloadReport("csv")
+                                            }}  fullWidth disabled={!isReportSelected()} variant="contained" color="info" sx={{ marginTop: "10px" }}>
                                                 Export Audits
                                             </ArgonButton>
                                         </div>

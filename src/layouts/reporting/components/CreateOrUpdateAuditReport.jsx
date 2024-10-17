@@ -13,10 +13,11 @@ import ArgonButton from "../../../components/ArgonButton";
 import BackButton from "../../../components/BackButton";
 import useValidation from "../../../hooks/GlobalValidationHook";
 import AuditReportInputField from "./AuditReportInputField";
-import { DateFormatter, eventOccurenceDateFormat } from "../../../utils/DateFormatter";
+import { DateFormatter, eventOccurenceDateFormat, reportDateFormat } from "../../../utils/DateFormatter";
 import CustomDatepicker from "../../view-audit/components/CustomDatePicker";
 import CustomLabel from "./CustomLabel";
 import SourceReferenceAutocomplete from "../../../components/SourceReferenceAutocomplete";
+import moment from "moment";
 
 const CreateOrUpdateAuditReport = (props) => {
   let decodedId = useDecodedId()
@@ -33,11 +34,15 @@ const CreateOrUpdateAuditReport = (props) => {
           id: res.data.id,
           refObjectIds: res.data.refObjectIds,
           reportName: res.data.reportName,
-          startDateRange: res.data.startDateRange,
-          endDateRange: res.data.endDateRange,
-          changedUserNames: res.data.changedUserNames.toString()
-
-        }))
+          startDateRange: res.data.startDateRange??DateFormatter.dateToString(moment(),reportDateFormat),
+          endDateRange: res.data.endDateRange??DateFormatter.dateToString(moment(),reportDateFormat),
+          changedUserNames: Array.isArray(res.data.changedUserNames) 
+              ? res.data.changedUserNames.join(",") 
+              : (typeof res.data.changedUserNames === 'string' && res.data.changedUserNames.includes(","))
+              ? res.data.changedUserNames.split(",") 
+              : res.data.changedUserNames
+      }));
+      
 
       }
       setloading(false)
@@ -74,7 +79,8 @@ const CreateOrUpdateAuditReport = (props) => {
 
                           setloading(true)
                           if(auditReportData.changedUserNames){
-                            auditReportData.changedUserNames = auditReportData.changedUserNames.split(',')
+                            if(!Array.isArray( auditReportData.changedUserNames ))
+                            auditReportData.changedUserNames = auditReportData.changedUserNames?.toString().split(",")
                           }
                           var response = await AuditReportServiceAPI.create(auditReportData);
                           setloading(false)
@@ -135,11 +141,10 @@ const CreateOrUpdateAuditReport = (props) => {
                       helperText={auditReportValidator.errors['refObjectIds']}
                       error={Boolean(auditReportValidator.errors['refObjectIds'])}
                       onChange={(value) => {
-                        console.log(value)
                         if (value) {
                           let ids = value.map(item => item.id);    
                           auditReportValidator.handleChange('refObjectIds', ids)
-                          console.log(auditReportData.refObjectIds)
+                        
                         }
 
                       }}

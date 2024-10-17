@@ -32,7 +32,7 @@ const CreateOrUpdateUser = () => {
       try {
         if (decodedId) {
           const res = await UserService.findOne(decodedId);
-          console.log("User data received from API:", res);
+        
 
           // Adjust the field mappings based on the API response
           if (res && res.data) {
@@ -89,7 +89,7 @@ const CreateOrUpdateUser = () => {
             isResetPassword, 
             password: isResetPassword ? userCreationData.password : undefined, 
           };
-          console.log("Update User Payload: ", updateUserPayload);
+         
           // Update user
           const res = await UserService.updateUser(updateUserPayload);
           if (res.error === false) {

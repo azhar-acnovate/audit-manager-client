@@ -1,7 +1,7 @@
 import ArgonTypography from "../../../components/ArgonTypography";
 
 export function viewReportsTableData(data) {
-    console.log("Tale Data", data)
+   
     return {
         filterIntialValue: {
             sort: {},
