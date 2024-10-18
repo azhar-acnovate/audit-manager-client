@@ -1,5 +1,10 @@
 import { ValidationRuleNames } from "../../../hooks/validation";
 
+
+export const roleOptions = [
+    { value: "admin", label: "Admin" },
+    { value: "user", label: "User" },
+]
 export const initialTempAttributeData = {
     id: null,
     fullName: null,
@@ -25,12 +30,12 @@ export const initialTempAttributeData = {
         // password: [
         //     { name: ValidationRuleNames.isRequired, value: true },
         //     { name: ValidationRuleNames.minLength, value: 6 },
-            
+
         // ],
         // confirmPassword: [
         //     { name: ValidationRuleNames.isRequired, value: true },
         //     { name: ValidationRuleNames.compare, value: { password: "Password and Confirm Password must be same" } },  // Compare with refObjectId
-        
+
         // ],
         role: [
             { name: ValidationRuleNames.isRequired, value: true },

@@ -107,6 +107,7 @@ const menuRoutes = [
     collapse: [
       {
         type: "route",
+        role:"admin",
         name: "User Data Management",
         key: "user-data",
         route: "/master-data-management/user-data",
@@ -116,7 +117,7 @@ const menuRoutes = [
       {
         type: "route",
         name: "Source Reference",
-        key: "user-data",
+        key: "source-reference",
         route: "/master-data-management/source-reference",
         icon: <Source color="primary" fontSize="14px" />,
         component: <SourceReferenceHome></SourceReferenceHome>,
