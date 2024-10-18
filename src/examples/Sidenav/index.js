@@ -35,13 +35,14 @@ import ArgonTypography from "../../components/ArgonTypography";
 import SidenavItem from "./SidenavItem";
 import SidenavRoot from "./SidenavRoot";
 import { useArgonController, setMiniSidenav } from "../../context";
+import { useUser } from "../../context/UserContext";
 
 function Sidenav({ color = "info", brand = "", brandMini, routes, ...rest }) {
   const [controller, dispatch] = useArgonController();
   const { miniSidenav, darkSidenav, layout } = controller;
   const location = useLocation();
   const { pathname } = location;
-
+  const { user } = useUser();
   const [openSubmenu, setOpenSubmenu] = useState(null);
 
   const closeSidenav = () => setMiniSidenav(dispatch, true);
@@ -51,9 +52,9 @@ function Sidenav({ color = "info", brand = "", brandMini, routes, ...rest }) {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
     }
 
-     /** 
-     The event listener that's calling the handleMiniSidenav function when resizing the window.
-    */
+    /** 
+    The event listener that's calling the handleMiniSidenav function when resizing the window.
+   */
     window.addEventListener("resize", handleMiniSidenav);
 
     // Call the handleMiniSidenav function to set the state with the initial value.
@@ -71,11 +72,16 @@ function Sidenav({ color = "info", brand = "", brandMini, routes, ...rest }) {
     }
   };
 
-  const renderRoutes = routes.map(({ type, name, icon, title, key, href, route, collapse }) => {
+  const renderRoutes = routes.map(({ type, name, icon, title, key, href, route, collapse, role }) => {
     let returnValue;
     const isActive = pathname.includes(route); // Check if current pathname includes the route
 
     if (type === "route") {
+
+      if (role && user.userRole !== role) {
+
+        return returnValue;
+      }
       if (collapse) {
         returnValue = (
           <ArgonBox key={key}>
@@ -88,8 +94,13 @@ function Sidenav({ color = "info", brand = "", brandMini, routes, ...rest }) {
             />
             <Collapse in={openSubmenu === key}>
               <List component="div" disablePadding>
-                {collapse.map((subItem) => (
-                  <NavLink to={subItem.route} key={subItem.key}>
+                {collapse.map((subItem) => {
+
+                  if (subItem.role && user.userRole !== subItem.role) {
+
+                    return returnValue;
+                  }
+                  return <NavLink to={subItem.route} key={subItem.key}>
                     <SidenavItem
                       name={subItem.name}
                       icon={subItem.icon}
@@ -97,7 +108,7 @@ function Sidenav({ color = "info", brand = "", brandMini, routes, ...rest }) {
                       style={{ paddingLeft: "2rem" }}
                     />
                   </NavLink>
-                ))}
+                })}
               </List>
             </Collapse>
           </ArgonBox>
@@ -163,7 +174,7 @@ function Sidenav({ color = "info", brand = "", brandMini, routes, ...rest }) {
               src={miniSidenav ? brandMini : brand}
               alt="Argon Logo"
               width={miniSidenav ? "3rem" : "12rem"}
-              height={miniSidenav ? "3rem" : "6rem"}  
+              height={miniSidenav ? "3rem" : "6rem"}
               borderRadius="lg"
             />
           )}

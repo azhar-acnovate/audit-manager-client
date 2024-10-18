@@ -11,6 +11,8 @@ import ViewUserTableSkeleton from "./components/ViewUserTableSkeleton";
 import ArgonButton from "../../components/ArgonButton";
 import { Link } from "react-router-dom";
 import FadeInComponent from "../../components/FadeInComponent";
+import RoleBasedComponent from "../../components/RoleBasedComponent";
+import Error403 from "../authentication/Error403";
 
 const ViewUserHome = (props) => {
     const [response, setResponse] = React.useState(null);
@@ -33,7 +35,7 @@ const ViewUserHome = (props) => {
         fetchData()
     }, [pageNo])
     return (
-        <>
+        <RoleBasedComponent allowedRoles={"admin"} replace={<Error403 />}>
             <DashboardLayout>
                 <DashboardNavbar />
                 <ArgonBox py={3}>
@@ -65,7 +67,8 @@ const ViewUserHome = (props) => {
                     </ArgonBox>
                 </ArgonBox>
             </DashboardLayout>
-        </>
+        </RoleBasedComponent>
+        
     )
 };
 

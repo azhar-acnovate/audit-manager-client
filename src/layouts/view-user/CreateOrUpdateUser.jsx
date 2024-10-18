@@ -8,7 +8,7 @@ import ArgonTypography from "../../components/ArgonTypography";
 import ArgonButton from "../../components/ArgonButton";
 import UserCreationInputField from "./components/UserCreationInputField";
 import useValidation from "../../hooks/GlobalValidationHook";
-import { initialTempAttributeData } from "./data/createOrUpdate";
+import { initialTempAttributeData, roleOptions } from "./data/createOrUpdate";
 import UserService from "../../rest-services/UserService";
 import { useToast } from "../../components/toast/Toast";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
@@ -187,10 +187,7 @@ const CreateOrUpdateUser = () => {
                   type="select"
                   value={userCreationData.role}
                   onChange={handleRoleChange}
-                  options={[
-                    { value: "admin", label: "Admin" },
-                    { value: "user", label: "User" },
-                  ]}
+                  options={roleOptions}
                   validator={userCreationValidator}
                 />
 
