@@ -1,18 +1,17 @@
-import { Autocomplete, createFilterOptions, FormControl, FormHelperText, TextField } from "@mui/material";
 import React from "react"
-import ArgonBox from "./ArgonBox";
-import SourceReferenceObjectServiceAPI from "../rest-services/source-reference-object-service";
+import AuditReportServiceAPI from "../../../rest-services/audit-report-service";
+import { Autocomplete, createFilterOptions, FormControl, FormHelperText, TextField } from "@mui/material";
+import ArgonBox from "../../../components/ArgonBox";
 
-const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error, multiple }) => {
+const ReportAutocomplete = ({ defaultValue, onChange, helperText, error, multiple }) => {
     const [value, setValue] = React.useState(multiple ? [] : null);
     const [options, setOptions] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
-
     React.useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const response = await SourceReferenceObjectServiceAPI.findAll();
+                const response = await AuditReportServiceAPI.findAll();
                 setOptions(response.data);
             } catch (e) {
                 console.error(e);
@@ -22,7 +21,6 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
         }
         fetchData();
     }, []);
-
     React.useEffect(() => {
         if (defaultValue != null) {
             if (multiple) {
@@ -39,15 +37,9 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
     const filterOptions = (options, state) => {
         return defaultFilterOptions(options, state).slice(0, OPTIONS_LIMIT);
     };
-
     return (
         <Autocomplete
             multiple={multiple}
-            // sx={{
-            //     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            //         borderColor: error ? "error.main" : "info.main"
-            //     },
-            // }}
             loading={isLoading}
             freeSolo
             filterOptions={filterOptions}
@@ -57,13 +49,13 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
             onChange={(event, newValue) => {
                 onChange(newValue);
             }}
-            getOptionLabel={(option) => option.sourceReferenceName + '-' + option.sourceReferenceKey}
+            getOptionLabel={(option) => option.reportName}
             renderInput={(params) => (
                 <ArgonBox mb={2}>
                     <FormControl error={error} fullWidth>
                         <TextField
                             {...params}
-                            placeholder="Search Source Reference"
+                            placeholder="Search Audit Report"
                             error={error} // Pass error prop to TextField
                             InputProps={{
                                 ...params.InputProps,
@@ -82,13 +74,12 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
                                     padding: "8px",
                                 },
                             }}
-                        />
-                        {helperText && <FormHelperText>{helperText}</FormHelperText>}
+                        />{helperText && <FormHelperText>{helperText}</FormHelperText>}
                     </FormControl>
                 </ArgonBox>
             )}
-        />
+        ></Autocomplete>
     )
 };
 
-export default SourceReferenceAutocomplete;
+export default ReportAutocomplete;
