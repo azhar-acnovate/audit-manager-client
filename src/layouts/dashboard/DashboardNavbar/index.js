@@ -187,7 +187,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
               />
             </ArgonBox> */}
             <ArgonBox color={light ? "white" : "inherit"}>
-              <IconButton onClick={onLogout} sx={navbarIconButton} size="small">
+              <IconButton onClick={onLogout } sx={navbarIconButton} size="small">
                 <Icon
                   sx={({ palette: { dark, white } }) => ({
                     color: light && transparentNavbar ? white.main : dark.main,
@@ -198,8 +198,8 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
                 <ArgonTypography
                   variant="button"
                   fontWeight="medium"
-                  color={light && transparentNavbar ? "white" : "dark"}
-                >
+                  color={light && transparentNavbar ? "white" : "dark"} id="logout"
+                > 
                   Logout
                 </ArgonTypography>
               </IconButton>
