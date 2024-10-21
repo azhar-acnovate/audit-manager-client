@@ -33,6 +33,7 @@ export const ContextProvider = props => {
       setLoginSuccess(true);
       localStorage.setItem('userDetail', JSON.stringify(res));
       localStorage.setItem('encodedCredentials', res['accessToken']);
+      sessionStorage.setItem('refreshToken', res['refreshToken']);
       setUser(res)
       // window.location.href = `${process.env.REACT_APP_HOMEPAGE}/dashboard`;
       navigate('/dashboard')
