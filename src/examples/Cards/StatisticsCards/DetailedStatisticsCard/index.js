@@ -28,7 +28,9 @@ import ArgonTypography from "../../../../components/ArgonTypography";
 // Argon Dashboard 2 MUI contexts
 import { useArgonController } from "../../../../context";
 import pxToRem from "../../../../assets/theme/functions/pxToRem";
-
+function isNegative(n) {
+  return n < 0;
+}
 function DetailedStaticsCard({ bgColor = "white", title, count, percentage = {
   color: "success",
   count: 0,
@@ -134,9 +136,9 @@ function DetailedStaticsCard({ bgColor = "white", title, count, percentage = {
             alignItems="center"
             variant="button"
             fontWeight="bold"
-            color={percentage.color}
+            color={isNegative(percentage.count)?"error":"success"}
           >
-            {percentage.count}
+            {`${percentage.count}%`}
             <ArgonTypography
               variant="body2"
               fontWeight="regular"

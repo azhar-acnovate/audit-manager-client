@@ -15,6 +15,9 @@ const AuditObjectChangeTrackerServiceAPI = {
     },
     createAuditObjectChangeTracker:async(data)=>{
         return await RestService.CreateData(baseUrl,data)
-    }
+    },
+    getDashbordData: async () => {
+        return await RestService.GetAllData(baseUrl+"/dashborad");
+    },
 }
 export default AuditObjectChangeTrackerServiceAPI;
