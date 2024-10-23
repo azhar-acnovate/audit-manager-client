@@ -135,21 +135,25 @@ const CreateOrUpdateAudit = (props) => {
                                         <BackButton></BackButton>
                                     </Grid>
                                     <Grid item>
-                                        <ArgonButton onClick={async () => {
-                                            if (await objectTrackerValidator.validateForm()) {
-                                                
-                                                setloading(true)
-                                                var response = await AuditObjectChangeTrackerServiceAPI.createAuditObjectChangeTracker(objectTrackerData);
-                                                setloading(false)
-                                                if (response.status === 200) {
-                                                    objectTrackerValidator.handleChange("id", response.data.id);
-
+                                        <ArgonButton
+                                            id="savebtn"
+                                            onClick={async () => {
+                                                if (await objectTrackerValidator.validateForm()) {
+                                                    setloading(true);
+                                                    var response = await AuditObjectChangeTrackerServiceAPI.createAuditObjectChangeTracker(objectTrackerData);
+                                                    setloading(false);
+                                                    if (response.status === 200) {
+                                                        objectTrackerValidator.handleChange("id", response.data.id);
+                                                    }
+                                                    toastWithCommonResponse(response);
                                                 }
-                                                toastWithCommonResponse(response)
-                                            }
-                                        }}
+                                            }}
                                             sx={{ width: 30 }}
-                                            color={"success"}>{isCreatedObjectTracker() ? "Update" : "Save"}</ArgonButton>
+                                            color={"success"}
+                                        >
+                                            {isCreatedObjectTracker() ? "Update" : "Save"}
+                                        </ArgonButton>
+
                                     </Grid>
 
                                 </Grid>
@@ -212,7 +216,7 @@ const CreateOrUpdateAudit = (props) => {
 
                             </Grid>
                         </ArgonBox>
-                        <ArgonBox display="flex" justifyContent="space-between" alignItems="center" p={2} >
+                        <ArgonBox display="flex" justifyContent="space-between" alignItems="center" p={2}>
                             <Grid item xs={8}>
                                 <ArgonTypography variant="h6">Add Audit Attribute Tracker</ArgonTypography>
                             </Grid>
@@ -221,20 +225,16 @@ const CreateOrUpdateAudit = (props) => {
                                     <Tooltip title={isCreatedObjectTracker() ? "" : "Please Save Audit first"}>
                                         <div>
                                             <ArgonButton
+                                                id="addbtn"  // Set the ID here
                                                 onClick={async () => {
                                                     if (await attributeTrackerValidator.validateForm()) {
-                                                        
                                                         attributeTrackerData.auditObjectChangeTrackerId = objectTrackerData.id
                                                         var response = await AuditAttributeChangeTrackerServiceAPI.createAuditAttributeChangeTracker(attributeTrackerData);
-
                                                         toastWithCommonResponse(response)
                                                         if (response.status === 200) {
                                                             attributeTrackerData.id = response.data.id;
-
                                                             setSubDataValue()
-
                                                         }
-
                                                     }
                                                 }}
                                                 sx={{ width: 30 }}
@@ -248,11 +248,9 @@ const CreateOrUpdateAudit = (props) => {
                                 </Grid>
                                 <Grid item>
                                     {isCreatedAttributeTracker() && <ArgonButton
-
                                         onClick={() => {
                                             setSubDataValue()
                                         }}
-
                                         sx={{ width: 30 }}
                                         disabled={!isCreatedObjectTracker()}
                                         color={"error"}

@@ -233,9 +233,14 @@ const CreateOrUpdateUser = () => {
                 {/* Buttons */}
                 <Grid container justifyContent="flex-end" spacing={3} mt={3}>
                   <Grid item>
-                    <ArgonButton onClick={handleSubmit} color="success" sx={{ minWidth: "130px" }}>
-                      {isEditMode() ? "Update" : "Submit"}
-                    </ArgonButton>
+                  <ArgonButton 
+                    onClick={handleSubmit} 
+                    color="success" 
+                    sx={{ minWidth: "130px" }} 
+                    id={isEditMode() ? "updatebtn" : "submitbtn"}
+                  >
+                     {isEditMode() ? "Update" : "Submit"}
+                  </ArgonButton>
                   </Grid>
                   <Grid item>
                     <ArgonButton onClick={handleCancel} color="error" sx={{ minWidth: "130px" }}>
