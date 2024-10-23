@@ -42,51 +42,83 @@ import Slider from "./components/Slider";
 import salesTableData from "./data/salesTableData";
 import categoriesListData from "./data/categoriesListData";
 import DashbaordLineChart from "./components/dashboard_line_chart";
+import React from "react";
+import AuditObjectChangeTrackerServiceAPI from "../../rest-services/audit-object-change-tracker-service";
+import SimpleBackdrop from "../../components/SimpleBackDrop";
 
 
 function Default() {
   const { size } = typography;
+  const [response, setResponse] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await AuditObjectChangeTrackerServiceAPI.getDashbordData()
+        setResponse(response.data)
+      } catch (e) {
+
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData()
+  }, [])
+  function isNegative(n) {
+    return n < 0;
+  }
+
+  const getDetailCard = () => {
+    <DetailedStatisticsCard
+      title="Attribute Changes"
+      count={response.attributeChangesYesterday}
+      icon={{ color: "info", component: <i className="ni ni-money-coins" /> }}
+      percentage={{ color: isNegative(response.attributeChangePercentageSinceYesterday) ? "error" : "success", count: `${response.attributeChangePercentageSinceYesterday}%`, text: "since yesterday" }}
+    />
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <ArgonBox py={3}>
+      <SimpleBackdrop loading={loading} />
+      {response && <ArgonBox py={3}>
         <Grid container spacing={3} mb={3}>
           <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard
               title="Attribute Changes"
-              count="100"
+              count={response.attributeChangesYesterday}
               icon={{ color: "info", component: <i className="ni ni-money-coins" /> }}
-              percentage={{ color: "success", count: "+55%", text: "since yesterday" }}
+              percentage={{ count: response.attributeChangePercentageSinceYesterday, text: "since yesterday" }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard
               title="Object Changes"
-              count="2,300"
+              count={response.objectChangesLastWeek}
               icon={{ color: "error", component: <i className="ni ni-world" /> }}
-              percentage={{ color: "success", count: "+3%", text: "since last week" }}
+              percentage={{ count: response.objectChangePercentageSinceLastWeek, text: "since last week" }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard
               title="Changes by User"
-              count="+3,462"
+              count={response.userChangesLastQuarter}
               icon={{ color: "success", component: <i className="ni ni-paper-diploma" /> }}
-              percentage={{ color: "error", count: "-2%", text: "since last quarter" }}
+              percentage={{ count: response.userChangePercentageSinceLastQuarter, text: "since last quarter" }}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={3}>
             <DetailedStatisticsCard
               title="Event Occurrences"
-              count="103,430"
+              count={response.eventOccurrencesLastMonth}
               icon={{ color: "warning", component: <i className="ni ni-cart" /> }}
-              percentage={{ color: "success", count: "+5%", text: "than last month" }}
+              percentage={{ count: response.eventOccurrencePercentageSinceLastMonth, text: "than last month" }}
             />
           </Grid>
         </Grid>
         <Grid container spacing={3} mb={1}>
           <Grid item xs={12} lg={7}>
-         <DashbaordLineChart></DashbaordLineChart>
+            <DashbaordLineChart></DashbaordLineChart>
           </Grid>
           <Grid item xs={12} lg={5}>
             {/* <Slider /> */}
@@ -100,7 +132,7 @@ function Default() {
             <CategoriesList title="categories" categories={categoriesListData} />
           </Grid> */}
         </Grid>
-      </ArgonBox>
+      </ArgonBox>}
       <Footer />
     </DashboardLayout>
   );

@@ -8,48 +8,45 @@ import { useToast } from "../../../components/toast/Toast";
 import { validateSchedulingForm } from "../data/SchedulingReportValidation";
 import DashboardNavbar from "../../dashboard/DashboardNavbar";
 import DashboardLayout from "../../../examples/LayoutContainers/DashboardLayout";
+import schedulingReportService from "../../../rest-services/schedulingReportService"; 
 import ReportAutocomplete from "./ReportsAutocomplete";
 
-const StyledCard = styled(({ ...props }) => (
-    <Card {...props}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, justifyContent: 'center', height: '100%' }}>
-            {props.children}
-        </Box>
-    </Card>
-))(({ theme }) => ({
+const StyledCard = styled(Card)(({ theme }) => ({
     width: '100%',
     padding: '20px',
     marginBottom: '20px',
     boxShadow: theme.shadows[3],
-    '&:hover': {
-        boxShadow: theme.shadows[6],
-    },
+    '&:hover': { boxShadow: theme.shadows[6] },
 }));
 
 const SchedulingReportForm = () => {
-    const [reportName, setReportName] = useState("");
+    const [reportIds, setReportIds] = useState("");
     const [recipients, setRecipients] = useState([""]);
     const [frequency, setFrequency] = useState("");
-    const [hour, setHour] = useState("");
-    const [minute, setMinute] = useState("");
-    const [amPm, setAmPm] = useState("");
-    const [errors, setErrors] = useState({});
+    const [schedulingHour, setHour] = useState("");
+    const [schedulingMinute, setMinute] = useState("");
+    const [timeMarker, setTimeMarker] = useState("");
+    const [errors, setErrors] = useState({});  
 
     const navigate = useNavigate();
     const { showSuccessToast, showErrorToast } = useToast();
 
     const handleAddRecipient = () => {
-        if (recipients.some((recipient) => recipient.trim() === "")) {
+        const trimmedRecipients = recipients.map(recipient => recipient.trim());
+
+        if (trimmedRecipients.some(recipient => recipient === "")) {
             showErrorToast("Fill the empty recipient before adding new.");
             return;
         }
-        const validationErrors = validateSchedulingForm({ reportName, frequency, hour, minute, amPm, recipients });
 
+        const validationErrors = validateSchedulingForm({ reportIds, frequency, schedulingHour, schedulingMinute, timeMarker, recipients });
         if (Object.keys(validationErrors).length > 0) {
-            const errorMessage = validationErrors.recipients
-                ? "Please enter a valid email before adding the next recipient."
-                : "Fill the existing recipient.";
-            showErrorToast(errorMessage);
+            showErrorToast(validationErrors.recipients ? "Please enter a valid email before adding the next recipient." : "Fill the existing recipient.");
+            return;
+        }
+
+        if (new Set(trimmedRecipients).size !== trimmedRecipients.length) {
+            showErrorToast("Duplicate recipient found! Please enter unique email addresses.");
             return;
         }
 
@@ -67,20 +64,11 @@ const SchedulingReportForm = () => {
             showErrorToast("At least one recipient is required.");
             return;
         }
-        const newRecipients = recipients.filter((_, i) => i !== index);
-        setRecipients(newRecipients);
+        setRecipients(recipients.filter((_, i) => i !== index));
     };
 
-    const handleSaveSchedule = () => {
-        const formValues = {
-            reportName,
-            recipients,
-            frequency,
-            hour,
-            minute,
-            amPm,
-        };
-
+    const handleSaveSchedule = async () => {
+        const formValues = { reportIds, recipients, frequency, schedulingHour, schedulingMinute, timeMarker };
         const validationErrors = validateSchedulingForm(formValues);
 
         if (Object.keys(validationErrors).length > 0) {
@@ -89,13 +77,22 @@ const SchedulingReportForm = () => {
             return;
         }
 
-        showSuccessToast("Schedule saved successfully!");
-        setReportName("");
+        try {
+            await schedulingReportService.saveReport(formValues);
+            showSuccessToast("Schedule saved successfully!");
+            resetForm();
+        } catch (error) {
+            showErrorToast("Failed to save schedule. Please try again.");
+        }
+    };
+
+    const resetForm = () => {
+        setReportIds("");
         setRecipients([""]);
         setFrequency("");
         setHour("");
         setMinute("");
-        setAmPm("");
+        setTimeMarker("");
         setErrors({});
     };
 
@@ -104,156 +101,110 @@ const SchedulingReportForm = () => {
     };
 
     return (
-        <>
-            <DashboardLayout>
-                <DashboardNavbar />
-                <StyledCard>
-                    <ArgonTypography variant="h6">Report Name:</ArgonTypography>
-                    {/* <TextField
-                    placeholder="Report Name"
-                    value={reportName}
-                    onChange={(e) => setReportName(e.target.value)}
-                    sx={{ width: '300px' }}
-                    required
-                    error={!!errors.reportName}  // Show error if exists
-                    helperText={errors.reportName}  // Display validation error
-                    InputLabelProps={{
-                        shrink: false,
-                    }}
-                /> */}
-                    <ReportAutocomplete
-                        multiple={true}
-                        defaultValue={reportName}
-                        helperText={errors.reportName}
-                        error={!!errors.reportName}
-                        onChange={(value) => {
-                            if (value) {
-                                let ids = value.map(item => item.id);
-                                setReportName(ids)
+        <DashboardLayout>
+            <DashboardNavbar />
 
-                            }
+            <StyledCard>
+                <ArgonTypography variant="h6">Report Name:</ArgonTypography>
+                <ReportAutocomplete
+                    multiple={true}
+                    defaultValue={reportIds}
+                    helperText={errors.reportIds}
+                    error={!!errors.reportIds}
+                    onChange={(value) => setReportIds(value ? value.map(item => item.id) : [])}
+                />
+            </StyledCard>
 
-                        }}
+            <StyledCard>
+                <ArgonTypography variant="h6">SCHEDULING</ArgonTypography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <FormControl sx={{ width: '120px' }} error={!!errors.frequency}>
+                        <Select
+                            displayEmpty
+                            value={frequency}
+                            onChange={(e) => setFrequency(e.target.value)}
+                            renderValue={frequency !== "" ? undefined : () => <span style={{ color: 'lightgray' }}>Frequency</span>}
+                        >
+                            <MenuItem value="DAILY">DAILY</MenuItem>
+                            <MenuItem value="WEEKLY">WEEKLY</MenuItem>
+                            <MenuItem value="MONTHLY">MONTHLY</MenuItem>
+                        </Select>
+                        <Box sx={{ color: 'red', fontSize: '0.75rem' }}>{errors.frequency}</Box>
+                    </FormControl>
+
+                    <TextField
+                        type="number"
+                        placeholder="Hour"
+                        value={schedulingHour}
+                        onChange={(e) => setHour(e.target.value)}
+                        inputProps={{ min: 1, max: 12 }}
+                        sx={{ width: '100px' }}
+                        error={!!errors.schedulingHour}
+                        helperText={errors.schedulingHour}
                     />
 
-                </StyledCard>
+                    <TextField
+                        type="number"
+                        placeholder="Minute"
+                        value={schedulingMinute}
+                        onChange={(e) => setMinute(e.target.value)}
+                        inputProps={{ min: 0, max: 59 }}
+                        sx={{ width: '100px' }}
+                        error={!!errors.schedulingMinute}
+                        helperText={errors.schedulingMinute}
+                    />
 
-                <Box sx={{ mb: 3 }} />
-
-                <StyledCard>
-                    <ArgonTypography variant="h6">SCHEDULING</ArgonTypography>
-                    <Box sx={{ display: 'flex', alignItems: 'normal', gap: 2 }}>
-                        <FormControl variant="outlined" sx={{ width: '120px' }} error={!!errors.frequency}>
-                            <Select
-                                displayEmpty
-                                value={frequency}
-                                onChange={(e) => setFrequency(e.target.value)}
-                                renderValue={
-                                    frequency !== "" ? undefined : () => <span style={{ color: 'lightgray' }}>Frequency</span>
-                                }
-                            >
-                                <MenuItem value="DAILY">DAILY</MenuItem>
-                                <MenuItem value="WEEKLY">WEEKLY</MenuItem>
-                                <MenuItem value="MONTHLY">MONTHLY</MenuItem>
-                            </Select>
-                            <Box sx={{ color: 'red', fontSize: '0.75rem' }}>{errors.frequency}</Box>  {/* Display error */}
-                        </FormControl>
-
-                        <TextField
-                            type="number"
-                            placeholder="Hour"
-                            value={hour}
-                            onChange={(e) => setHour(e.target.value)}
-                            inputProps={{ min: 1, max: 12 }}
-                            sx={{ width: '100px' }}
-                            required
-                            error={!!errors.hour}
-                            helperText={errors.hour}
-                            InputLabelProps={{
-                                shrink: false,
-                            }}
-                        />
-                        <TextField
-                            type="number"
-                            placeholder="Minute"
-                            value={minute}
-                            onChange={(e) => setMinute(e.target.value)}
-                            inputProps={{ min: 0, max: 59 }}
-                            sx={{ width: '100px' }}
-                            required
-                            error={!!errors.minute}
-                            helperText={errors.minute}
-                            InputLabelProps={{
-                                shrink: false,
-                            }}
-                        />
-                        <FormControl variant="outlined" sx={{ width: '120px' }} error={!!errors.amPm}>
-                            <Select
-                                displayEmpty
-                                value={amPm}
-                                onChange={(e) => setAmPm(e.target.value)}
-                                renderValue={
-                                    amPm !== "" ? undefined : () => <span style={{ color: 'lightgray' }}>AM/PM</span>
-                                }
-                            >
-                                <MenuItem value="AM">AM</MenuItem>
-                                <MenuItem value="PM">PM</MenuItem>
-                            </Select>
-                            <Box sx={{ color: 'red', fontSize: '0.75rem' }}>{errors.amPm}</Box>  {/* Display error */}
-                        </FormControl>
-                    </Box>
-                </StyledCard>
-
-                <Box sx={{ mb: 3 }} />
-
-                <StyledCard>
-                    <ArgonTypography variant="h6">NOTIFICATION</ArgonTypography>
-                    <ArgonTypography>Recipients:</ArgonTypography>
-                    {recipients.map((recipient, index) => (
-                        <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <TextField
-                                placeholder="user@domain.com"
-                                value={recipient}
-                                onChange={(e) => handleRecipientChange(index, e.target.value)}
-                                sx={{
-
-                                    width: '300px',
-                                    // '& input': {
-                                    //     color: recipient === "user@domain.com" ? 'lightgray' : 'black',
-
-                                    // },
-                                }}
-                                required
-                                error={!!errors.recipients}
-                                helperText={index === recipients.length - 1 ? errors.recipients : ""}
-                                InputLabelProps={{
-                                    shrink: false,
-                                }}
-                            />
-                            <Button variant="outlined" sx={{ color: '#333' }} color="error" onClick={() => handleRemoveRecipient(index)}>Remove</Button>
-                        </Box>
-                    ))}
-                    <ArgonButton
-                        onClick={handleAddRecipient}
-                        variant="contained"
-                        color="primary"
-                        sx={{ marginTop: "10px", width: '200px' }}
-                        disabled={!!errors.recipients}
-                    >
-                        ADD RECIPIENT
-                    </ArgonButton>
-                </StyledCard>
-
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, marginTop: 3 }}>
-                    <ArgonButton onClick={handleSaveSchedule} variant="contained" color="success" sx={{ minWidth: '130px' }}>
-                        SAVE SCHEDULE
-                    </ArgonButton>
-                    <ArgonButton onClick={handleCancel} variant="contained" color="error" sx={{ minWidth: '130px' }}>
-                        CANCEL
-                    </ArgonButton>
+                    <FormControl sx={{ width: '120px' }} error={!!errors.timeMarker}>
+                        <Select
+                            displayEmpty
+                            value={timeMarker}
+                            onChange={(e) => setTimeMarker(e.target.value)}
+                            renderValue={timeMarker !== "" ? undefined : () => <span style={{ color: 'lightgray' }}>AM/PM</span>}
+                        >
+                            <MenuItem value="AM">AM</MenuItem>
+                            <MenuItem value="PM">PM</MenuItem>
+                        </Select>
+                        <Box sx={{ color: 'red', fontSize: '0.75rem' }}>{errors.timeMarker}</Box>
+                    </FormControl>
                 </Box>
-            </DashboardLayout>
-        </>
+            </StyledCard>
+
+            <StyledCard>
+                <ArgonTypography variant="h6">NOTIFICATION</ArgonTypography>
+                <ArgonTypography>Recipients:</ArgonTypography>
+                {recipients.map((recipient, index) => (
+                    <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <TextField
+                            placeholder="user@domain.com"
+                            value={recipient}
+                            onChange={(e) => handleRecipientChange(index, e.target.value)}
+                            sx={{ width: '300px' }}
+                            error={!!errors.recipients}
+                            helperText={index === recipients.length - 1 ? errors.recipients : ""}
+                        />
+                        <Button variant="outlined" color="error" onClick={() => handleRemoveRecipient(index)}>Remove</Button>
+                    </Box>
+                ))}
+                <ArgonButton 
+                    onClick={handleAddRecipient} 
+                    variant="contained" 
+                    color="primary" 
+                    sx={{ marginTop: "10px", width: '200px' }} 
+                    disabled={!!errors.recipients} 
+                >
+                    ADD RECIPIENT
+                </ArgonButton>
+            </StyledCard>
+
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, marginTop: 3 }}>
+                <ArgonButton onClick={handleSaveSchedule} variant="contained" color="success" sx={{ minWidth: '130px' }}>
+                    SAVE SCHEDULE
+                </ArgonButton>
+                <ArgonButton onClick={handleCancel} variant="contained" color="error" sx={{ minWidth: '130px' }}>
+                    CANCEL
+                </ArgonButton>
+            </Box>
+        </DashboardLayout>
     );
 };
 

@@ -1,25 +1,21 @@
-import ArgonAvatar from "../../../components/ArgonAvatar";
-import ArgonBox from "../../../components/ArgonBox";
-import ArgonTypography from "../../../components/ArgonTypography";
 import React, { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { TableBody, TableContainer, TableRow } from "@mui/material"; 
+import { Table as MuiTable } from "@mui/material";
+import ArgonAvatar from "../../../components/ArgonAvatar";
+import ArgonBox from "../../../components/ArgonBox";
+import ArgonTypography from "../../../components/ArgonTypography";
 import typography from "../../../assets/theme/base/typography";
 import borders from "../../../assets/theme/base/borders";
-import { Table as MuiTable } from "@mui/material";
 import pxToRem from "../../../assets/theme/functions/pxToRem";
 
-function ViewScheduleTable({ columns, rows, data, setPageNo }) {
+function ViewScheduleTable({ columns, rows, setPageNo }) {
     const { borderWidth } = borders;
-    // const [expandedRow, setExpandedRow] = useState(null);
 
-    // const handleExpandClick = (rowKey) => {
-    //     setExpandedRow(expandedRow === rowKey ? null : rowKey);
-    // };
-
+    // Render table headers
     const renderColumns = columns.map(({ name, label, align, width }, key) => {
-        let pl = key === 0 ? 3 : 1;
-        let pr = key === columns.length - 1 ? 3 : 1;
+        const pl = key === 0 ? 3 : 1;
+        const pr = key === columns.length - 1 ? 3 : 1;
 
         return (
             <ArgonBox
@@ -44,24 +40,24 @@ function ViewScheduleTable({ columns, rows, data, setPageNo }) {
         );
     });
 
+    // Render table rows
     const renderRows = rows.map((row, key) => {
         const rowKey = `row-${key}`;
-        // const isExpanded = expandedRow === rowKey; // This is not used
-      
-
+        
         const tableRow = columns.map(({ name, align }) => {
-            let template;
-
-            if (Array.isArray(row[name])) {
-                template = (
-                    <ArgonBox
-                        key={uuidv4()}
-                        component="td"
-                        p={1}
-                        sx={({ palette: { light } }) => ({
-                            borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
-                        })}
-                    >
+            return (
+                <ArgonBox
+                    key={uuidv4()}
+                    component="td"
+                    p={1}
+                    textAlign={align}
+                    verticalAlign="middle"
+                    lineHeight={0.65}
+                    sx={({ palette: { light } }) => ({
+                        borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
+                    })}
+                >
+                    {Array.isArray(row[name]) ? (
                         <ArgonBox display="flex" alignItems="center" py={0.5} px={1}>
                             <ArgonBox mr={2}>
                                 <ArgonAvatar src={row[name][0]} name={row[name][1]} variant="rounded" size="sm" />
@@ -70,21 +66,7 @@ function ViewScheduleTable({ columns, rows, data, setPageNo }) {
                                 {row[name][1]}
                             </ArgonTypography>
                         </ArgonBox>
-                    </ArgonBox>
-                );
-            } else {
-                template = (
-                    <ArgonBox
-                        key={uuidv4()}
-                        component="td"
-                        p={1}
-                        textAlign={align}
-                        verticalAlign="middle"
-                        lineHeight={0.65}
-                        sx={({ palette: { light } }) => ({
-                            borderBottom: row.hasBorder ? `${borderWidth[1]} solid ${light.main}` : null,
-                        })}
-                    >
+                    ) : (
                         <ArgonTypography
                             variant="button"
                             fontWeight="regular"
@@ -93,25 +75,19 @@ function ViewScheduleTable({ columns, rows, data, setPageNo }) {
                         >
                             {name === "action" ? (
                                 <ArgonBox component="td" p={1} textAlign="center">
-                                    {/* Action Button can be added here if needed */}
                                 </ArgonBox>
                             ) : (
                                 row[name]
                             )}
                         </ArgonTypography>
-                    </ArgonBox>
-                );
-            }
-
-            return template;
+                    )}
+                </ArgonBox>
+            );
         });
 
         return (
             <React.Fragment key={rowKey}>
-                <TableRow>
-                    {tableRow}
-                </TableRow>
-                {/* Collapse and SubTable removed */}
+                <TableRow>{tableRow}</TableRow>
             </React.Fragment>
         );
     });
@@ -125,12 +101,9 @@ function ViewScheduleTable({ columns, rows, data, setPageNo }) {
                     </ArgonBox>
                     <TableBody>{renderRows}</TableBody>
                 </MuiTable>
-                {/* Remove pagination if not needed */}
-                {/* <ServerSidePagination data={data} setPageNo={setPageNo} /> */}
             </TableContainer>
         ),
-        // [data, setPageNo, renderColumns, renderRows] // Commented out unnecessary dependencies
-        [renderColumns, renderRows] // Updated dependency array to avoid warnings
+        [renderColumns, renderRows] 
     );
 }
 

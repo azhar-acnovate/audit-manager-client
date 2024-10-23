@@ -4,9 +4,10 @@ import { Table as MuiTable } from "@mui/material";
 import config from "../../../config";
 
 function ViewSchedulingTableSkeleton({ columns }) {
+  // Render skeleton columns
   const renderSkeletonColumns = columns.map(({ name, align }, key) => {
-    let pl = key === 0 ? 3 : 1;
-    let pr = key === columns.length - 1 ? 3 : 1;
+    const paddingLeft = key === 0 ? 3 : 1;
+    const paddingRight = key === columns.length - 1 ? 3 : 1;
 
     return (
       <Box
@@ -14,8 +15,8 @@ function ViewSchedulingTableSkeleton({ columns }) {
         component="th"
         pt={1.5}
         pb={1.25}
-        pl={align === "left" ? pl : 3}
-        pr={align === "right" ? pr : 3}
+        pl={align === "left" ? paddingLeft : 3}
+        pr={align === "right" ? paddingRight : 3}
         textAlign={align}
         sx={({ palette: { light } }) => ({
           borderBottom: `1px solid ${light.main}`,
@@ -27,7 +28,8 @@ function ViewSchedulingTableSkeleton({ columns }) {
     );
   });
 
-  const renderSkeletonRows = new Array(config.DEFAULT_SIZE_PAGE).fill().map((_, index) => (
+  // Render skeleton rows
+  const renderSkeletonRows = Array.from({ length: config.DEFAULT_SIZE_PAGE }, (_, index) => (
     <TableRow key={index}>
       {columns.map((column, key) => (
         <TableCell key={key}>
