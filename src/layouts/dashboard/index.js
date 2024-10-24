@@ -41,7 +41,7 @@ import Slider from "./components/Slider";
 // import gradientLineChartData from "./data/gradientLineChartData";
 import salesTableData from "./data/salesTableData";
 import categoriesListData from "./data/categoriesListData";
-import DashbaordLineChart from "./components/dashboard_line_chart";
+import DashboardChart from "./components/dashboard_charts";
 import React from "react";
 import AuditObjectChangeTrackerServiceAPI from "../../rest-services/audit-object-change-tracker-service";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
@@ -117,20 +117,10 @@ function Default() {
           </Grid>
         </Grid>
         <Grid container spacing={3} mb={1}>
-          <Grid item xs={12} lg={7}>
-            <DashbaordLineChart></DashbaordLineChart>
-          </Grid>
-          <Grid item xs={12} lg={5}>
-            {/* <Slider /> */}
-          </Grid>
+          <DashboardChart chartData={response.top5UserModifyingDataFrequently} lineChartLabel={"Users adding/modifying data frequently"}></DashboardChart>
         </Grid>
-        <Grid container spacing={3}>
-          {/* <Grid item xs={12} md={8}>
-            <SalesTable title="Sales by Country" rows={salesTableData} />
-          </Grid> */}
-          {/* <Grid item xs={12} md={4}>
-            <CategoriesList title="categories" categories={categoriesListData} />
-          </Grid> */}
+        <Grid container spacing={3} mb={1}>
+          <DashboardChart chartData={response.top5ChangedAttributes} lineChartLabel={"Attributes which are getting change frequently"}></DashboardChart>
         </Grid>
       </ArgonBox>}
       <Footer />
