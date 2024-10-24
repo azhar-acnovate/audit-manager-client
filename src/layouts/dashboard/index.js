@@ -117,10 +117,10 @@ function Default() {
           </Grid>
         </Grid>
         <Grid container spacing={3} mb={1}>
-          <DashboardChart chartData={response.top5UserModifyingDataFrequently} lineChartLabel={"Users adding/modifying data frequently"}></DashboardChart>
+          <DashboardChart chartData={response.top5UserModifyingDataFrequently} lineChartLabel={"Top 5 users adding/modifying data frequently"}></DashboardChart>
         </Grid>
         <Grid container spacing={3} mb={1}>
-          <DashboardChart chartData={response.top5ChangedAttributes} lineChartLabel={"Attributes which are getting change frequently"}></DashboardChart>
+          <DashboardChart chartData={response.top5ChangedAttributes} lineChartLabel={"Top 5 attributes which are getting change frequently"}></DashboardChart>
         </Grid>
       </ArgonBox>}
       <Footer />
