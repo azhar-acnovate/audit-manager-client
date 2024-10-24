@@ -1,8 +1,8 @@
 const { Builder, By, until } = require('selenium-webdriver');
 
-describe('User View Navigation Test', function () {
+describe('View Audit Navigation Test', function () {
     let driver;
-    this.timeout(120000); // Increase to 120 seconds
+    this.timeout(120000);
 
     before(async function () {
         driver = await new Builder().forBrowser('MicrosoftEdge').build();
@@ -48,16 +48,15 @@ describe('User View Navigation Test', function () {
         await driver.wait(until.urlIs('http://localhost:3000/audit-manager/authentication/sign-in'), 20000);
     }
 
-    // Navigate to User View Page
+    // Navigate to View Audit Page
     it('login', async function () {
         await login();
-        console.log('Navigating to User View page...');
+        console.log('Navigating to View Audit page...');
         await driver.get("http://localhost:3000/audit-manager/audit-log-activities");
 
         // Adding a wait for the page to load
-        await driver.sleep(5000); // Adjust time as necessary
+        await driver.sleep(5000);
 
-        // Wait for the User View title to ensure we're on the right page
         try {
             await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Audit View')]")), 30000); // Increased timeout
             console.log("Audit View title located.");

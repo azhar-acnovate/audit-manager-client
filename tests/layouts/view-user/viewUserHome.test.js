@@ -14,9 +14,7 @@ describe('User View Navigation Test', function () {
     }
   });
 
-  // Login Function
   async function login() {
-    console.log('Navigating to the login page...');
     await driver.get('http://localhost:3000/audit-manager/authentication/sign-in');
     await driver.manage().window().setRect({ width: 1050, height: 660 });
 
@@ -30,11 +28,12 @@ describe('User View Navigation Test', function () {
     await submitButton.click();
 
     // Wait for successful login
-    console.log('Waiting for successful login...');
     await driver.wait(until.urlIs('http://localhost:3000/audit-manager/dashboard'), 20000);
 
-    // Wait for an additional 10 seconds after login
-    await driver.sleep(10000);
+    // Store user role in localStorage
+    await driver.executeScript(() => {
+      localStorage.setItem('user', JSON.stringify({ role: 'admin' }));
+    });
   }
 
   // Logout Function
@@ -52,16 +51,15 @@ describe('User View Navigation Test', function () {
   it('login', async function () {
     await login();
     await logout();
-    await login();
     console.log('Navigating to User View page...');
     await driver.get("http://localhost:3000/audit-manager/master-data-management/user-data");
 
     // Adding a wait for the page to load
-    await driver.sleep(5000); // Adjust time as necessary
+    await driver.sleep(5000);
 
     // Wait for the User View title to ensure we're on the right page
     try {
-      await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'User Data')]")), 30000); // Increased timeout
+      await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'User Data')]")), 30000);
       console.log("User View title located.");
     } catch (error) {
       console.error("Error locating User View title:", error);

@@ -25,13 +25,13 @@ const CreateOrUpdateSourceReference = (props) => {
         }
     };
     let decodedId = useDecodedId()
-    const {toastWithCommonResponse}=useToast();
+    const { toastWithCommonResponse } = useToast();
     const [loading, setloading] = React.useState(false)
     const [sourceReferenceData, setSourceReferenceData] = React.useState(initialTempSourceReferenceData);
     const sourceReferenceValidator = useValidation(sourceReferenceData, setSourceReferenceData);
     const [additionalInfoData, setAdditionalInfoData] = React.useState(initialTempAdditionalInfo);
     const additionalInfoValidator = useValidation(additionalInfoData, setAdditionalInfoData);
-    
+
     const isCreated = () => {
         return sourceReferenceData.id !== null;
     }
@@ -55,9 +55,9 @@ const CreateOrUpdateSourceReference = (props) => {
         }
 
     }, [decodedId])
-   
+
     const saveAdditionalInfo = () => {
-        var updatedAdditionalInfo = sourceReferenceData.additionalInfo??[];
+        var updatedAdditionalInfo = sourceReferenceData.additionalInfo ?? [];
         // Ensure the index exists before updating
         if (additionalInfoData.index != null) {
             updatedAdditionalInfo = [
@@ -100,22 +100,24 @@ const CreateOrUpdateSourceReference = (props) => {
                                             <BackButton></BackButton>
                                         </Grid>
                                         <Grid item>
-                                            <ArgonButton onClick={async () => {
-                                               
-                                                if (await sourceReferenceValidator.validateForm()) {
-                                                   
-                                                    setloading(true)
-                                                    var response = await SourceReferenceObjectServiceAPI.create(sourceReferenceData);
-                                                    setloading(false)
-                                                    if (response.status === 200) {
-                                                        sourceReferenceValidator.handleChange("id", response.data.id);
-
+                                            <ArgonButton
+                                                id="saveButton"  // Added the id here
+                                                onClick={async () => {
+                                                    if (await sourceReferenceValidator.validateForm()) {
+                                                        setloading(true)
+                                                        var response = await SourceReferenceObjectServiceAPI.create(sourceReferenceData);
+                                                        setloading(false)
+                                                        if (response.status === 200) {
+                                                            sourceReferenceValidator.handleChange("id", response.data.id);
+                                                        }
+                                                        toastWithCommonResponse(response);
                                                     }
-                                                    toastWithCommonResponse(response)
-                                                }
-                                            }}
+                                                }}
                                                 sx={{ width: 30 }}
-                                                color={"success"}>{isCreated() ? "Update" : "Save"}</ArgonButton>
+                                                color={"success"}
+                                            >
+                                                {isCreated() ? "Update" : "Save"}
+                                            </ArgonButton>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -159,12 +161,12 @@ const CreateOrUpdateSourceReference = (props) => {
                                 </Grid>
                                 <Grid item xs={4} container spacing={2} justifyContent="flex-end">
                                     <Grid item>
-                                        <ArgonButton  ref={buttonRef} // Assign the reference to the button
-                                         onClick={async () => {
-                                            if (await additionalInfoValidator.validateForm()) {
-                                                saveAdditionalInfo()
-                                            }
-                                        }} sx={{ width: 30 }} color={"success"}> Add</ArgonButton>
+                                        <ArgonButton ref={buttonRef} // Assign the reference to the button
+                                            onClick={async () => {
+                                                if (await additionalInfoValidator.validateForm()) {
+                                                    saveAdditionalInfo()
+                                                }
+                                            }} sx={{ width: 30 }} color={"success"}> Add</ArgonButton>
                                     </Grid>
                                 </Grid>
                             </ArgonBox>
@@ -208,7 +210,7 @@ const CreateOrUpdateSourceReference = (props) => {
                                 </Grid>
                             </ArgonBox>
                             <DynamicTable
-                                data={sourceReferenceData.additionalInfo!=null?sourceReferenceData.additionalInfo:[]}
+                                data={sourceReferenceData.additionalInfo != null ? sourceReferenceData.additionalInfo : []}
                                 columns={additionalInfoColumns}
                                 title={null}
                                 actions={(item, index) => (
@@ -232,11 +234,11 @@ const CreateOrUpdateSourceReference = (props) => {
                                                         fontSize: 10,
                                                     }}
                                                     onClick={() => {
-                                                        setAdditionalInfoData((prevData)=>({
+                                                        setAdditionalInfoData((prevData) => ({
                                                             ...prevData,
-                                                            index:index,
-                                                            fieldName:item.fieldName,
-                                                            fieldValue:item.fieldValue
+                                                            index: index,
+                                                            fieldName: item.fieldName,
+                                                            fieldValue: item.fieldValue
                                                         }))
                                                         removeByIndex(index)
 

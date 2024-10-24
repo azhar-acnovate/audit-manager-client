@@ -92,26 +92,26 @@ describe('Create Audit Object Interaction Test', function () {
         await attributeNameField.sendKeys('colorway-name');
         await attributeNameField.sendKeys(Key.TAB);
 
-        // Step 5b: Enter "red" in the Old Value field
+        // Step 5b: Set Old Value field
         console.log('Entering "red" into the Old Value input field...');
         const oldValueField = await driver.wait(until.elementLocated(By.css('input[placeholder="Old Value"]')), 10000);
         await oldValueField.sendKeys('green');
         await oldValueField.sendKeys(Key.TAB);
 
-        // Step 5c: Enter "black" in the New Value field
+        // Step 5c: Set New Value field
         console.log('Entering "black" into the New Value input field...');
         const newValueField = await driver.wait(until.elementLocated(By.css('input[placeholder="New Value"]')), 10000);
         await newValueField.sendKeys('yellow');
         await newValueField.sendKeys(Key.TAB);
 
-        // Step 5d: Enter User in the Changed By field
+        // Step 5d: Set Changed By field
         console.log('Entering "himanshu" into the Changed By input field...');
         const changedByField = await driver.wait(until.elementLocated(By.css('input[placeholder="Changed By"]')), 10000);
         await changedByField.sendKeys('himanshu');
         
          // Step 6: Click the Add button
          console.log('Clicking the Add button...');
-         const addButton = await driver.wait(until.elementLocated(By.id('addbtn')), 10000); // Assuming the Add button has ID 'addbtn'
+         const addButton = await driver.wait(until.elementLocated(By.id('addbtn')), 10000);
          await addButton.click();
  
          console.log('Waiting after clicking Add button...');
@@ -119,7 +119,7 @@ describe('Create Audit Object Interaction Test', function () {
  
          // Step 7: Click the Update button
          console.log('Clicking the Update button...');
-         const updateButton = await driver.wait(until.elementLocated(By.id('savebtn')), 10000); // The same button ID for Save/Update
+         const updateButton = await driver.wait(until.elementLocated(By.id('savebtn')), 10000);
          await updateButton.click();
  
          // Optional: Wait for update confirmation or redirection
