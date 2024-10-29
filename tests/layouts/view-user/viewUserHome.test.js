@@ -47,10 +47,21 @@ describe('User View Navigation Test', function () {
     await driver.wait(until.urlIs('http://localhost:3000/audit-manager/authentication/sign-in'), 20000);
   }
 
-  // Navigate to User View Page
-  it('login', async function () {
+  // Test case 1: Login and hold at the dashboard for 5 seconds
+  it('should login and stay on dashboard for 5 seconds', async function () {
     await login();
+    console.log("Logged in and on dashboard.");
+    await driver.sleep(5000); // Hold on dashboard for 5 seconds
+    await logout(); // Logout after 5 seconds
+  });
+
+  // Test case 2: Re-login after 5 seconds and navigate to User View page
+  it('should login again and navigate to User View page', async function () {
+    await driver.sleep(5000); // Wait 5 seconds after the previous logout
+    await login(); // Login again
     console.log('Navigating to User View page...');
+    
+    // Navigate to the User View page after login
     await driver.get("http://localhost:3000/audit-manager/master-data-management/user-data");
 
     // Adding a wait for the page to load
@@ -66,4 +77,3 @@ describe('User View Navigation Test', function () {
     }
   });
 });
-

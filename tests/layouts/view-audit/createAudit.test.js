@@ -33,16 +33,33 @@ describe('Create Audit Object Interaction Test', function () {
         await driver.sleep(10000);
     }
 
-    // Logout Function
     async function logout() {
         console.log('Logging out...');
         const logoutButton = await driver.wait(until.elementLocated(By.id('logout')), 10000);
         await logoutButton.click();
 
-        // Wait for successful logout
         console.log('Waiting for logout...');
         await driver.wait(until.urlIs('http://localhost:3000/audit-manager/authentication/sign-in'), 20000);
     }
+
+     // Navigate to View Audit Page
+     it('login', async function () {
+        await login();
+        console.log('Navigating to View Audit page...');
+        await driver.get("http://localhost:3000/audit-manager/audit-log-activities");
+
+        // Adding a wait for the page to load
+        await driver.sleep(5000);
+
+        try {
+            await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Audit View')]")), 30000); // Increased timeout
+            console.log("Audit View title located.");
+        } catch (error) {
+            console.error("Error locating User View title:", error);
+            throw new Error("Audit View title not found");
+        }
+        await logout();
+    });
 
     // Test to navigate to the "Create" page and interact with elements
     it('navigate to the Create Audit Object page and fill form', async function () {

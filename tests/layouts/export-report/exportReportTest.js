@@ -16,7 +16,7 @@ describe('Export Audit Report Navigation Test', function () {
 
   async function login() {
     await driver.get('http://localhost:3000/audit-manager/authentication/sign-in');
-    await driver.manage().window().setRect({ width: 1050, height: 660 });
+    await driver.manage().window().setRect({ width: 1250, height: 660 });
 
     const usernameField = await driver.wait(until.elementLocated(By.id('username')), 10000);
     await usernameField.sendKeys('admin');
@@ -51,6 +51,15 @@ describe('Export Audit Report Navigation Test', function () {
   it('login and navigate', async function () {
     await login();
     console.log('Navigating to Export Audit Report page...');
+
+    // Set the browser window size to 90% of screen resolution
+    await driver.executeScript(() => {
+      const width = window.screen.width * 0.8;
+      const height = window.screen.height * 0.8;
+      window.resizeTo(width, height);
+    });
+
+    // Navigate to the Export Audit Report page
     await driver.get("http://localhost:3000/audit-manager/export-audit-report");
 
     // Adding a wait for the page to load
@@ -76,18 +85,25 @@ describe('Export Audit Report Navigation Test', function () {
     // Press Tab, then Space, then Tab, then Space, and then click the "Use" button
     await actions
       .keyDown(Key.TAB)      // Press Tab key
-      .keyUp(Key.TAB)
+      .keyUp(Key.TAB)        // Release Tab key
       .keyDown(Key.SPACE)    // Press Space key
-      .keyUp(Key.SPACE)
+      .keyUp(Key.SPACE)      // Release Space key
       .keyDown(Key.TAB)      // Press Tab key again
-      .keyUp(Key.TAB)
+      .keyUp(Key.TAB)        // Release Tab key again
       .keyDown(Key.SPACE)    // Press Space key again
-      .keyUp(Key.SPACE)
+      .keyUp(Key.SPACE)      // Release Space key again
       .perform();
 
+    await driver.sleep(2000);
     // Wait and click the "Use" button
     const useButton = await driver.wait(until.elementLocated(By.xpath("//button[contains(text(), 'Use')]")), 10000);
     await useButton.click();
     console.log("Clicked 'Use' button.");
+
+    // Wait and click the "Export Audits" button
+    const exportAuditsButton = await driver.wait(until.elementLocated(By.xpath("//button[contains(text(), 'Export Audits')]")), 10000);
+    await exportAuditsButton.click();
+    console.log("Clicked 'Export Audits' button.");
+    await driver.sleep(5000);
   });
 });
