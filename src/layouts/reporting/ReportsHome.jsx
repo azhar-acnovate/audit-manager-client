@@ -21,7 +21,7 @@ const ReportsHome = (props) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await AuditReportServiceAPI.findPagable(pageNo)
+                const response = await AuditReportServiceAPI.findPagable(pageNo) 
                 setResponse(response)
             } catch (e) {
 
