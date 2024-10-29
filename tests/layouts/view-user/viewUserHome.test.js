@@ -50,7 +50,6 @@ describe('User View Navigation Test', function () {
   // Navigate to User View Page
   it('login', async function () {
     await login();
-    await logout();
     console.log('Navigating to User View page...');
     await driver.get("http://localhost:3000/audit-manager/master-data-management/user-data");
 

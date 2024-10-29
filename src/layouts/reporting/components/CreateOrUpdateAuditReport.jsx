@@ -74,7 +74,7 @@ const CreateOrUpdateAuditReport = (props) => {
                       <BackButton></BackButton>
                     </Grid>
                     <Grid item>
-                      <ArgonButton onClick={async () => {
+                      <ArgonButton id="saveButton" onClick={async () => {
                         if (await auditReportValidator.validateForm()) {
 
                           setloading(true)
