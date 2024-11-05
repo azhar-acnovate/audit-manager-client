@@ -1,4 +1,5 @@
 import ArgonTypography from "../../../components/ArgonTypography";
+import { DateFormatter } from "../../../utils/DateFormatter";
 
 export function viewReportsTableData(data) {
    
@@ -37,7 +38,7 @@ export function viewReportsTableData(data) {
             ),
             createdAt: (
                 <ArgonTypography variant="caption" color="secondary" fontWeight="medium">
-                    {report.createdAt}
+                    {DateFormatter.convertUTCToLocalTime(report.createdAt)}
                 </ArgonTypography>
             ),
             item: report

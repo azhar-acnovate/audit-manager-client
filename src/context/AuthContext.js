@@ -57,6 +57,7 @@ export const ContextProvider = props => {
     // Remove the access token from the browser's local storage
     localStorage.removeItem('encodedCredentials');
     localStorage.removeItem('userDetail');
+    sessionStorage.removeItem('refreshToken');
     // window.location.href = `${process.env.REACT_APP_HOMEPAGE}/authentication/sign-in`;
     navigate('/authentication/sign-in')
     // window.history.replaceState(null, null, "/authentication/sign-in");
