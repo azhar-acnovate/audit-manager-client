@@ -90,7 +90,7 @@ const Login = (props) => {
             >
                 <ArgonBox component="form" role="form" onSubmit={handleSubmit}>
                     <ArgonBox mb={2}>
-                        <ArgonInput helperText={userNameError} error={Boolean(userNameError)} type="text" id="username" name="username" placeholder="Email" size="large" />
+                        <ArgonInput helperText={userNameError} error={Boolean(userNameError)} type="text" id="username" name="username" placeholder="User Name" size="large" />
                     </ArgonBox>
                     <ArgonBox mb={2}>
                         <ArgonInput helperText={passwordError} error={Boolean(passwordError)} type="password" id="password" name="password" placeholder="Password" size="large" />
