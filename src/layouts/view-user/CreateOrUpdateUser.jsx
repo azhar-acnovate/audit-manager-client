@@ -38,7 +38,7 @@ const CreateOrUpdateUser = () => {
           if (res && res.data) {
             setUserCreationData({
               id: res.data.id,
-              fullName: res.data.userName,
+              fullName: res.data.fullName,
               email: res.data.userEmail || "",
               userName: res.data.userName,
               role: res.data.userRole || "",
@@ -83,7 +83,8 @@ const CreateOrUpdateUser = () => {
           // Prepare data for the update
           const updateUserPayload = {
             id: userCreationData.id,
-            userName: userCreationData.fullName,
+            fullName: userCreationData.fullName,
+            userName: userCreationData.userName,
             userEmail: userCreationData.email,
             userRole: userCreationData.role,
             isResetPassword, 
@@ -101,7 +102,8 @@ const CreateOrUpdateUser = () => {
         } else {
           // Create user
           const createUserPayload = {
-            userName: userCreationData.fullName,
+            fullName: userCreationData.fullName,
+            userName: userCreationData.userName,
             userEmail: userCreationData.email,
             userRole: userCreationData.role,
             // password: userCreationData.password,
