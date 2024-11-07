@@ -6,6 +6,7 @@ describe('User View Navigation Test', function () {
 
   before(async function () {
     driver = await new Builder().forBrowser('MicrosoftEdge').build();
+    await driver.manage().window().maximize(); // Maximize to fullscreen on start
   });
 
   after(async function () {
@@ -16,7 +17,7 @@ describe('User View Navigation Test', function () {
 
   async function login() {
     await driver.get('http://localhost:3000/audit-manager/authentication/sign-in');
-    await driver.manage().window().setRect({ width: 1050, height: 660 });
+    await driver.manage().window().maximize(); // Ensure maximization before each test action
 
     const usernameField = await driver.wait(until.elementLocated(By.id('username')), 10000);
     await usernameField.sendKeys('admin');
@@ -29,11 +30,6 @@ describe('User View Navigation Test', function () {
 
     // Wait for successful login
     await driver.wait(until.urlIs('http://localhost:3000/audit-manager/dashboard'), 20000);
-
-    // Store user role in localStorage
-    await driver.executeScript(() => {
-      localStorage.setItem('user', JSON.stringify({ role: 'admin' }));
-    });
   }
 
   // Logout Function
@@ -60,16 +56,28 @@ describe('User View Navigation Test', function () {
     await driver.sleep(5000); // Wait 5 seconds after the previous logout
     await login(); // Login again
     console.log('Navigating to User View page...');
-    
-    // Navigate to the User View page after login
-    await driver.get("http://localhost:3000/audit-manager/master-data-management/user-data");
+
+
+    const masterDataMangement = await driver.wait(
+      until.elementIsVisible(driver.findElement(By.xpath("//span[text()='Master Data Management']"))),
+      3000  // wait up to 10 seconds
+    );
+
+    await driver.executeScript("arguments[0].click();", masterDataMangement);
+
+    const userDataManagementLink = await driver.wait(
+      until.elementIsVisible(driver.findElement(By.xpath("//span[text()='User Data Management']"))),
+      3000  // wait up to 10 seconds
+    );
+
+    await driver.executeScript("arguments[0].click();", userDataManagementLink);
 
     // Adding a wait for the page to load
     await driver.sleep(5000);
 
     // Wait for the User View title to ensure we're on the right page
     try {
-      await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'User Data')]")), 30000);
+      await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'user data')]")), 5000);
       console.log("User View title located.");
     } catch (error) {
       console.error("Error locating User View title:", error);
