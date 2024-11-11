@@ -110,7 +110,7 @@ const CreateOrUpdateAuditReport = (props) => {
                       <BackButton />
                     </Grid>
                     <Grid item>
-                      <ArgonButton onClick={handleFormSubmit} sx={{ width: 30 }} color={"success"}>
+                      <ArgonButton id="saveButton" onClick={handleFormSubmit} sx={{ width: 30 }} color={"success"}>
                         {isCreated() ? "Update" : "Save"}
                       </ArgonButton>
                     </Grid>
