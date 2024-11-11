@@ -134,7 +134,7 @@ const SchedulingReportForm = () => {
 
                     <TextField
                         type="number"
-                        placeholder="Hour"
+                        placeholder="Hr"
                         value={schedulingHour}
                         onChange={(e) => setHour(e.target.value)}
                         inputProps={{ min: 1, max: 12 }}
@@ -145,7 +145,7 @@ const SchedulingReportForm = () => {
 
                     <TextField
                         type="number"
-                        placeholder="Minute"
+                        placeholder="Min"
                         value={schedulingMinute}
                         onChange={(e) => setMinute(e.target.value)}
                         inputProps={{ min: 0, max: 59 }}
