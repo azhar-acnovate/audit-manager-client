@@ -77,12 +77,18 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
 
   // Edit Existing User Function
   async function editExistingUser() {
+    const fullNameInput =  await driver.wait(until.elementLocated(By.id('fullName')))
     const emailField = await driver.wait(until.elementLocated(By.id('email')), 10000);
     const userNameField = await driver.wait(until.elementLocated(By.id('userName')), 10000);
 
     // New values to set
+    const newFullName =  'Purohit Himanshu';
     const newEmail = 'purohit@gmail.com';
     const newUserName = 'himanshu12';
+
+    await fullNameInput.click();
+    await driver.executeScript("arguments[0].value = '';", fullNameInput);
+    await fullNameInput.sendKeys(newFullName, Key.TAB);
 
     // Clear the email field and set the new email
     await emailField.click();
@@ -95,6 +101,10 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
     await userNameField.sendKeys(newUserName);
 
     // Click the update button
+
+
+
+    
     const updateButton = await driver.wait(until.elementLocated(By.id('updatebtn')), 10000);
     await updateButton.click();
 

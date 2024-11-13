@@ -1,0 +1,1 @@
+To run all test js file use this command in terminal -----> npx mocha tests/layouts/runAllTests.js
