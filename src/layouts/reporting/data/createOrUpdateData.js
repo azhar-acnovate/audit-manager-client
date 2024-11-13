@@ -7,7 +7,7 @@ export const initialAuditReportData = {
     reportName: null,
     startDateRange: DateFormatter.dateToString(moment(),reportDateFormat),
     endDateRange: DateFormatter.dateToString(moment(),reportDateFormat),
-    changedUserNames: '',
+    // changedUserNames: '',
     validationRules: {       
     }
 

@@ -102,7 +102,7 @@ const CreateOrUpdateAuditReport = (props) => {
                 <Grid container spacing={2} alignItems="center">
                   <Grid item xs={8}>
                     <ArgonTypography variant="h6">
-                      {(decodedId != null ? "Update" : "Add") + " Reports"}
+                      {(decodedId != null ? "Update" : "Add") + "Reports"}
                     </ArgonTypography>
                   </Grid>
                   <Grid item xs={4} container spacing={2} justifyContent="flex-end">
@@ -193,7 +193,7 @@ const CreateOrUpdateAuditReport = (props) => {
                     </ArgonBox>
                   </Grid>
 
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <AuditReportInputField
                       placeholder={"Changed Users"}
                       value={auditReportData.changedUserNames}
@@ -201,7 +201,7 @@ const CreateOrUpdateAuditReport = (props) => {
                       error={Boolean(errors.changedUserNames)}
                       helperText={errors.changedUserNames}
                       onChange={(value) => setAuditReportData((prevData) => ({ ...prevData, changedUserNames: value }))} />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </ArgonBox>
             </Card>

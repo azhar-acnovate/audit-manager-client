@@ -23,9 +23,9 @@ export const auditReportValidation = (data) => {
         errors.endDateRange = "End Date must be in valid format.";
     }
 
-    if (!data.changedUserNames) {
-        errors.changedUserNames = "Changed Users are required.";
-    }
+    // if (!data.changedUserNames) {
+    //     errors.changedUserNames = "Changed Users are required.";
+    // }
 
     return errors;
 };

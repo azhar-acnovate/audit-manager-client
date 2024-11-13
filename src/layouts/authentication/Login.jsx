@@ -111,20 +111,6 @@ const Login = (props) => {
                             Sign In
                         </ArgonButton>
                     </ArgonBox>
-                    <ArgonBox mt={3} textAlign="center">
-                        <ArgonTypography variant="button" color="text" fontWeight="regular">
-                            Don&apos;t have an account?{" "}
-                            <ArgonTypography
-                                component={Link}
-                                to="/authentication/sign-up"
-                                variant="button"
-                                color="info"
-                                fontWeight="medium"
-                            >
-                                Sign up
-                            </ArgonTypography>
-                        </ArgonTypography>
-                    </ArgonBox>
                 </ArgonBox>
             </IllustrationLayout>
         </>
