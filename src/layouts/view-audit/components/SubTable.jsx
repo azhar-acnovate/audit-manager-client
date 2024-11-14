@@ -100,7 +100,7 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
                                     {filteredData && filteredData
                                         .slice((pageNo - 1) * rowsPerPage, pageNo * rowsPerPage)
                                         .map((item, index) => {
-                                            const isChanged = item.oldValue !== item.newValue;
+                                            const isChanged =item.oldValue!=="" && item.oldValue !== item.newValue;
 
                                             return (
                                                 <TableRow key={index} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
