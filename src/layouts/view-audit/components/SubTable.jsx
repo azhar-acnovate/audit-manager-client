@@ -92,8 +92,8 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
                                 <TableBody sx={{ minWidth: 650 }} aria-label="simple table">
                                     <TableRow>
                                         {getHeaderColumn('Attribute Name', 'left')}
-                                        {getHeaderColumn('Old Value', 'center')}
-                                        {getHeaderColumn('New Value', 'center')}
+                                        {getHeaderColumn('Old Value', 'left')}
+                                        {getHeaderColumn('New Value', 'left')}
                                         {getHeaderColumn('Changed By', 'center')}
                                         {actions && getHeaderColumn('Action', 'center')}
                                     </TableRow>
@@ -109,12 +109,12 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
                                                             {item.attributeName.toUpperCase()}
                                                         </ArgonTypography>
                                                     </TableCell>
-                                                    <TableCell sx={{ padding: subTablePaddingSize, textAlign: 'center' }}>
+                                                    <TableCell sx={{ padding: subTablePaddingSize, textAlign: 'left' }}>
                                                         <ArgonTypography px={4} variant="caption" color={isChanged ? "warning" : "secondary"} fontWeight="medium">
                                                             {item.oldValue}
                                                         </ArgonTypography>
                                                     </TableCell>
-                                                    <TableCell sx={{ padding: subTablePaddingSize, textAlign: 'center' }}>
+                                                    <TableCell sx={{ padding: subTablePaddingSize, textAlign: 'left' }}>
                                                         <ArgonTypography px={4} variant="caption" color={isChanged ? "success" : "secondary"} fontWeight="medium">
                                                             {item.newValue}
                                                         </ArgonTypography>
