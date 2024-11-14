@@ -1,16 +1,17 @@
 const { By, until, Key } = require('selenium-webdriver');
+const { default: TEST_CASE_BASE_URL } = require('../all-test/testCaseConfig');
 
 async function reportsHomeTest(driver) {
     console.log('Starting Report Overview Navigation Test...');
 
     // Step 1: Navigate to Dashboard
     console.log('Navigating to Dashboard page...');
-    await driver.get("http://localhost:3000/audit-manager/dashboard");
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`);
     await driver.sleep(3000);
 
     // Step 2: Navigate to Report Overview page
     console.log('Navigating to Report Overview page...');
-    await driver.get("http://localhost:3000/audit-manager/reporting");
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/reporting`);
     await driver.sleep(5000);
 
     // Step 3: Verify Report Overview title
@@ -19,7 +20,7 @@ async function reportsHomeTest(driver) {
 
     // Step 4: Navigate to Create Report page
     console.log('Navigating to Create Report page...');
-    await driver.get("http://localhost:3000/audit-manager/reporting/create");
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/reporting/create`);
     await driver.sleep(5000);
 
     // Step 5: Fill in report details

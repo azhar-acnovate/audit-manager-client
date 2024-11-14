@@ -28,7 +28,7 @@ describe('login', function() {
 
   it('login-logout', async function() {
     console.log("Navigating to login page...");
-    await driver.get("http://localhost:3000/audit-manager/authentication/sign-in");
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/authentication/sign-in`);
     
     await driver.manage().window().setRect({ width: 1050, height: 660 });
     console.log("Window resized.");

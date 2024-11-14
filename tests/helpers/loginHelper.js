@@ -1,11 +1,12 @@
 // tests/helpers/loginHelper.js
 
 const { By, until } = require('selenium-webdriver');
+const { default: TEST_CASE_BASE_URL } = require('../layouts/all-test/testCaseConfig');
 
 // Login function
 async function login(driver) {
   console.log('Navigating to the login page...');
-  await driver.get('http://localhost:3000/audit-manager/authentication/sign-in');
+  await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/authentication/sign-in`);
   
   // Set the browser window to full screen
   await driver.manage().window().maximize();
@@ -21,8 +22,8 @@ async function login(driver) {
 
   // Wait for successful login
   console.log('Waiting for successful login...');
-  await driver.wait(until.urlIs('http://localhost:3000/audit-manager/dashboard'), 20000);
-  await driver.sleep(4000);
+  await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`), 20000);
+  await driver.sleep(8000);
   console.log('Login successful.');
 }
 
@@ -33,7 +34,7 @@ async function logout(driver) {
   await logoutButton.click();
 
   console.log('Waiting for logout...');
-  await driver.wait(until.urlIs('http://localhost:3000/audit-manager/authentication/sign-in'), 20000);
+  await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/authentication/sign-in`), 20000);
   console.log('Logout successful.');
 }
 

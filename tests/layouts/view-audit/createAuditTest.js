@@ -3,7 +3,7 @@ const { By, until, Key } = require('selenium-webdriver');
 module.exports = async function(driver) {
   // Test: View Audit Page
   console.log('Navigating to View Audit page...');
-  await driver.get("http://localhost:3000/audit-manager/audit-log-activities");
+  await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/audit-log-activities`);
 
   try {
     await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Audit View')]")), 30000);
@@ -15,7 +15,7 @@ module.exports = async function(driver) {
 
   // Test: Navigate to Create Audit Object page and fill form
   console.log('Navigating to Create Audit page...');
-  await driver.get('http://localhost:3000/audit-manager/audit-log-activities/create');
+  await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/audit-log-activities/create`);
 
   try {
     await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Add Audit Attribute Tracker')]")), 30000);

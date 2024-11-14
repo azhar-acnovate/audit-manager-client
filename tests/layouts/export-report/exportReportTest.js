@@ -1,4 +1,5 @@
 const { By, until, Key } = require('selenium-webdriver');
+const { default: TEST_CASE_BASE_URL } = require('../all-test/testCaseConfig');
 
 async function exportReportTest(driver) {
   console.log('Navigating to Export Audit Report page...');
@@ -7,7 +8,7 @@ async function exportReportTest(driver) {
   await driver.manage().window().maximize();
 
   // Navigate to the Export Audit Report page
-  await driver.get("http://localhost:3000/audit-manager/export-audit-report");
+  await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/export-audit-report`);
 
   // Wait for the Export Audit Report page to load
   await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Steps to export Audits:')]")), 30000);

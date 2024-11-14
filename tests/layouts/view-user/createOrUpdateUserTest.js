@@ -1,5 +1,6 @@
 const { Builder, By, until, Key } = require('selenium-webdriver');
 const assert = require('assert');
+const { default: TEST_CASE_BASE_URL } = require('../all-test/testCaseConfig');
 
 describe('CreateOrUpdateUser Component - Automated Tests', function () {
   let driver;
@@ -17,7 +18,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
 
   // Login Function
   async function login() {
-    await driver.get('http://localhost:3000/audit-manager/authentication/sign-in');
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/authentication/sign-in`);
     await driver.manage().window().setRect({ width: 1050, height: 660 });
 
     const usernameField = await driver.wait(until.elementLocated(By.id('username')), 10000);
@@ -30,7 +31,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
     await submitButton.click();
 
     // Wait for successful login
-    await driver.wait(until.urlIs('http://localhost:3000/audit-manager/dashboard'), 20000);
+    await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`), 20000);
 
     // Store user role in localStorage
     await driver.executeScript(() => {
@@ -40,7 +41,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
 
   // Navigate to Create User Page
   async function navigateToCreateUser() {
-    await driver.get("http://localhost:3000/audit-manager/master-data-management/user-data/create");
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/user-data/create`);
     await driver.wait(until.elementLocated(By.xpath("//input[@placeholder='Full Name']")), 10000);
   }
 
@@ -71,7 +72,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
 
   // Navigate to Update User Page
   async function navigateToUpdateUser(userId) {
-    await driver.get(`http://localhost:3000/audit-manager/master-data-management/update/${userId}`);
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/update/${userId}`);
     await driver.wait(until.elementLocated(By.id('email')), 10000);
   }
 
