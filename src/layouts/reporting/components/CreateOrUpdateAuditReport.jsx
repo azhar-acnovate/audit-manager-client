@@ -130,7 +130,8 @@ const CreateOrUpdateAuditReport = (props) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <CustomLabel>{"Source Reference"}</CustomLabel>
+                    {/* <CustomLabel>{"Source Reference"}</CustomLabel> */}
+                    <CustomLabel>{"Audit Preparation"}</CustomLabel>
                     <SourceReferenceAutocomplete
                       multiple={true}
                       defaultValue={auditReportData.refObjectIds}

@@ -40,7 +40,8 @@ const SourceReferenceHome = (props) => {
           <ArgonBox mb={3}>
             <Card>
               <ArgonBox display="flex" justifyContent="space-between" alignItems="center" p={2} >
-                <ArgonTypography variant="h6">Source Reference</ArgonTypography>
+                {/* <ArgonTypography variant="h6">Source Reference</ArgonTypography> */}
+                <ArgonTypography variant="h6">Audit Preparation</ArgonTypography>
                 <ArgonButton component={Link} to={"./create"} color={"info"}>Create</ArgonButton>
               </ArgonBox>
               <ArgonBox

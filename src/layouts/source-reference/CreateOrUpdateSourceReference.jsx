@@ -93,7 +93,8 @@ const CreateOrUpdateSourceReference = (props) => {
                             <ArgonBox p={2}>
                                 <Grid container spacing={2} alignItems="center">
                                     <Grid item xs={8}>
-                                        <ArgonTypography variant="h6">Add Source Reference</ArgonTypography>
+                                        {/* <ArgonTypography variant="h6">Add Source Reference</ArgonTypography> */}
+                                        <ArgonTypography variant="h6">Add Audit Preparation</ArgonTypography>
                                     </Grid>
                                     <Grid item xs={4} container spacing={2} justifyContent="flex-end">
                                         <Grid item>
@@ -142,13 +143,15 @@ const CreateOrUpdateSourceReference = (props) => {
                                         alignItems: "start",
                                     }}>
                                     <SourceReferenceInputField
-                                        placeholder={"Source Object Name"}
+                                        // placeholder={"Source Object Name"}
+                                        placeholder={"Audit Reference"}
                                         value={sourceReferenceData.sourceReferenceName}
                                         fieldName={"sourceReferenceName"}
                                         validator={sourceReferenceValidator}
                                     />
                                     <SourceReferenceInputField
-                                        placeholder={"Source Reference Key"}
+                                        // placeholder={"Source Reference Key"}
+                                        placeholder={"Audit Reference Id"}
                                         value={sourceReferenceData.sourceReferenceKey}
                                         fieldName={"sourceReferenceKey"}
                                         validator={sourceReferenceValidator}

@@ -10,7 +10,8 @@ export function viewReportsTableData(data) {
         },
         columns: [
             { name: "reportName", label: "Report Name", align: "left" },
-            { name: "sourceReferences", label: "Object Tracker Type", align: "center" },
+            // { name: "sourceReferences", label: "Object Tracker Type", align: "center" },
+            { name: "sourceReferences", label: "Audit Preparation", align: "center" },
             { name: "createdAt", label: "Date Created", align: "center" },
             { name: "action", label: "Actions", align: "center" },
         ],
