@@ -11,7 +11,7 @@ export const subTablePaddingSize = '5px';
 function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions }) {
     const [filterText, setFilterText] = useState('');
     const [filteredData, setFilteredData] = useState(subData);
-    const [pageNo,setPageNo] = useState(1);
+    const [pageNo, setPageNo] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const { size, fontWeightBold } = typography;
@@ -28,8 +28,8 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
         setFilteredData(newFilteredData);
     }, [filterText, subData]);
 
-  
- 
+
+
     const getHeaderColumn = (headerName, align) => {
         return (
             <ArgonBox
@@ -52,7 +52,11 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
             </ArgonBox>
         );
     };
-
+    const formatCamelCase = (str) => {
+        return str
+            .replace(/([a-z])([A-Z])/g, '$1 $2') // Add a space between camel case words
+            .replace(/^./, str[0].toUpperCase()); // Capitalize the first letter
+    }
     return (
         <>
             <Grid
@@ -100,13 +104,14 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
                                     {filteredData && filteredData
                                         .slice((pageNo - 1) * rowsPerPage, pageNo * rowsPerPage)
                                         .map((item, index) => {
-                                            const isChanged =item.oldValue!=="" && item.oldValue !== item.newValue;
+                                            const isChanged = item.oldValue !== "" && item.oldValue !== item.newValue;
 
                                             return (
                                                 <TableRow key={index} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <TableCell sx={{ padding: subTablePaddingSize, textAlign: 'left' }}>
                                                         <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
-                                                            {item.attributeName.toUpperCase()}
+                                                            {/* {item.attributeName.toUpperCase()} */}
+                                                            {formatCamelCase(item.attributeName)}
                                                         </ArgonTypography>
                                                     </TableCell>
                                                     <TableCell sx={{ padding: subTablePaddingSize, textAlign: 'left' }}>
@@ -133,9 +138,9 @@ function SubTable({ subData, gridSize = { xs: 8 }, title = "History", actions })
                         </CardContent>
                     </Card>
                     <ClientSidePagination
-                    totalSize={filteredData!=null?filteredData.length:0}
-                    usePage={[pageNo,setPageNo]}
-                    useRowsPerPage={[rowsPerPage, setRowsPerPage]}
+                        totalSize={filteredData != null ? filteredData.length : 0}
+                        usePage={[pageNo, setPageNo]}
+                        useRowsPerPage={[rowsPerPage, setRowsPerPage]}
 
                     ></ClientSidePagination>
                 </Grid>

@@ -1,7 +1,7 @@
 import Moment from 'moment';
 
-export const eventOccurenceDateFormat = "DD-MM-yyyy 00:00:00";
-export const reportDateFormat = "DD-MM-yyyy 00:00:00";
+export const eventOccurenceDateFormat = "DD-MM-YYYY HH:mm:ss";
+export const reportDateFormat = "DD-MM-YYYY HH:mm:ss";
 export const DateFormatter = {
     dateToString(date, format) {
         return Moment(date).format(format);
@@ -11,7 +11,7 @@ export const DateFormatter = {
             return null;
         }
         const parsedDate = Moment(dateString, format);
-        return parsedDate.isValid() ? parsedDate.toDate() : null;
+        return parsedDate.isValid() ? parsedDate : null;
     },
     convertUTCToLocalTime(utcDateStr) {
         console.log("utcDateStr::" + utcDateStr);
