@@ -3,7 +3,7 @@ import { ValidationRuleNames } from "../../../hooks/validation";
 
 export const roleOptions = [
     { value: "admin", label: "Admin" },
-    { value: "user", label: "User" },
+    { value: "auditor", label: "Auditor" },
 ]
 export const initialTempAttributeData = {
     id: null,

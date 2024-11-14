@@ -29,7 +29,7 @@ const DashboardChart = ({ chartData, lineChartLabel }) => {
         <Card>
           <LineChart
             //  width={500}
-            height={300}
+            height={350} // Increased height to avoid overlapping
             series={[{ data: uData, label: lineChartLabel }]}
             xAxis={[{ scaleType: "point", data: xLabels }]}
           />
@@ -40,19 +40,52 @@ const DashboardChart = ({ chartData, lineChartLabel }) => {
       <Grid item xs={12} md={6}>
         <Card>
           <PieChart
-            // width={400}  // Increased width to avoid overlapping
-            height={300} // Increased height to avoid overlapping
-
+            margin={{ top: 100, bottom: 100, left: 100, right: -100 }}
+            slotProps={{
+              // legend: {
+              //   direction: 'row',
+              //   position: { vertical: 'bottom', horizontal: 'middle' },
+              //   padding: 0,
+              // },
+              legend: {
+                labelStyle: {
+                  fontSize: 12,
+                },
+                direction: 'column',
+                position: { vertical: 'middle', horizontal: 'left' },
+                padding: 10,
+              },
+            }}
+            // margin={{ top: 0, bottom: 100, left: 100, right: 100 }}
+            // slotProps={{
+            //   legend: {
+            //     direction: 'row',
+            //     position: { vertical: 'bottom', horizontal: 'middle' },
+            //     padding: 0,
+            //   },
+            // }}
+            //   margin={{ top: 100, bottom: 100, left: -100, right: 100 }}
+            // slotProps={{
+            //   legend: {
+            //     labelStyle: {
+            //       textAlign: 'left', // Aligns label text to the left
+            //       fontSize: 10,
+            //     },
+            //     direction: 'column',
+            //     position: { vertical: 'middle', horizontal: 'right' },
+            //     padding: 10,
+            //   },
+            // }}
+            height={350} // Increased height to avoid overlapping
             series={[
               {
 
                 data: pieData,
-             //   arcLabel: (item) => `${calculatePercentage(item.value)}%`,
-             valueFormatter: (v, { dataIndex }) => {
-              const val = uData[dataIndex];
-              return `${calculatePercentage(val)}%`;
-            },
-              //  arcLabelMinAngle: 35,
+                valueFormatter: (v, { dataIndex }) => {
+                  const val = uData[dataIndex];
+                  return `${calculatePercentage(val)}%`;
+                },
+
                 arcLabelRadius: '85%',
                 label: {
                   position: 'outside',  // Set labels outside
