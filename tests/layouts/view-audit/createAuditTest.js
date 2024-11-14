@@ -1,4 +1,5 @@
 const { By, until, Key } = require('selenium-webdriver');
+const { default: TEST_CASE_BASE_URL } = require('../all-test/testCaseConfig');
 
 module.exports = async function(driver) {
   // Test: View Audit Page
