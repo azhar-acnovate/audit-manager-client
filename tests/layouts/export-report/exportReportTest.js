@@ -22,7 +22,7 @@ async function exportReportTest(driver) {
   // Simulate pressing Tab and Space keys for selection
   const actions = driver.actions({ async: true });
   await actions
-    .sendKeys(Key.TAB, Key.SPACE)
+    .sendKeys(Key.TAB, Key.TAB, Key.SPACE, Key.TAB, Key.SPACE, Key.TAB, Key.SPACE)
     .perform();
 
   await driver.sleep(6000);

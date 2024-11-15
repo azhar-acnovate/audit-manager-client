@@ -6,7 +6,7 @@ async function createAndUpdateSourceReferenceTest(driver) {
     
     // Step 1: Navigate to Source Reference Home page
     console.log('Navigating to Source Reference Home page...');
-    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/source-reference`);
+    await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/audit-preparation`);
 
     // Wait for the title to confirm the page loaded
     await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Audit Preparation')]")), 30000);
