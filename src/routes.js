@@ -116,9 +116,11 @@ const menuRoutes = [
       },
       {
         type: "route",
-        name: "Source Reference",
-        key: "source-reference",
-        route: "/master-data-management/source-reference",
+        // name: "Source Reference",
+        // key: "source-reference",
+        name: "Audit Preparation",
+        key: "audit-preparation",
+        route: "/master-data-management/audit-preparation",
         icon: <Source color="primary" fontSize="14px" />,
         component: <SourceReferenceHome></SourceReferenceHome>,
       },
@@ -207,13 +209,13 @@ const routes = [
   {
     name: "Master Data Management Module",
     key: "master-data-management",
-    route: "/master-data-management/source-reference/create",
+    route: "/master-data-management/audit-preparation/create",
     component: <CreateOrUpdateSourceReference />,
   },
   {
     name: "Master Data Management Module",
     key: "master-data-management",
-    route: "/master-data-management/source-reference/update/:encodedId",
+    route: "/master-data-management/audit-preparation/update/:encodedId",
     component: <CreateOrUpdateSourceReference />,
   },
   {

@@ -37,8 +37,8 @@ const CreateOrUpdateAuditReport = (props) => {
           id: res.data.id,
           refObjectIds: res.data.refObjectIds,
           reportName: res.data.reportName,
-          startDateRange: res.data.startDateRange ? DateFormatter.dateToString(res.data.startDateRange, reportDateFormat) : DateFormatter.dateToString(moment(), reportDateFormat),
-          endDateRange: res.data.endDateRange ? DateFormatter.dateToString(res.data.endDateRange, reportDateFormat) : DateFormatter.dateToString(moment(), reportDateFormat),
+          startDateRange: res.data.startDateRange ? res.data.startDateRange : DateFormatter.dateToString(moment(), reportDateFormat),
+          endDateRange: res.data.endDateRange ? res.data.endDateRange : DateFormatter.dateToString(moment(), reportDateFormat),
           changedUserNames: Array.isArray(res.data.changedUserNames)
             ? res.data.changedUserNames.join(",")
             : (typeof res.data.changedUserNames === "string" && res.data.changedUserNames.includes(","))
@@ -130,7 +130,8 @@ const CreateOrUpdateAuditReport = (props) => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <CustomLabel>{"Source Reference"}</CustomLabel>
+                    {/* <CustomLabel>{"Source Reference"}</CustomLabel> */}
+                    <CustomLabel>{"Audit Preparation"}</CustomLabel>
                     <SourceReferenceAutocomplete
                       multiple={true}
                       defaultValue={auditReportData.refObjectIds}

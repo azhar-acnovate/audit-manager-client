@@ -10,8 +10,10 @@ export function viewAuditTableData(data) {
         },
         columns: [
             // { name: "refObjectId", label: "Object ID", align: "left" },
-            { name: "sourceName", label: "Source Name", align: "left" },
-            { name: "sourceKey", label: "Source Key", align: "left" },
+            // { name: "sourceName", label: "Source Name", align: "left" },
+            // { name: "sourceKey", label: "Source Key", align: "left" },
+            { name: "sourceName", label: "Audit Reference", align: "left" },
+            { name: "sourceKey", label: "Audit Reference ID", align: "left" },
             { name: "eventType", label: "Event Type", align: "left" },
             { name: "eventOccurence", label: "Event Occurrence", align: "center" },
             { name: "action", label: "Actions", align: "center" },

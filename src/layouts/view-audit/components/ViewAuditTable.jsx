@@ -118,7 +118,7 @@ function ViewAuditTable({ columns, rows,data,setPageNo }) {
                 <TableRow>
                     <ArgonBox component="td" colSpan={columns.length + 1}>
                         <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-                            <SubTable subData={row.subData} />
+                            <SubTable    gridSize={{ xs: 10 }} subData={row.subData} />
                         </Collapse>
                     </ArgonBox>
                 </TableRow>

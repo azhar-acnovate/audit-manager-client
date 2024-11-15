@@ -8,7 +8,8 @@ export const auditReportValidation = (data) => {
     }
 
     if (!data.refObjectIds || data.refObjectIds.length === 0) {
-        errors.refObjectIds = "At least one Source Reference is required.";
+        // errors.refObjectIds = "At least one Source Reference is required.";
+        errors.refObjectIds = "At least one Audit Preparation is required.";
     }
 
     if (!data.startDateRange) {
