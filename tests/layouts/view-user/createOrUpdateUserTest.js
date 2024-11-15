@@ -102,10 +102,6 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
     await userNameField.sendKeys(newUserName);
 
     // Click the update button
-
-
-
-    
     const updateButton = await driver.wait(until.elementLocated(By.id('updatebtn')), 10000);
     await updateButton.click();
 
@@ -127,5 +123,4 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
     await navigateToUpdateUser(userId);
     await editExistingUser();
   });
-
 });

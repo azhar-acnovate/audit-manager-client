@@ -23,7 +23,7 @@ async function createAndUpdateSourceReferenceTest(driver) {
     // Step 3: Navigate to Source Reference Create page
     console.log('Navigating to Source Reference Create page...');
     await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/audit-preparation/create`);
-    await driver.sleep(2000);
+    await driver.sleep(4000);
 
     // Step 4: Fill in Source Reference details and save
     const sourceObjectNameField = await driver.wait(

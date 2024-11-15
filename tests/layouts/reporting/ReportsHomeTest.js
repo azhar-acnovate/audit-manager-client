@@ -7,12 +7,12 @@ async function reportsHomeTest(driver) {
     // Step 1: Navigate to Dashboard
     console.log('Navigating to Dashboard page...');
     await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`);
-    await driver.sleep(6000);
+    await driver.sleep(4000);
 
     // Step 2: Navigate to Report Overview page
     console.log('Navigating to Report Overview page...');
     await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/reporting`);
-    await driver.sleep(6000);
+    await driver.sleep(5000);
 
     // Step 3: Verify Report Overview title
     await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Report Overview')]")), 30000);
