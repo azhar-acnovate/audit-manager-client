@@ -42,6 +42,7 @@ describe('User View Navigation Test', function () {
 
     // Updated template literal syntax for logout URL
     console.log('Waiting for logout...');
+    await driver.sleep(5000);
     await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/authentication/sign-in`), 20000);
   }
 

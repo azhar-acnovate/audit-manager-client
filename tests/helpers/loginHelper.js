@@ -35,6 +35,7 @@ async function logout(driver) {
 
   console.log('Waiting for logout...');
   await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/authentication/sign-in`), 20000);
+  await driver.sleep(5000);
   console.log('Logout successful.');
 }
 

@@ -68,6 +68,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
     await actions.sendKeys(Key.ENTER).perform(); // Click Create
 
     await driver.wait(until.elementLocated(By.xpath("//*[contains(text(), 'User created successfully')]")), 20000);
+    await driver.sleep(3000);
   }
 
   // Navigate to Update User Page
@@ -104,6 +105,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
     // Click the update button
     const updateButton = await driver.wait(until.elementLocated(By.id('updatebtn')), 10000);
     await updateButton.click();
+    await driver.sleep(3000);
 
     // Debugging output
     console.log('Update button clicked. Waiting for success message...');
@@ -119,7 +121,7 @@ describe('CreateOrUpdateUser Component - Automated Tests', function () {
   // Test for Editing an Existing User
   it('login and edit an existing user', async function () {
     await login();
-    const userId = 'MjQ='; // User ID for editing
+    const userId = 'Nw=='; // User ID for editing
     await navigateToUpdateUser(userId);
     await editExistingUser();
   });
