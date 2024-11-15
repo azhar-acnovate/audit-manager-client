@@ -23,7 +23,7 @@ async function login(driver) {
   // Wait for successful login
   console.log('Waiting for successful login...');
   await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`), 20000);
-  await driver.sleep(8000);
+  await driver.sleep(10000);
   console.log('Login successful.');
 }
 

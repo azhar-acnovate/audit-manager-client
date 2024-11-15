@@ -49,14 +49,14 @@ describe('User View Navigation Test', function () {
   it('should login and stay on dashboard for 5 seconds', async function () {
     await login();
     console.log("Logged in and on dashboard.");
-    await driver.sleep(5000); // Hold on dashboard for 5 seconds
-    await logout(); // Logout after 5 seconds
+    await driver.sleep(5000);
+    await logout();
   });
 
   // Test case 2: Re-login after 5 seconds and navigate to User View page
   it('should login again and navigate to User View page', async function () {
-    await driver.sleep(5000); // Wait 5 seconds after the previous logout
-    await login(); // Login again
+    await driver.sleep(5000);
+    await login();
     console.log('Navigating to User View page...');
 
     const masterDataManagement = await driver.wait(

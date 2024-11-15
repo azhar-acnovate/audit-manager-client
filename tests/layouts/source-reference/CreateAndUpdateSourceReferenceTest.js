@@ -11,19 +11,19 @@ async function createAndUpdateSourceReferenceTest(driver) {
     // Wait for the title to confirm the page loaded
     await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Source Reference')]")), 30000);
     console.log("Source Reference Home title located.");
-    await driver.sleep(2000);
+    await driver.sleep(6000);
 
     // Step 2: Navigate to Dashboard page
     console.log('Navigating to Dashboard...');
     await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`);
     await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`), 10000);
     console.log("Dashboard loaded.");
-    await driver.sleep(2000);
+    await driver.sleep(6000);
 
     // Step 3: Navigate to Source Reference Create page
     console.log('Navigating to Source Reference Create page...');
     await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/source-reference/create`);
-    await driver.sleep(2000);
+    await driver.sleep(6000);
 
     // Step 4: Fill in Source Reference details and save
     const sourceObjectNameField = await driver.wait(
@@ -41,7 +41,7 @@ async function createAndUpdateSourceReferenceTest(driver) {
     const saveButton = await driver.wait(until.elementLocated(By.id('saveButton')), 10000);
     await saveButton.click();
     console.log("Source Reference created successfully.");
-    await driver.sleep(2000);
+    await driver.sleep(6000);
 }
 
 module.exports = createAndUpdateSourceReferenceTest;
