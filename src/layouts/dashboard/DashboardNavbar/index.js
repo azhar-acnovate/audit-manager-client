@@ -58,6 +58,7 @@ import {
 // import team2 from "../../../assets/images/team-2.jpg";
 // import logoSpotify from "../../../assets/images/small-logos/logo-spotify.svg";
 import { AuthContext } from "../../../context/AuthContext";
+import NavbarUserDetails from "./NavbarUserDetails";
 
 function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
   const [navbarType, setNavbarType] = useState();
@@ -75,7 +76,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
     // Remove the segment following "update", which is assumed to be a dynamic parameter like :encodedId
     route.splice(updateIndex + 1, 1);
   }
-  
+
   const { logout } = useContext(AuthContext);
   const onLogout = (e) => {
     e.preventDefault();
@@ -110,7 +111,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
   // const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-  const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
+  // const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
   // Render the notifications menu
@@ -186,8 +187,9 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
                 }
               />
             </ArgonBox> */}
+            <NavbarUserDetails light={light} transparentNavbar={transparentNavbar} ></NavbarUserDetails>
             <ArgonBox color={light ? "white" : "inherit"}>
-              <IconButton onClick={onLogout } sx={navbarIconButton} size="small">
+              <IconButton onClick={onLogout} sx={navbarIconButton} size="small">
                 <Icon
                   sx={({ palette: { dark, white } }) => ({
                     color: light && transparentNavbar ? white.main : dark.main,
@@ -199,7 +201,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
                   variant="button"
                   fontWeight="medium"
                   color={light && transparentNavbar ? "white" : "dark"} id="logout"
-                > 
+                >
                   Logout
                 </ArgonTypography>
               </IconButton>
@@ -219,7 +221,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
               >
                 <Icon>settings</Icon>
               </IconButton> */}
-              <IconButton
+              {/* <IconButton
                 size="small"
                 color={light && transparentNavbar ? "white" : "dark"}
                 sx={navbarIconButton}
@@ -229,7 +231,7 @@ function DashboardNavbar({ absolute = false, light = true, isMini = false }) {
                 onClick={handleOpenMenu}
               >
                 <Icon>notifications</Icon>
-              </IconButton>
+              </IconButton> */}
               {renderMenu()}
             </ArgonBox>
           </ArgonBox>
