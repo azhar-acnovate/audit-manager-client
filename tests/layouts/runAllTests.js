@@ -3,6 +3,7 @@ const { login, logout } = require('../helpers/loginHelper');
 const createAndUpdateSourceReferenceTest = require('./source-reference/CreateAndUpdateSourceReferenceTest');
 const reportsHomeTest = require('./reporting/ReportsHomeTest');
 const createAuditTest = require('./view-audit/createAuditTest');
+const exportReportTest = require('./export-report/exportReportTest');
 const createOrUpdateUserTest = require('./view-user/createOrUpdateUserTest');
 const viewUserHomeTest = require('./view-user/viewUserHomeTest');
 
@@ -25,6 +26,10 @@ describe('Run All Tests with Single Login Session', function() {
   });
 
   // Sequentially run each test
+
+  it('should run Export Report Test', async function () {
+    await exportReportTest(driver);
+  });
 
   it('should run Create Audit Test', async function() {
     await createAuditTest(driver);
