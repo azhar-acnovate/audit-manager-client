@@ -23,7 +23,7 @@ const CreateOrUpdateUser = () => {
   const userCreationValidator = useValidation(userCreationData, setUserCreationData);
 
   const navigate = useNavigate();
-  const { showSuccessToast, showErrorToast } = useToast();
+  const {showErrorToast,toastWithCommonResponse } = useToast();
 
   // Fetch existing user data if in edit mode
   useEffect(() => {
@@ -93,11 +93,12 @@ const CreateOrUpdateUser = () => {
          
           // Update user
           const res = await UserService.updateUser(updateUserPayload);
-          if (res.error === false) {
-            showSuccessToast("User updated successfully!");
-          } else {
-            showErrorToast("User not updated successfully!");
-          }
+          // if (res.error === false) {
+          //   showSuccessToast("User updated successfully!");
+          // } else {
+          //   showErrorToast("User not updated successfully!");
+          // }
+          toastWithCommonResponse(res)
 
         } else {
           // Create user
@@ -108,8 +109,9 @@ const CreateOrUpdateUser = () => {
             userRole: userCreationData.role,
             // password: userCreationData.password,
           };
-          await UserService.createUser(createUserPayload);
-          showSuccessToast("User created successfully!");
+          const res =   await UserService.createUser(createUserPayload);
+         // showSuccessToast("User created successfully!");
+         toastWithCommonResponse(res)
         }
       } catch (error) {
         console.error("Update Error: ", error);
