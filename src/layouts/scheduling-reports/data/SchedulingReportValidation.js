@@ -1,16 +1,16 @@
 export const validateSchedulingForm = (formValues) => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const { reportIds, frequency, schedulingHour, schedulingMinute, timeMarker, recipients } = formValues;
+    const { reportIds, frequencyType, schedulingHour, schedulingMinute, timeMarker, recipients } = formValues;
 
     // Validate reportIds
     if (!reportIds || (Array.isArray(reportIds) && reportIds.length === 0)) {
         errors.reportIds = "Report name is required";
     }
 
-    // Validate frequency
-    if (!frequency) {
-        errors.frequency = "Frequency is required";
+    // Validate frequencyType
+    if (!frequencyType) {
+        errors.frequencyType = "Frequency is required";
     }
 
     // Validate scheduling hour

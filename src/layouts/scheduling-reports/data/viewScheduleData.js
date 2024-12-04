@@ -12,10 +12,11 @@ export function viewScheduleData(data) {
             { name: "reportsName", label: "Report Name", align: "center" },
             { name: "frequency", label: "Scheduling (frequency)", align: "center" },
             { name: "recipients", label: "Recipients", align: "center" },
+            { name: "action", label: "Actions", align: "center" },
         ],
         rows: (data || []).map((audit) => ({
             reportsName: renderReportNames(audit.reportsName),
-            frequency: renderFrequency(audit),
+            frequency: `Scheduling ${audit.readableCron}`,
             recipients: renderRecipients(audit.recipients),
             item: audit
         }))
@@ -43,12 +44,12 @@ const renderReportNames = (reportsName) => (
     </ArgonBox>
 );
 
-// Render Frequency
-const renderFrequency = (audit) => (
-    <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
-        {`${audit.frequency} ${audit.schedulingHour} : ${audit.schedulingMinute} ${audit.timeMarker}`}
-    </ArgonTypography>
-);
+// // Render Frequency
+// const renderFrequency = (audit) => (
+//     <ArgonTypography px={4} variant="caption" color="secondary" fontWeight="medium">
+//         {`${audit.frequency} ${audit.schedulingHour} : ${audit.schedulingMinute} ${audit.timeMarker}`}
+//     </ArgonTypography>
+// );
 
 // Render Recipients
 const renderRecipients = (recipients) => (

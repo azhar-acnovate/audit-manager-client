@@ -76,7 +76,7 @@ const ExportReportsHome = (props) => {
                             {/* Select List Step */}
                             <Grid item xs={12} md={4}>
                                 <StyledCard key={"export-audit-1"}>
-                                    <ArgonTypography variant="h6">1. Select List</ArgonTypography>
+                                    <ArgonTypography variant="h6">Select List</ArgonTypography>
                                     <ArgonTypography fontSize={pxToRem(15)} color="text.secondary">
                                         Selected List & Audit Count will be displayed here
                                     </ArgonTypography>
@@ -96,7 +96,7 @@ const ExportReportsHome = (props) => {
                             {/* Export as XLS */}
                             <Grid item xs={12} md={4}>
                                 <StyledCard key={"export-audit-1"}>
-                                    <ArgonTypography variant="h6">2. Export as .XLSX file</ArgonTypography>
+                                    <ArgonTypography variant="h6">Export as .XLSX file</ArgonTypography>
                                     <ArgonTypography fontSize={pxToRem(15)} color="text.secondary">
                                         To filter, analyze, and create reports
                                     </ArgonTypography>
@@ -115,7 +115,7 @@ const ExportReportsHome = (props) => {
                             {/* Export as CSV */}
                             <Grid item xs={12} md={4}>
                                 <StyledCard>
-                                    <ArgonTypography variant="h6">2. Export as .CSV file</ArgonTypography>
+                                    <ArgonTypography variant="h6">Export as .CSV file</ArgonTypography>
                                     <ArgonTypography fontSize={pxToRem(15)} pb={3} color="text.secondary">
                                         To get a data backup
                                     </ArgonTypography>

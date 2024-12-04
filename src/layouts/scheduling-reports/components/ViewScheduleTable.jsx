@@ -8,6 +8,7 @@ import ArgonTypography from "../../../components/ArgonTypography";
 import typography from "../../../assets/theme/base/typography";
 import borders from "../../../assets/theme/base/borders";
 import pxToRem from "../../../assets/theme/functions/pxToRem";
+import ActionButton from "./ActionButton";
 
 function ViewScheduleTable({ columns, rows, setPageNo }) {
     const { borderWidth } = borders;
@@ -75,6 +76,7 @@ function ViewScheduleTable({ columns, rows, setPageNo }) {
                         >
                             {name === "action" ? (
                                 <ArgonBox component="td" p={1} textAlign="center">
+                                    <ActionButton item={row.item} />
                                 </ArgonBox>
                             ) : (
                                 row[name]

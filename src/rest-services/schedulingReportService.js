@@ -11,6 +11,23 @@ const schedulingReportService = {
             throw error.response ? error.response.data : error.message;
         }
     },
+
+    cancelReport: async (id) => {
+        try {
+            const response = await RestService.GetByIdData(`${BASE_URL}/cancel`, id);
+            return response;
+        } catch (error) {
+            throw error.response ? error.response.data : error.message;
+        }
+    },
+    rescheduleReport: async (id) => {
+        try {
+            const response = await RestService.GetByIdData(`${BASE_URL}/reschdule`, id);
+            return response;
+        } catch (error) {
+            throw error.response ? error.response.data : error.message;
+        }
+    },
  
     getSavedReports: async () => {
         try {
