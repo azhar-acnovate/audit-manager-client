@@ -7,8 +7,8 @@ const AuditObjectChangeTrackerServiceAPI = {
     findAll: async () => {
         return await RestService.GetAllData(baseUrl);
     },
-    findPagable: async (pageNo) => {
-        return await RestService.GetAllData(`${baseUrl}?size=${config.DEFAULT_SIZE_PAGE}&pageNo=${pageNo}`);
+    findPagable: async (pageNo,sourceRefereceId) => {
+        return await RestService.GetAllData(`${baseUrl}?size=${config.DEFAULT_SIZE_PAGE}&pageNo=${pageNo}&sourceRefereceId=${sourceRefereceId}`);
     },
     findOne: async (id) => {
         return await RestService.GetByIdData(baseUrl,id);

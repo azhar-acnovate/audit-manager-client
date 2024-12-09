@@ -7,8 +7,8 @@ const SourceReferenceObjectServiceAPI = {
     findAll: async () => {
         return await RestService.GetAllData(baseUrl);
     },
-    findPagable: async (pageNo) => {
-        return await RestService.GetAllData(`${baseUrl}?size=${config.DEFAULT_SIZE_PAGE}&pageNo=${pageNo}`);
+    findPagable: async (pageNo,inputValue,size) => {
+        return await RestService.GetAllData(`${baseUrl}?size=${size??config.DEFAULT_SIZE_PAGE}&pageNo=${pageNo}&inputValue=${inputValue}`);
     },
     findOne: async (id) => {
         return await RestService.GetByIdData(baseUrl,id);
