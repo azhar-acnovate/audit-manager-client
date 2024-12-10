@@ -22,11 +22,21 @@ function ViewAuditTable({ columns, rows,data,setPageNo }) {
     // const { size, fontWeightBold } = typography;
     const { borderWidth } = borders;
 
-    const [expandedRow, setExpandedRow] = useState(null);
+    const [expandedRows, setExpandedRows] = useState([]);
 
+    // const handleExpandClick = (rowKey) => {
+        
+    //     setExpandedRow(expandedRow === rowKey ? null : rowKey);
+    // };
     const handleExpandClick = (rowKey) => {
-        setExpandedRow(expandedRow === rowKey ? null : rowKey);
-    };
+        if (expandedRows.includes(rowKey)) {
+          // If the rowKey is already in the array, remove it
+          setExpandedRows(expandedRows.filter(key => key !== rowKey));
+        } else {
+          // Otherwise, add it to the array
+          setExpandedRows([...expandedRows, rowKey]);
+        }
+      };
 
     const renderColumns = columns.map(({ name, label, align, width }, key) => {
         let pl = key === 0 ? 3 : 1;
@@ -55,8 +65,8 @@ function ViewAuditTable({ columns, rows,data,setPageNo }) {
 
     const renderRows = rows.map((row, key) => {
         const rowKey = `row-${key}`;
-        const isExpanded = expandedRow === rowKey;
-
+        // const isExpanded = expandedRows === rowKey;
+        const isExpanded =  expandedRows.includes(rowKey)
         const tableRow = columns.map(({ name, align }) => {
             let template;
 
@@ -100,7 +110,7 @@ function ViewAuditTable({ columns, rows,data,setPageNo }) {
                             sx={{ display: "inline-block", width: "max-content" }}
                         >
                             {name === "action" ? <ArgonBox component="td" p={1} textAlign="center">
-                                <ActionButton isOpened={expandedRow === rowKey} onClick={() => handleExpandClick(rowKey)} item={row.item} />
+                                <ActionButton isOpened={expandedRows.includes(rowKey)} onClick={() => handleExpandClick(rowKey)} item={row.item} />
                             </ArgonBox> : row[name]}
                         </ArgonTypography>
                     </ArgonBox>
