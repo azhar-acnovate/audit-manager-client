@@ -61,9 +61,9 @@ const ViewAuditHome = (props) => {
                                     />
 
                                 </Grid>
-                                <Grid item xs={2} sm={4} md={2} >
+                                {/* <Grid item xs={2} sm={4} md={2} >
                                     <ArgonButton component={Link} to={"./create"} color={"info"}>Create</ArgonButton>
-                                </Grid>
+                                </Grid> */}
                             </Grid>
                             <ArgonBox
                                 sx={{

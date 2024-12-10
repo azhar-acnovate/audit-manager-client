@@ -3,10 +3,11 @@ import moment from "moment";
 import React from "react";
 import {eventOccurenceDateFormat } from "../../../utils/DateFormatter";
 
-const CustomDatepicker = ({ defaultValue, onChange,marginLeft=50 }) => {
+const CustomDatepicker = ({ defaultValue, onChange,marginLeft=50,disabled }) => {
   return (
     <DatePicker
       format="LL"
+      disabled={disabled}
       onChange={onChange}
       value={defaultValue ? moment(defaultValue, eventOccurenceDateFormat) :moment()} // Use Moment object
       sx={{

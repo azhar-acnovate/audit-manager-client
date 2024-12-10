@@ -30,6 +30,10 @@ export const initialTempObjectData = {
     id: null,
     refObjectId: null,
     eventType: null,
+    sourceReference:{
+        sourceReferenceName:"",
+        sourceReferenceKey:""
+    },
     eventOccurence: DateFormatter.dateToString(moment(),eventOccurenceDateFormat),
     validationRules: {
         refObjectId: [

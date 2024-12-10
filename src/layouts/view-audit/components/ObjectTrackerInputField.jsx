@@ -3,7 +3,7 @@ import React from "react"
 import ArgonBox from "../../../components/ArgonBox";
 import ArgonInput from "../../../components/ArgonInput";
 
-const ObjectTrackerInputField = ({ placeholder, fieldName, validator }) => {
+const ObjectTrackerInputField = ({ placeholder, fieldName, validator,disabled }) => {
     let error = validator.errors[fieldName];
     return (
         <Grid item xs={2} sm={4} md={4} >
@@ -13,6 +13,7 @@ const ObjectTrackerInputField = ({ placeholder, fieldName, validator }) => {
                     type="text"
                     id={fieldName}
                     name={fieldName}
+                    disabled={disabled}
                     placeholder={placeholder}
                     size="large"
                     helperText={error}

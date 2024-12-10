@@ -26,7 +26,7 @@ const ActionButton = ({ isOpened, onClick, item }) => {
                 {isOpened ? 'Close' : 'History'}
             </ArgonButton>
 
-            <ArgonButton
+            {/* <ArgonButton
                 component={Link}
                 color="info"
                 size="small"
@@ -37,7 +37,7 @@ const ActionButton = ({ isOpened, onClick, item }) => {
                 to={`/audit-log-activities/update/${btoa(`${item.id}`)}`}
             >
                 Edit
-            </ArgonButton>
+            </ArgonButton> */}
         </Grid>
     )
 };

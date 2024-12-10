@@ -1,6 +1,6 @@
-import React from "react"
+import React, { useRef } from "react"
 import { useDecodedId } from "../../hooks/useDecodedData";
-import { initialTempSourceReferenceData } from "./data/createOrUpdateSourceReferenceData";
+import { additionalInfoColumns, initialTempAdditionalInfo, initialTempSourceReferenceData } from "./data/createOrUpdateSourceReferenceData";
 import DashboardLayout from "../../examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../dashboard/DashboardNavbar";
 import SimpleBackdrop from "../../components/SimpleBackDrop";
@@ -14,23 +14,24 @@ import SourceReferenceInputField from "./components/SourceReferenceInputField";
 // import DynamicTable from "../../components/DynamicTable";
 import SourceReferenceObjectServiceAPI from "../../rest-services/source-reference-object-service";
 import { useToast } from "../../components/toast/Toast";
+import DynamicTable from "../../components/DynamicTable";
 
 const CreateOrUpdateSourceReference = (props) => {
-    // const buttonRef = useRef(null); // Create a reference for the button
+    const buttonRef = useRef(null); // Create a reference for the button
 
-    // // Handle Enter key press
-    // const handleKeyPress = (e) => {
-    //     if (e.key === 'Enter') {
-    //         buttonRef.current.focus(); // Focus on the button when Enter is pressed
-    //     }
-    // };
+    // Handle Enter key press
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            buttonRef.current.focus(); // Focus on the button when Enter is pressed
+        }
+    };
     let decodedId = useDecodedId()
     const { toastWithCommonResponse } = useToast();
     const [loading, setloading] = React.useState(false)
     const [sourceReferenceData, setSourceReferenceData] = React.useState(initialTempSourceReferenceData);
     const sourceReferenceValidator = useValidation(sourceReferenceData, setSourceReferenceData);
-   // const [additionalInfoData, setAdditionalInfoData] = React.useState(initialTempAdditionalInfo);
-   // const additionalInfoValidator = useValidation(additionalInfoData, setAdditionalInfoData);
+   const [additionalInfoData, setAdditionalInfoData] = React.useState(initialTempAdditionalInfo);
+   const additionalInfoValidator = useValidation(additionalInfoData, setAdditionalInfoData);
 
     const isCreated = () => {
         return sourceReferenceData.id !== null;
@@ -56,32 +57,32 @@ const CreateOrUpdateSourceReference = (props) => {
 
     }, [decodedId])
 
-    // const saveAdditionalInfo = () => {
-    //     var updatedAdditionalInfo = sourceReferenceData.additionalInfo ?? [];
-    //     // Ensure the index exists before updating
-    //     if (additionalInfoData.index != null) {
-    //         updatedAdditionalInfo = [
-    //             ...updatedAdditionalInfo.slice(0, additionalInfoData.index),
-    //             additionalInfoData,
-    //             ...updatedAdditionalInfo.slice(additionalInfoData.index)
-    //         ];
-    //     } else {
-    //         updatedAdditionalInfo.push(additionalInfoData); // Push to the end if the index doesn't exist
-    //     }
-    //     setSourceReferenceData(prev => ({
-    //         ...prev,
-    //         additionalInfo: updatedAdditionalInfo
-    //     }));
+    const saveAdditionalInfo = () => {
+        var updatedAdditionalInfo = sourceReferenceData.additionalInfo ?? [];
+        // Ensure the index exists before updating
+        if (additionalInfoData.index != null) {
+            updatedAdditionalInfo = [
+                ...updatedAdditionalInfo.slice(0, additionalInfoData.index),
+                additionalInfoData,
+                ...updatedAdditionalInfo.slice(additionalInfoData.index)
+            ];
+        } else {
+            updatedAdditionalInfo.push(additionalInfoData); // Push to the end if the index doesn't exist
+        }
+        setSourceReferenceData(prev => ({
+            ...prev,
+            additionalInfo: updatedAdditionalInfo
+        }));
 
-    //     setAdditionalInfoData(initialTempAdditionalInfo);
+        setAdditionalInfoData(initialTempAdditionalInfo);
 
-    // }
-    // const removeByIndex = (indexToRemove) => {
-    //     setSourceReferenceData((prevData) => ({
-    //         ...prevData, // Spread the previous data to retain other properties
-    //         additionalInfo: prevData.additionalInfo.filter((_, index) => index !== indexToRemove), // Update additionalInfo
-    //     }));
-    // };
+    }
+    const removeByIndex = (indexToRemove) => {
+        setSourceReferenceData((prevData) => ({
+            ...prevData, // Spread the previous data to retain other properties
+            additionalInfo: prevData.additionalInfo.filter((_, index) => index !== indexToRemove), // Update additionalInfo
+        }));
+    };
     return (
         <>
             <DashboardLayout>
@@ -158,9 +159,9 @@ const CreateOrUpdateSourceReference = (props) => {
                                     />
                                 </Grid>
                             </ArgonBox>
-                            {/* <ArgonBox display="flex" justifyContent="space-between" alignItems="center" p={2} >
+                            <ArgonBox display="flex" justifyContent="space-between" alignItems="center" p={2} >
                                 <Grid item xs={8}>
-                                    <ArgonTypography variant="h6">Additional Data</ArgonTypography>
+                                    <ArgonTypography variant="h6">Add Audit Attribute Tracker</ArgonTypography>
                                 </Grid>
                                 <Grid item xs={4} container spacing={2} justifyContent="flex-end">
                                     <Grid item>
@@ -198,18 +199,19 @@ const CreateOrUpdateSourceReference = (props) => {
                                         alignItems: "start",
                                     }}>
                                     <SourceReferenceInputField
+                                        md={12}
                                         placeholder={"Field Name"}
                                         value={additionalInfoData.fieldName}
                                         fieldName={"fieldName"}
                                         validator={additionalInfoValidator}
                                     />
-                                    <SourceReferenceInputField
+                                    {/* <SourceReferenceInputField
                                         placeholder={"Field Value"}
                                         value={additionalInfoData.fieldValue}
                                         fieldName={"fieldValue"}
                                         validator={additionalInfoValidator}
                                         onKeyPress={handleKeyPress} // Add the event handler here
-                                    />
+                                    /> */}
                                 </Grid>
                             </ArgonBox>
                             <DynamicTable
@@ -270,7 +272,7 @@ const CreateOrUpdateSourceReference = (props) => {
                                         </Grid>
                                     </>
                                 )}
-                            /> */}
+                            />
                         </Card>
                     </ArgonBox>
                 </ArgonBox>

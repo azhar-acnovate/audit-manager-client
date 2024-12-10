@@ -9,7 +9,8 @@ const SourceReferenceAutocomplete = ({ defaultValue, onChange, helperText, error
   const [value, setValue] = React.useState(multiple ? [] : null);
   const [options, setOptions] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState("");
+  console.log(`${defaultValue} defaultValue`)
+  const [inputValue, setInputValue] = React.useState(defaultValue!=null?`${defaultValue}`:"");
 
   // Debounced API call
   const fetchData = React.useMemo(

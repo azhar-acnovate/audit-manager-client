@@ -20,6 +20,7 @@ import AuditAttributeChangeTrackerServiceAPI from "../../rest-services/audit-att
 import { useDecodedId } from "../../hooks/useDecodedData";
 import BackButton from "../../components/BackButton";
 import SourceReferenceAutocomplete from "../../components/SourceReferenceAutocomplete";
+import ArgonInput from "../../components/ArgonInput";
 
 const CreateOrUpdateAudit = (props) => {
     let decodedId = useDecodedId()
@@ -39,6 +40,7 @@ const CreateOrUpdateAudit = (props) => {
                     ...prevData,
                     id: res.data.id,
                     refObjectId: res.data.refObjectId,
+                    sourceReference:res.data.sourceReference,
                     eventType: res.data.eventType,
                     eventOccurence: res.data.eventOccurence,
                 }))
@@ -135,7 +137,7 @@ const CreateOrUpdateAudit = (props) => {
                                         <BackButton></BackButton>
                                     </Grid>
                                     <Grid item>
-                                        <ArgonButton
+                                      {!isCreatedObjectTracker() &&  <ArgonButton
                                             id="savebtn"
                                             onClick={async () => {
                                                 if (await objectTrackerValidator.validateForm()) {
@@ -151,8 +153,8 @@ const CreateOrUpdateAudit = (props) => {
                                             sx={{ width: 30 }}
                                             color={"success"}
                                         >
-                                            {isCreatedObjectTracker() ? "Update" : "Save"}
-                                        </ArgonButton>
+                                            {isCreatedObjectTracker() ? "Update" : "Save"} 
+                                        </ArgonButton>}
 
                                     </Grid>
 
@@ -181,13 +183,22 @@ const CreateOrUpdateAudit = (props) => {
                                     justifyContent: "space-between",
                                     alignItems: "start",
                                 }}>
-                                {/* <ObjectTrackerInputField
-                                    placeholder={"Ref Object Id"}
-                                    value={objectTrackerData.refObjectId}
-                                    fieldName={"refObjectId"}
-                                    validator={objectTrackerValidator} /> */}
+
+
                                 <Grid item xs={2} sm={4} md={4} >
-                                    <SourceReferenceAutocomplete
+
+                                    {decodedId != null ? <ArgonBox mb={2}>
+                                        <ArgonInput
+                                            key={`key-audit-preparation`}
+                                            type="text"
+                                            id={objectTrackerData.refObjectId}
+                                            name={objectTrackerData.refObjectId}
+                                            placeholder={"Audit Preparation"}
+                                            size="large"
+                                            disabled
+                                            value={`${objectTrackerData.sourceReference.sourceReferenceName}-${objectTrackerData.sourceReference.sourceReferenceKey}`}
+                                        />
+                                    </ArgonBox> : <SourceReferenceAutocomplete
                                         defaultValue={objectTrackerData.refObjectId}
                                         helperText={objectTrackerValidator.errors['refObjectId']}
                                         error={Boolean(objectTrackerValidator.errors['refObjectId'])}
@@ -198,16 +209,20 @@ const CreateOrUpdateAudit = (props) => {
 
                                         }}
                                     />
+                                    }
+
+
                                 </Grid>
 
                                 <ObjectTrackerInputField
                                     placeholder={"Event Type"}
                                     value={objectTrackerData.eventType}
                                     fieldName={"eventType"}
+                                    disabled={decodedId!=null}
                                     validator={objectTrackerValidator} />
                                 <Grid item xs={2} sm={4} md={4} >
                                     <ArgonBox mb={2}>
-                                        <CustomDatepicker defaultValue={objectTrackerData.eventOccurence} onChange={(newDate) => {
+                                        <CustomDatepicker   disabled={decodedId!=null} defaultValue={objectTrackerData.eventOccurence} onChange={(newDate) => {
 
                                             objectTrackerValidator.handleChange("eventOccurence", DateFormatter.dateToString(newDate, eventOccurenceDateFormat))
                                         }}></CustomDatepicker>
