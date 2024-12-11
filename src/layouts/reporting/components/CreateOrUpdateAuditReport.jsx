@@ -7,7 +7,7 @@ import DashboardLayout from "../../../examples/LayoutContainers/DashboardLayout"
 import DashboardNavbar from "../../dashboard/DashboardNavbar";
 import SimpleBackdrop from "../../../components/SimpleBackDrop";
 import ArgonBox from "../../../components/ArgonBox";
-import { Card, Grid, TextField } from "@mui/material";
+import { Box, Card, Grid, IconButton, List, ListItem, ListItemText, TextField } from "@mui/material";
 import ArgonTypography from "../../../components/ArgonTypography";
 import ArgonButton from "../../../components/ArgonButton";
 import BackButton from "../../../components/BackButton";
@@ -18,6 +18,7 @@ import CustomLabel from "./CustomLabel";
 import SourceReferenceAutocomplete from "../../../components/SourceReferenceAutocomplete";
 import moment from "moment";
 import { auditReportValidation } from "../data/auditReportValidation";
+import { Delete } from "@mui/icons-material";
 
 const CreateOrUpdateAuditReport = (props) => {
   let decodedId = useDecodedId();
@@ -36,6 +37,7 @@ const CreateOrUpdateAuditReport = (props) => {
           ...prevData,
           id: res.data.id,
           refObjectIds: res.data.refObjectIds,
+          sourceReferences:res.data.sourceReferences,
           reportName: res.data.reportName,
           startDateRange: res.data.startDateRange ? res.data.startDateRange : DateFormatter.dateToString(moment(), reportDateFormat),
           endDateRange: res.data.endDateRange ? res.data.endDateRange : DateFormatter.dateToString(moment(), reportDateFormat),
@@ -100,12 +102,12 @@ const CreateOrUpdateAuditReport = (props) => {
             <Card>
               <ArgonBox p={2}>
                 <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={8}>
+                  <Grid item md={8}>
                     <ArgonTypography variant="h6">
                       {(decodedId != null ? "Update" : "Add") + "Reports"}
                     </ArgonTypography>
                   </Grid>
-                  <Grid item xs={4} container spacing={2} justifyContent="flex-end">
+                  <Grid item md={4} container spacing={2} justifyContent="flex-end">
                     <Grid item>
                       <BackButton />
                     </Grid>
@@ -119,7 +121,7 @@ const CreateOrUpdateAuditReport = (props) => {
               </ArgonBox>
               <ArgonBox px={4}>
                 <Grid container spacing={3} direction="row" sx={{ justifyContent: "space-between", alignItems: "start" }}>
-                  <Grid item xs={12}>
+                  <Grid item md={12}>
                     <AuditReportInputField
                       placeholder={"Report Name"}
                       value={auditReportData.reportName}
@@ -129,11 +131,13 @@ const CreateOrUpdateAuditReport = (props) => {
                       onChange={(value) => setAuditReportData((prevData) => ({ ...prevData, reportName: value }))} />
                   </Grid>
 
-                  <Grid item xs={12}>
+                  <Grid item md={12}>
                     {/* <CustomLabel>{"Source Reference"}</CustomLabel> */}
                     <CustomLabel>{"Audit Preparation"}</CustomLabel>
                     <SourceReferenceAutocomplete
                       multiple={true}
+                      searchOnly
+                      defaultOptions={auditReportData.sourceReferences}
                       defaultValue={auditReportData.refObjectIds}
                       helperText={errors.refObjectIds}
                       error={Boolean(errors.refObjectIds)}
@@ -143,12 +147,40 @@ const CreateOrUpdateAuditReport = (props) => {
                           setAuditReportData((prevData) => ({
                             ...prevData,
                             refObjectIds: ids,
+                            sourceRefereces:value,
                           }));
                         }
                       }} />
                   </Grid>
+                  {/* <Grid item container justifyContent={"flex-end"} md={12}>
+                    <div>
+                      {auditReportData.sourceRefereces && (
+                        <ul>
+                          {auditReportData.sourceRefereces.map((item, index) => (
+                            <li key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                              <span>
+                                {item.sourceReferenceName} - {item.sourceReferenceKey}
+                              </span>
+                              <IconButton
+                                edge="end"
+                                color="error"
+                                onClick={() => {
+                                  setAuditReportData((prevData) => ({
+                                    ...prevData,
+                                    refObjectIds: prevData.refObjectIds.filter((_, i) => i !== index),
+                                  }));
+                                }}
+                              >
+                                <Delete />
+                              </IconButton>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </Grid> */}
 
-                  <Grid item xs={6}>
+                  <Grid item md={6}>
                     <ArgonBox mb={2}>
                       <CustomLabel>Start Date</CustomLabel>
                       <CustomDatepicker
@@ -171,7 +203,7 @@ const CreateOrUpdateAuditReport = (props) => {
                     </ArgonBox>
                   </Grid>
 
-                  <Grid item xs={6}>
+                  <Grid item md={6}>
                     <ArgonBox mb={2}>
                       <CustomLabel>End Date</CustomLabel>
                       <CustomDatepicker
@@ -194,7 +226,7 @@ const CreateOrUpdateAuditReport = (props) => {
                     </ArgonBox>
                   </Grid>
 
-                  {/* <Grid item xs={12}>
+                  {/* <Grid item md={12}>
                     <AuditReportInputField
                       placeholder={"Changed Users"}
                       value={auditReportData.changedUserNames}
