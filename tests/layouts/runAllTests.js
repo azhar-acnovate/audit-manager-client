@@ -1,12 +1,11 @@
 const { Builder } = require('selenium-webdriver');
 const { login, logout } = require('../helpers/loginHelper');
+const createOrUpdateUserTest = require('./view-user/createOrUpdateUserTest');
+const createAuditTest = require('./view-audit/createAuditTest');
+const exportReportTest = require('./export-report/exportReportTest');
 const createAndUpdateSourceReferenceTest = require('./source-reference/CreateAndUpdateSourceReferenceTest');
 const viewUserHomeTest = require('./view-user/viewUserHomeTest');
-const createAuditTest = require('./view-audit/createAuditTest');
 // const reportsHomeTest = require('./reporting/ReportsHomeTest'); // create new test
-const exportReportTest = require('./export-report/exportReportTest');
-const createOrUpdateUserTest = require('./view-user/createOrUpdateUserTest');
-
 
 describe('Run All Tests with Single Login Session', function() {
   this.timeout(180000); // Adjust timeout as needed
@@ -31,9 +30,9 @@ describe('Run All Tests with Single Login Session', function() {
     await createOrUpdateUserTest(driver); // Run the createOrUpdateUser test
   });
 
-  it('should run User Home View Test', async function() {
-    await viewUserHomeTest(driver); // Run the viewUserHomeTest
-  });
+  // it('should run User Home View Test', async function() {
+  //   await viewUserHomeTest(driver); // Run the viewUserHomeTest
+  // });
 
   it('should run Create Audit Test', async function() {
     await createAuditTest(driver);

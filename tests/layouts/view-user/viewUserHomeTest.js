@@ -1,7 +1,6 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const { default: TEST_CASE_BASE_URL } = require('../all-test/testCaseConfig');
 
-async function viewUserHomeTest() {
 describe('User View Navigation Test', function () {
   let driver;
   this.timeout(120000); // Increase to 120 seconds
@@ -88,6 +87,3 @@ describe('User View Navigation Test', function () {
     }
   });
 });
-
-module.exports = viewUserHomeTest;
-}
