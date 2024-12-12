@@ -17,15 +17,17 @@ async function exportReportTest(driver) {
   // Click the "Select List" button
   const selectListButton = await driver.wait(until.elementLocated(By.xpath("//button[contains(text(), 'Click to Select List(s)')]")), 10000);
   await selectListButton.click();
+  await driver.sleep(8000);
   console.log("Clicked 'Select List' button.");
 
   // Simulate pressing Tab and Space keys for selection
   const actions = driver.actions({ async: true });
+  // await driver.sleep(8000);
   await actions
-    .sendKeys(Key.TAB, Key.TAB, Key.SPACE, Key.TAB, Key.SPACE, Key.TAB, Key.SPACE)
+    .sendKeys(Key.TAB, Key.SPACE, Key.TAB, Key.SPACE, Key.TAB, Key.SPACE)
     .perform();
 
-  await driver.sleep(5000);
+  await driver.sleep(8000);
 
   // Click the "Use" button
   const useButton = await driver.wait(until.elementLocated(By.xpath("//button[contains(text(), 'Use')]")), 10000);

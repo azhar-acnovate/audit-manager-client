@@ -1,5 +1,4 @@
 // tests/helpers/loginHelper.js
-
 const { By, until } = require('selenium-webdriver');
 const { default: TEST_CASE_BASE_URL } = require('../layouts/all-test/testCaseConfig');
 
@@ -42,6 +41,7 @@ async function login(driver) {
   console.log('Waiting for successful login...');
   await driver.wait(until.urlIs(`${TEST_CASE_BASE_URL}/audit-manager/dashboard`), 20000);
   console.log('Login successful.');
+  await driver.sleep(5000);
 }
 
 // Logout function
