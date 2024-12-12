@@ -5,6 +5,7 @@ const createAuditTest = require('./view-audit/createAuditTest');
 const exportReportTest = require('./export-report/exportReportTest');
 const createAndUpdateSourceReferenceTest = require('./source-reference/CreateAndUpdateSourceReferenceTest');
 const viewUserHomeTest = require('./view-user/viewUserHomeTest');
+const schedulingReportsTest = require('./scheduling-reports/schedulingReportsTest')
 // const reportsHomeTest = require('./reporting/ReportsHomeTest'); // create new test
 
 describe('Run All Tests with Single Login Session', function() {
@@ -30,9 +31,13 @@ describe('Run All Tests with Single Login Session', function() {
     await createOrUpdateUserTest(driver); // Run the createOrUpdateUser test
   });
 
+  it('should run Scheduling Reports Test', async function() {
+    await schedulingReportsTest(driver); // Run the schedulingReportsTest test
+  });
+
   // it('should run User Home View Test', async function() {
   //   await viewUserHomeTest(driver); // Run the viewUserHomeTest
-  // });
+  // });  -------
 
   it('should run Create Audit Test', async function() {
     await createAuditTest(driver);

@@ -210,7 +210,7 @@ const SchedulingReportForm = () => {
                         <Box sx={{ color: 'red', fontSize: '0.75rem' }}>{errors.timeMarker}</Box>
                     </FormControl>
                 </Box>
-                {frequencyType === "MONTHLY"&&<FormControl sx={{pt:2}} error={true} fullWidth>
+                {frequencyType === "MONTHLY" && <FormControl sx={{ pt: 2 }} error={true} fullWidth>
                     <FormHelperText >Note : If the selected date is the 30th or 31st, and that day does not exist in the chosen month, the schedule will not occur.</FormHelperText>
                 </FormControl>}
 
@@ -244,10 +244,22 @@ const SchedulingReportForm = () => {
             </StyledCard>
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, marginTop: 3 }}>
-                <ArgonButton onClick={handleSaveSchedule} variant="contained" color="success" sx={{ minWidth: '130px' }}>
+                <ArgonButton
+                    id="saveScheduleButton"
+                    onClick={handleSaveSchedule}
+                    variant="contained"
+                    color="success"
+                    sx={{ minWidth: '130px' }}
+                >
                     SAVE SCHEDULE
                 </ArgonButton>
-                <ArgonButton onClick={handleCancel} variant="contained" color="error" sx={{ minWidth: '130px' }}>
+                <ArgonButton
+                    id="cancelScheduleButton"
+                    onClick={handleCancel}
+                    variant="contained"
+                    color="error"
+                    sx={{ minWidth: '130px' }}
+                >
                     CANCEL
                 </ArgonButton>
             </Box>
