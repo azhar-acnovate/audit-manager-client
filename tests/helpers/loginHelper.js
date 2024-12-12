@@ -18,18 +18,18 @@ async function login(driver) {
   const usernameField = await driver.wait(until.elementLocated(By.id('username')), 10000);
   const passwordField = await driver.wait(until.elementLocated(By.id('password')), 10000);
 
-  // await usernameField.sendKeys('adminWrong'); // Wrong username
-  // await passwordField.sendKeys('admin@123'); // Wrong password
-  // await submitButton.click();
+  await usernameField.sendKeys('adminWrong'); // Wrong username
+  await passwordField.sendKeys('admin@123'); // Wrong password
+  await submitButton.click();
 
-  // // Wait for error response
-  // console.log('Invalid credentials submitted, waiting for error message...');
-  // await driver.sleep(5000); // Adjust sleep if UI feedback takes longer
-  // console.log('Error displayed. Clearing fields...');
+  // Wait for error response
+  console.log('Invalid credentials submitted, waiting for error message...');
+  await driver.sleep(5000); // Adjust sleep if UI feedback takes longer
+  console.log('Error displayed. Clearing fields...');
 
-  // // Clear the fields
-  // await usernameField.clear();
-  // await passwordField.clear();
+  // Clear the fields
+  await usernameField.clear();
+  await passwordField.clear();
 
   // Entering valid credentials
   console.log('2-----> Entering valid credentials...');

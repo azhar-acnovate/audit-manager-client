@@ -1,12 +1,12 @@
 const { Builder } = require('selenium-webdriver');
 const { login, logout } = require('../helpers/loginHelper');
 const createOrUpdateUserTest = require('./view-user/createOrUpdateUserTest');
+const viewUserHomeTest = require('./view-user/viewUserHomeTest');
 const createAuditTest = require('./view-audit/createAuditTest');
 const exportReportTest = require('./export-report/exportReportTest');
 const createAndUpdateSourceReferenceTest = require('./source-reference/CreateAndUpdateSourceReferenceTest');
-const viewUserHomeTest = require('./view-user/viewUserHomeTest');
 const schedulingReportsTest = require('./scheduling-reports/schedulingReportsTest')
-// const reportsHomeTest = require('./reporting/ReportsHomeTest'); // create new test
+const reportsHomeTest = require('./reporting/ReportsHomeTest');
 
 describe('Run All Tests with Single Login Session', function() {
   this.timeout(180000); // Adjust timeout as needed
@@ -26,18 +26,9 @@ describe('Run All Tests with Single Login Session', function() {
   });
 
   // Sequentially run each test
-
   it('should run Create or Update User Test', async function() {
     await createOrUpdateUserTest(driver); // Run the createOrUpdateUser test
   });
-
-  it('should run Scheduling Reports Test', async function() {
-    await schedulingReportsTest(driver); // Run the schedulingReportsTest test
-  });
-
-  // it('should run User Home View Test', async function() {
-  //   await viewUserHomeTest(driver); // Run the viewUserHomeTest
-  // });  -------
 
   it('should run Create Audit Test', async function() {
     await createAuditTest(driver);
@@ -45,13 +36,17 @@ describe('Run All Tests with Single Login Session', function() {
 
   it('should run Export Report Test', async function () {
     await exportReportTest(driver);
-  }); 
+  });
 
   it('should run Source Reference Test', async function() {
     await createAndUpdateSourceReferenceTest(driver);
   });
 
-  // it('should run Reports Home Test', async function() {
-  //   await reportsHomeTest(driver);
-  // });
+  it('should run Scheduling Reports Test', async function() {
+    await schedulingReportsTest(driver);
+  });
+  
+  it('should run Reports Home Test', async function() {
+    await reportsHomeTest(driver);
+  });
 });
