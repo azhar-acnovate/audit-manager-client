@@ -22,7 +22,6 @@ async function exportReportTest(driver) {
 
   // Simulate pressing Tab and Space keys for selection
   const actions = driver.actions({ async: true });
-  // await driver.sleep(8000);
   await actions
     .sendKeys(Key.TAB, Key.SPACE, Key.TAB, Key.SPACE, Key.TAB, Key.SPACE)
     .perform();
@@ -38,7 +37,7 @@ async function exportReportTest(driver) {
   const exportAuditsButton = await driver.wait(until.elementLocated(By.xpath("//button[contains(text(), 'Export Audits')]")), 10000);
   await exportAuditsButton.click();
   console.log("Clicked 'Export Audits' button.");
-  await driver.sleep(5000); // Sleep to ensure the export process completes
+  await driver.sleep(6000); // Sleep to ensure the export process completes
 }
 
 module.exports = exportReportTest;

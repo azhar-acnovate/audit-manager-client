@@ -55,7 +55,7 @@ async function createOrUpdateUserTest() {
 
       await fullNameInput.sendKeys(Key.TAB);
       const emailInput = await driver.wait(until.elementLocated(By.xpath("//input[@placeholder='Email']")), 10000);
-      await emailInput.sendKeys("himanshupurohit@example.com");
+      await emailInput.sendKeys("himanshu.purohit@acnovate.com");
 
       await emailInput.sendKeys(Key.TAB);
       const usernameInput = await driver.wait(until.elementLocated(By.xpath("//input[@placeholder='Username']")), 10000);
@@ -80,6 +80,7 @@ async function createOrUpdateUserTest() {
     async function navigateToUpdateUser(userId) {
       await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/master-data-management/update/${userId}`);
       await driver.wait(until.elementLocated(By.id('email')), 10000);
+      await driver.sleep(5000);
     }
 
     // Edit Existing User Function
@@ -90,7 +91,7 @@ async function createOrUpdateUserTest() {
 
       // New values to set
       const newFullName =  'Purohit Himanshu';
-      const newEmail = 'purohit@gmail.com';
+      const newEmail = 'himanshupurohitudaipur@gmail.com';
       const newUserName = 'himanshu12';
 
       await fullNameInput.click();

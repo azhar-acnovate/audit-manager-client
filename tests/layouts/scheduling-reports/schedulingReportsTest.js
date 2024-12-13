@@ -67,7 +67,7 @@ module.exports = async function (driver) {
     await driver.get(`${TEST_CASE_BASE_URL}/audit-manager/scheduling-audit-report`);
     await driver.wait(until.elementLocated(By.xpath("//h6[contains(text(), 'Scheduling Reports View')]")), 30000);
     console.log("Scheduling reports view located.");
-    await driver.sleep(4000);
+    await driver.sleep(5000);
   } catch (error) {
     console.error("An error occurred during the test run:", error);
   }
